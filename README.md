@@ -19,6 +19,7 @@
 クリーンアーキテクチャとMVVMを併用
 * RepeatReminder
   * Data : 外部リソースの情報を管理
+    * Assets 
   * Domain : ロジックを管理
     * Model
   * Presentation : 画面の情報を管理
