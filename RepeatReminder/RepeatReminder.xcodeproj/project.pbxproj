@@ -95,8 +95,9 @@
 			isa = PBXGroup;
 			children = (
 				FD1396532AF7D39000003C37 /* RepeatReminderApp.swift */,
-				FD1396552AF7D39000003C37 /* ContentView.swift */,
-				FD1396572AF7D39100003C37 /* Assets.xcassets */,
+				FD5EF0402B010B430011CD64 /* Presentation */,
+				FD5EF0442B010B9C0011CD64 /* Domain */,
+				FD5EF0462B010BB30011CD64 /* Infrastructure */,
 				FD1396592AF7D39100003C37 /* Preview Content */,
 			);
 			path = RepeatReminder;
@@ -125,6 +126,53 @@
 				FD1396702AF7D39100003C37 /* RepeatReminderUITestsLaunchTests.swift */,
 			);
 			path = RepeatReminderUITests;
+			sourceTree = "<group>";
+		};
+		FD5EF0402B010B430011CD64 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				FD5EF0412B010B620011CD64 /* Views */,
+				FD5EF0432B010B7C0011CD64 /* ViewModels */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		FD5EF0412B010B620011CD64 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FD1396552AF7D39000003C37 /* ContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		FD5EF0432B010B7C0011CD64 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		FD5EF0442B010B9C0011CD64 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				FD5EF0452B010BA50011CD64 /* Models */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		FD5EF0452B010BA50011CD64 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		FD5EF0462B010BB30011CD64 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				FD1396572AF7D39100003C37 /* Assets.xcassets */,
+			);
+			path = Infrastructure;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
