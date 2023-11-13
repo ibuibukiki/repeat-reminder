@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TaskListView: View {
     var body: some View {
-        ZStack{
+        ZStack(alignment:.top){
             Color("BackgroundColor")
                 .edgesIgnoringSafeArea(.all)
             VStack{
@@ -55,7 +55,7 @@ struct TaskListView: View {
                             .shadow(color:.gray,radius:5,x:0,y:5)
                     }
                     Button(action:{
-                        print("tap setting button")
+                        print("tap add button")
                     }){
                         Text("追 加")
                             .fontWeight(.bold)
@@ -71,7 +71,7 @@ struct TaskListView: View {
                 // 今後のタスク一覧を表示
                 TaskCell()
                 TaskCell()
-            }
+            }.padding(.top,40)
         }
     }
 }
