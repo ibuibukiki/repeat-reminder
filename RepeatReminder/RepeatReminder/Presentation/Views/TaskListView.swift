@@ -12,8 +12,8 @@ struct TaskListView: View {
         ZStack{
             Color("BackgroundColor")
                 .edgesIgnoringSafeArea(.all)
-            // 今日までのタスクを表示
             VStack{
+                // 今日までのタスクを表示
                 VStack{
                     Text("今日までのタスク")
                         .foregroundColor(Color("BackgroundColor"))
@@ -36,7 +36,7 @@ struct TaskListView: View {
                 .shadow(color:.gray,radius:5,x:0,y:10)
                 .padding(.bottom,24)
                 // ボタンを表示
-                HStack{
+                HStack(spacing:24){
                     Button(action:{
                         print("tap setting button")
                     }){
@@ -54,7 +54,6 @@ struct TaskListView: View {
                             .compositingGroup()
                             .shadow(color:.gray,radius:5,x:0,y:5)
                     }
-                    .padding(.trailing,24)
                     Button(action:{
                         print("tap setting button")
                     }){
@@ -68,7 +67,10 @@ struct TaskListView: View {
                             .compositingGroup()
                             .shadow(color:.gray,radius:5,x:0,y:5)
                     }
-                }
+                }.padding(.bottom,24)
+                // 今後のタスク一覧を表示
+                TaskCell()
+                TaskCell()
             }
         }
     }

@@ -14,6 +14,7 @@
 		FD13966F2AF7D39100003C37 /* RepeatReminderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD13966E2AF7D39100003C37 /* RepeatReminderUITests.swift */; };
 		FD1396712AF7D39100003C37 /* RepeatReminderUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1396702AF7D39100003C37 /* RepeatReminderUITestsLaunchTests.swift */; };
 		FD8B19822B0251D900FBCC34 /* TaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8B19812B0251D900FBCC34 /* TaskListView.swift */; };
+		FD8B19852B02683F00FBCC34 /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8B19842B02683F00FBCC34 /* TaskCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		FD13966E2AF7D39100003C37 /* RepeatReminderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatReminderUITests.swift; sourceTree = "<group>"; };
 		FD1396702AF7D39100003C37 /* RepeatReminderUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatReminderUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		FD8B19812B0251D900FBCC34 /* TaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListView.swift; sourceTree = "<group>"; };
+		FD8B19842B02683F00FBCC34 /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +142,7 @@
 		FD5EF0412B010B620011CD64 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				FD8B19832B02681900FBCC34 /* Component */,
 				FD8B19812B0251D900FBCC34 /* TaskListView.swift */,
 			);
 			path = Views;
@@ -173,6 +176,14 @@
 				FD1396572AF7D39100003C37 /* Assets.xcassets */,
 			);
 			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		FD8B19832B02681900FBCC34 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				FD8B19842B02683F00FBCC34 /* TaskCell.swift */,
+			);
+			path = Component;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -306,6 +317,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD1396542AF7D39000003C37 /* RepeatReminderApp.swift in Sources */,
+				FD8B19852B02683F00FBCC34 /* TaskCell.swift in Sources */,
 				FD8B19822B0251D900FBCC34 /* TaskListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
