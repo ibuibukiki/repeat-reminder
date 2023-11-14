@@ -15,6 +15,12 @@ struct TaskAddEditView: View {
     @State private var endline = Date()
     @State private var isEndNotified = true
     @State private var isPreNotified = true
+    @State private var nums = [1,2,3,4,5,6,7,8,9,10]
+    @State private var firstNotifiedNum = 1
+    @State private var intervalNum = 1
+    @State private var ranges = ["時間","日","週間"]
+    @State private var firstNotifiedRange = "時間"
+    @State private var intervalRange = "時間"
     
     var body: some View {
         GeometryReader { geometry in
@@ -41,6 +47,7 @@ struct TaskAddEditView: View {
                             .foregroundColor(Color("MainColor"))
                             .fontWeight(.bold)
                             .font(.title2)
+                            .padding(.top,8)
                         HStack{
                             Text("名前")
                                 .foregroundColor(Color("TextColor"))
@@ -64,7 +71,8 @@ struct TaskAddEditView: View {
                             Spacer()
                             DatePicker("",selection:$endline)
                                 .environment(\.locale, Locale(identifier: "ja_JP"))
-                                .foregroundColor(Color("TextColor"))
+                                .colorInvert()
+                                .colorMultiply(Color("TextColor"))
                         }.padding(.leading,16)
                             .padding(.trailing,24)
                         // 通知関係の情報を表示・入力
@@ -80,7 +88,7 @@ struct TaskAddEditView: View {
                             Toggle("",isOn:$isEndNotified)
                                 .toggleStyle(SwitchToggleStyle(tint: Color("ButtonColor")))
                         }.padding(.leading,16)
-                            .padding(.trailing,24)
+                            .padding(.trailing,32)
                         HStack{
                             Text("事前通知")
                                 .foregroundColor(Color("TextColor"))
@@ -89,17 +97,70 @@ struct TaskAddEditView: View {
                             Toggle("",isOn:$isPreNotified)
                                 .toggleStyle(SwitchToggleStyle(tint: Color("ButtonColor")))
                         }.padding(.leading,16)
-                            .padding(.trailing,24)
-                        HStack{
+                            .padding(.trailing,32)
+                        HStack(spacing:-8){
                             Text("最初の通知")
-                                .foregroundColor(Color("TextColor"))
+                                .foregroundColor(Color("TextColor")
+                                    .opacity(isPreNotified ? 1.0 : 0.25)
+                                )
                                 .font(.title3)
+                            Spacer()
+                            // 数字を選択
+                            Picker("",selection:$firstNotifiedNum,content:{
+                                ForEach(nums, id:\.self) { value in
+                                    Text("\(value)").tag(value)
+                                }
+                            }).onChange(of:firstNotifiedNum) { newValue in
+                                print(newValue)
+                            }.pickerStyle(.menu)
+                                .tint(Color("TextColor"))
+                                .disabled(!isPreNotified)
+                            // 時間日週を選択
+                            Picker("",selection:$firstNotifiedRange,content:{
+                                ForEach(ranges, id:\.self) { value in
+                                    Text("\(value)").tag(value)
+                                }
+                            }).onChange(of:firstNotifiedRange) { newValue in
+                                print(newValue)
+                            }.pickerStyle(.menu)
+                                .tint(Color("TextColor"))
+                                .disabled(!isPreNotified)
+                                .padding(.trailing,8)
+                            Text("前")
+                                .foregroundColor(Color("TextColor")
+                                    .opacity(isPreNotified ? 1.0 : 0.25)
+                                )
                         }.padding(.leading,16)
-                        HStack{
+                            .padding(.trailing,24)
+                        HStack(spacing:-8){
                             Text("通知間隔")
-                                .foregroundColor(Color("TextColor"))
+                                .foregroundColor(Color("TextColor")
+                                    .opacity(isPreNotified ? 1.0 : 0.25)
+                                )
                                 .font(.title3)
+                            Spacer()
+                            // 数字を選択
+                            Picker("",selection:$intervalNum,content:{
+                                ForEach(nums, id:\.self) { value in
+                                    Text("\(value)").tag(value)
+                                }
+                            }).onChange(of:intervalNum) { newValue in
+                                print(newValue)
+                            }.pickerStyle(.menu)
+                                .tint(Color("TextColor"))
+                                .disabled(!isPreNotified)
+                            // 時間日週を選択
+                            Picker("",selection:$intervalRange,content:{
+                                ForEach(ranges, id:\.self) { value in
+                                    Text("\(value)").tag(value)
+                                }
+                            }).onChange(of:intervalRange) { newValue in
+                                print(newValue)
+                            }.pickerStyle(.menu)
+                                .tint(Color("TextColor"))
+                                .disabled(!isPreNotified)
                         }.padding(.leading,16)
+                            .padding(.trailing,16)
                     }.padding(.top,40)
                         .padding(.bottom,48)
                         .padding(.leading,16)
@@ -173,7 +234,7 @@ struct TaskAddEditView: View {
                                 .frame(width:200,height:40)
                         }.padding(.bottom,24)
                     }
-                }.ignoresSafeArea(edges:[.bottom])
+                }
             }.onTapGesture {
                 focusedField = nil
             }
