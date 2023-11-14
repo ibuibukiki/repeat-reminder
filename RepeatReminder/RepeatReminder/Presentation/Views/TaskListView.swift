@@ -55,7 +55,8 @@ struct TaskListView: View {
                                 .compositingGroup()
                                 .shadow(color:.gray,radius:5,x:0,y:8)
                         }
-                        NavigationLink(destination: TaskAddEditView()){
+                        NavigationLink(destination: TaskAddEditView(viewModel:TaskAddEditViewModel(isEditing:false))
+                        ){
                             Text("追 加")
                                 .fontWeight(.bold)
                                 .font(.title2)

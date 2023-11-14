@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TaskAddEditView: View {
     @Environment(\.presentationMode) var presentation
+    @ObservedObject var viewModel: TaskAddEditViewModel
     
     var body: some View {
         
@@ -16,11 +17,19 @@ struct TaskAddEditView: View {
             Color("BackgroundColor")
                 .edgesIgnoringSafeArea(.all)
             VStack{
-                Text("タスクを追加")
-                    .foregroundColor(Color("MainColor"))
-                    .fontWeight(.bold)
-                    .font(.title)
-                    .frame(width:328,height:56,alignment:.leading)
+                if viewModel.isEditing {
+                    Text("タスクを編集")
+                        .foregroundColor(Color("MainColor"))
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .frame(width:328,height:56,alignment:.leading)
+                } else {
+                    Text("タスクを追加")
+                        .foregroundColor(Color("MainColor"))
+                        .fontWeight(.bold)
+                        .font(.title)
+                        .frame(width:328,height:56,alignment:.leading)
+                }
                 VStack(alignment:.leading,spacing:24){
                     // タスクの情報を表示・入力
                     Text("基本設定")
@@ -98,35 +107,44 @@ struct TaskAddEditView: View {
                     }
                     Button(action:{
                         self.presentation.wrappedValue.dismiss()
-                        print("tap add button")
+                        print("tap add or edit button")
                     }){
-                        Text("追 加")
-                            .fontWeight(.bold)
-                            .font(.title2)
-                            .foregroundColor(Color("BackgroundColor"))
-                            .frame(width:152,height:56)
-                            .background(Color("ButtonColor"))
-                            .cornerRadius(10)
-                            .compositingGroup()
-                            .shadow(color:.gray,radius:5,x:0,y:8)
+                        if viewModel.isEditing {
+                            Text("編 集")
+                                .fontWeight(.bold)
+                                .font(.title2)
+                                .foregroundColor(Color("BackgroundColor"))
+                                .frame(width:152,height:56)
+                                .background(Color("ButtonColor"))
+                                .cornerRadius(10)
+                                .compositingGroup()
+                                .shadow(color:.gray,radius:5,x:0,y:8)
+                        } else {
+                            Text("追 加")
+                                .fontWeight(.bold)
+                                .font(.title2)
+                                .foregroundColor(Color("BackgroundColor"))
+                                .frame(width:152,height:56)
+                                .background(Color("ButtonColor"))
+                                .cornerRadius(10)
+                                .compositingGroup()
+                                .shadow(color:.gray,radius:5,x:0,y:8)
+                        }
                     }
                 }
                 Spacer()
-                // 削除ボタン(編集時のみ表示)
-                Button(action:{
-                    print("tap delete button")
-                }){
-                    Text("このタスクを削除")
-                        .fontWeight(.bold)
-                        .font(.title2)
-                        .foregroundColor(Color("ButtonColor"))
-                        .frame(width:200,height:40)
-                }.padding(.bottom,24)
-            }.padding(.top,24)
+                if viewModel.isEditing {
+                    Button(action:{
+                        print("tap delete button")
+                    }){
+                        Text("このタスクを削除")
+                            .fontWeight(.bold)
+                            .font(.title2)
+                            .foregroundColor(Color("ButtonColor"))
+                            .frame(width:200,height:40)
+                    }.padding(.bottom,24)
+                }
+            }
         }
     }
-}
-
-#Preview {
-    TaskAddEditView()
 }
