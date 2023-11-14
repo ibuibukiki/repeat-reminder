@@ -15,6 +15,8 @@
 		FD1396712AF7D39100003C37 /* RepeatReminderUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1396702AF7D39100003C37 /* RepeatReminderUITestsLaunchTests.swift */; };
 		FD8B19822B0251D900FBCC34 /* TaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8B19812B0251D900FBCC34 /* TaskListView.swift */; };
 		FD8B19852B02683F00FBCC34 /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8B19842B02683F00FBCC34 /* TaskCell.swift */; };
+		FD9336BA2B033851002FD8C9 /* TaskAddEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9336B92B033851002FD8C9 /* TaskAddEditView.swift */; };
+		FD9336BC2B03586D002FD8C9 /* TaskAddEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9336BB2B03586D002FD8C9 /* TaskAddEditViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +48,8 @@
 		FD1396702AF7D39100003C37 /* RepeatReminderUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatReminderUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		FD8B19812B0251D900FBCC34 /* TaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListView.swift; sourceTree = "<group>"; };
 		FD8B19842B02683F00FBCC34 /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
+		FD9336B92B033851002FD8C9 /* TaskAddEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskAddEditView.swift; sourceTree = "<group>"; };
+		FD9336BB2B03586D002FD8C9 /* TaskAddEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TaskAddEditViewModel.swift; path = RepeatReminder/Presentation/ViewModels/TaskAddEditViewModel.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,7 +102,7 @@
 			children = (
 				FD1396532AF7D39000003C37 /* RepeatReminderApp.swift */,
 				FD5EF0402B010B430011CD64 /* Presentation */,
-				FD5EF0442B010B9C0011CD64 /* Domain */,
+				FD9336BD2B036DBF002FD8C9 /* Domain */,
 				FD5EF0462B010BB30011CD64 /* Infrastructure */,
 				FD1396592AF7D39100003C37 /* Preview Content */,
 			);
@@ -134,7 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				FD5EF0412B010B620011CD64 /* Views */,
-				FD5EF0432B010B7C0011CD64 /* ViewModels */,
+				FD9336BF2B036DFC002FD8C9 /* ViewModels */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -144,30 +148,9 @@
 			children = (
 				FD8B19832B02681900FBCC34 /* Component */,
 				FD8B19812B0251D900FBCC34 /* TaskListView.swift */,
+				FD9336B92B033851002FD8C9 /* TaskAddEditView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		FD5EF0432B010B7C0011CD64 /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		FD5EF0442B010B9C0011CD64 /* Domain */ = {
-			isa = PBXGroup;
-			children = (
-				FD5EF0452B010BA50011CD64 /* Models */,
-			);
-			path = Domain;
-			sourceTree = "<group>";
-		};
-		FD5EF0452B010BA50011CD64 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		FD5EF0462B010BB30011CD64 /* Infrastructure */ = {
@@ -184,6 +167,29 @@
 				FD8B19842B02683F00FBCC34 /* TaskCell.swift */,
 			);
 			path = Component;
+			sourceTree = "<group>";
+		};
+		FD9336BD2B036DBF002FD8C9 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				FD9336BE2B036DDB002FD8C9 /* Models */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		FD9336BE2B036DDB002FD8C9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		FD9336BF2B036DFC002FD8C9 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				FD9336BB2B03586D002FD8C9 /* TaskAddEditViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -317,8 +323,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD1396542AF7D39000003C37 /* RepeatReminderApp.swift in Sources */,
+				FD9336BA2B033851002FD8C9 /* TaskAddEditView.swift in Sources */,
 				FD8B19852B02683F00FBCC34 /* TaskCell.swift in Sources */,
 				FD8B19822B0251D900FBCC34 /* TaskListView.swift in Sources */,
+				FD9336BC2B03586D002FD8C9 /* TaskAddEditViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

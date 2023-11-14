@@ -30,19 +30,18 @@ struct TaskCell: View {
                     Text("レポート提出")
                     Text("10月10日 14:00")
                 }.foregroundColor(Color("TextColor"))
-                .frame(width:160,height:88)
-                .background(Color("BackgroundColor"))
-                .cornerRadius(10)
+                    .frame(width:160,height:88)
+                    .background(Color("BackgroundColor"))
+                    .cornerRadius(10)
             }.frame(width:272,height:96)
-            .background(Color("MainColor"))
-            .cornerRadius(15)
-            .compositingGroup()
-            .shadow(color:.gray,radius:5,x:0,y:5)
+                .background(Color("MainColor"))
+                .cornerRadius(15)
+                .compositingGroup()
+                .shadow(color:.gray,radius:5,x:0,y:8)
             // ボタンを表示
             VStack(spacing:4){
-                Button(action:{
-                    print("tap edit button")
-                }){
+                NavigationLink(destination: TaskAddEditView(viewModel:TaskAddEditViewModel(isEditing:true))
+                ){
                     Image(systemName:"pencil.circle")
                         .foregroundColor(Color("ButtonColor"))
                         .font(.system(size:48))
