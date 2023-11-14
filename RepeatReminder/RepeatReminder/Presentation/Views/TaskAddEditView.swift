@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct TaskAddEditView: View {
+    @Environment(\.presentationMode) var presentation
+    
     var body: some View {
+        
         ZStack(alignment:.top){
             Color("BackgroundColor")
                 .edgesIgnoringSafeArea(.all)
@@ -70,12 +73,13 @@ struct TaskAddEditView: View {
                             .stroke(Color("MainColor"), lineWidth: 4)
                     )
                     .compositingGroup()
-                    .shadow(color:.gray,radius:5,x:0,y:10)
-                    .padding(.bottom,24)
+                    .shadow(color:.gray,radius:5,x:0,y:8)
+                    .padding(.bottom,8)
                 Spacer()
                 // ボタンを表示
                 HStack(spacing:24){
                     Button(action:{
+                        self.presentation.wrappedValue.dismiss()
                         print("tap cancel button")
                     }){
                         Text("キャンセル")
@@ -90,9 +94,10 @@ struct TaskAddEditView: View {
                                     .stroke(Color("MainColor"), lineWidth: 4)
                             )
                             .compositingGroup()
-                            .shadow(color:.gray,radius:5,x:0,y:5)
+                            .shadow(color:.gray,radius:5,x:0,y:8)
                     }
                     Button(action:{
+                        self.presentation.wrappedValue.dismiss()
                         print("tap add button")
                     }){
                         Text("追 加")
@@ -103,9 +108,10 @@ struct TaskAddEditView: View {
                             .background(Color("ButtonColor"))
                             .cornerRadius(10)
                             .compositingGroup()
-                            .shadow(color:.gray,radius:5,x:0,y:5)
+                            .shadow(color:.gray,radius:5,x:0,y:8)
                     }
-                }.padding(.bottom,24)
+                }
+                Spacer()
                 // 削除ボタン(編集時のみ表示)
                 Button(action:{
                     print("tap delete button")
@@ -115,8 +121,8 @@ struct TaskAddEditView: View {
                         .font(.title2)
                         .foregroundColor(Color("ButtonColor"))
                         .frame(width:200,height:40)
-                }.padding(.bottom,32)
-            }.padding(.top,40)
+                }.padding(.bottom,24)
+            }.padding(.top,24)
         }
     }
 }
