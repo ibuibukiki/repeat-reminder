@@ -11,7 +11,9 @@ struct TaskAddEditView: View {
     @Environment(\.presentationMode) var presentation
     @FocusState private var focusedField: Bool?
     @ObservedObject var viewModel: TaskAddEditViewModel
-    @State var name = ""
+    @State private var name = ""
+    @State private var isEndNotified = true
+    @State private var isPreNotified = true
     
     var body: some View {
         GeometryReader { geometry in
@@ -68,12 +70,20 @@ struct TaskAddEditView: View {
                             Text("期限通知")
                                 .foregroundColor(Color("TextColor"))
                                 .font(.title3)
+                            Spacer()
+                            Toggle("",isOn:$isEndNotified)
+                                .toggleStyle(SwitchToggleStyle(tint: Color("ButtonColor")))
                         }.padding(.leading,24)
+                            .padding(.trailing,32)
                         HStack{
                             Text("事前通知")
                                 .foregroundColor(Color("TextColor"))
                                 .font(.title3)
+                            Spacer()
+                            Toggle("",isOn:$isPreNotified)
+                                .toggleStyle(SwitchToggleStyle(tint: Color("ButtonColor")))
                         }.padding(.leading,24)
+                            .padding(.trailing,32)
                         HStack{
                             Text("最初の通知")
                                 .foregroundColor(Color("TextColor"))
