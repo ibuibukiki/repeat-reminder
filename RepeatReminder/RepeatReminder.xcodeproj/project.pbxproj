@@ -15,6 +15,7 @@
 		FD1396712AF7D39100003C37 /* RepeatReminderUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1396702AF7D39100003C37 /* RepeatReminderUITestsLaunchTests.swift */; };
 		FD8B19822B0251D900FBCC34 /* TaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8B19812B0251D900FBCC34 /* TaskListView.swift */; };
 		FD8B19852B02683F00FBCC34 /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8B19842B02683F00FBCC34 /* TaskCell.swift */; };
+		FD9336BA2B033851002FD8C9 /* TaskAddEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9336B92B033851002FD8C9 /* TaskAddEditView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		FD1396702AF7D39100003C37 /* RepeatReminderUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatReminderUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		FD8B19812B0251D900FBCC34 /* TaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListView.swift; sourceTree = "<group>"; };
 		FD8B19842B02683F00FBCC34 /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
+		FD9336B92B033851002FD8C9 /* TaskAddEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskAddEditView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 			children = (
 				FD8B19832B02681900FBCC34 /* Component */,
 				FD8B19812B0251D900FBCC34 /* TaskListView.swift */,
+				FD9336B92B033851002FD8C9 /* TaskAddEditView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -317,6 +320,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD1396542AF7D39000003C37 /* RepeatReminderApp.swift in Sources */,
+				FD9336BA2B033851002FD8C9 /* TaskAddEditView.swift in Sources */,
 				FD8B19852B02683F00FBCC34 /* TaskCell.swift in Sources */,
 				FD8B19822B0251D900FBCC34 /* TaskListView.swift in Sources */,
 			);
