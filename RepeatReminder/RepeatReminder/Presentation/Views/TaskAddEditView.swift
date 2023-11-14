@@ -12,6 +12,7 @@ struct TaskAddEditView: View {
     @FocusState private var focusedField: Bool?
     @ObservedObject var viewModel: TaskAddEditViewModel
     @State private var name = ""
+    @State private var endline = Date()
     @State private var isEndNotified = true
     @State private var isPreNotified = true
     
@@ -54,13 +55,18 @@ struct TaskAddEditView: View {
                                     RoundedRectangle(cornerRadius: 5)
                                         .stroke(Color("MainColor"), lineWidth: 1)
                                 )
-                        }.padding(.leading,24)
+                        }.padding(.leading,16)
                             .padding(.trailing,24)
                         HStack{
                             Text("期限")
                                 .foregroundColor(Color("TextColor"))
                                 .font(.title3)
-                        }.padding(.leading,24)
+                            Spacer()
+                            DatePicker("",selection:$endline)
+                                .environment(\.locale, Locale(identifier: "ja_JP"))
+                                .foregroundColor(Color("TextColor"))
+                        }.padding(.leading,16)
+                            .padding(.trailing,24)
                         // 通知関係の情報を表示・入力
                         Text("通知設定")
                             .foregroundColor(Color("MainColor"))
@@ -73,8 +79,8 @@ struct TaskAddEditView: View {
                             Spacer()
                             Toggle("",isOn:$isEndNotified)
                                 .toggleStyle(SwitchToggleStyle(tint: Color("ButtonColor")))
-                        }.padding(.leading,24)
-                            .padding(.trailing,32)
+                        }.padding(.leading,16)
+                            .padding(.trailing,24)
                         HStack{
                             Text("事前通知")
                                 .foregroundColor(Color("TextColor"))
@@ -82,21 +88,21 @@ struct TaskAddEditView: View {
                             Spacer()
                             Toggle("",isOn:$isPreNotified)
                                 .toggleStyle(SwitchToggleStyle(tint: Color("ButtonColor")))
-                        }.padding(.leading,24)
-                            .padding(.trailing,32)
+                        }.padding(.leading,16)
+                            .padding(.trailing,24)
                         HStack{
                             Text("最初の通知")
                                 .foregroundColor(Color("TextColor"))
                                 .font(.title3)
-                        }.padding(.leading,24)
+                        }.padding(.leading,16)
                         HStack{
                             Text("通知間隔")
                                 .foregroundColor(Color("TextColor"))
                                 .font(.title3)
-                        }.padding(.leading,24)
+                        }.padding(.leading,16)
                     }.padding(.top,40)
                         .padding(.bottom,48)
-                        .padding(.leading,24)
+                        .padding(.leading,16)
                         .frame(width:320,height:400,alignment:.leading)
                         .background(Color("BackgroundColor"))
                         .cornerRadius(20)
