@@ -102,7 +102,7 @@
 			children = (
 				FD1396532AF7D39000003C37 /* RepeatReminderApp.swift */,
 				FD5EF0402B010B430011CD64 /* Presentation */,
-				FD9336BD2B036DBF002FD8C9 /* Domain */,
+				FD4F31102B05E118009455D3 /* Domain */,
 				FD5EF0462B010BB30011CD64 /* Infrastructure */,
 				FD1396592AF7D39100003C37 /* Preview Content */,
 			);
@@ -132,6 +132,21 @@
 				FD1396702AF7D39100003C37 /* RepeatReminderUITestsLaunchTests.swift */,
 			);
 			path = RepeatReminderUITests;
+			sourceTree = "<group>";
+		};
+		FD4F31102B05E118009455D3 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				FD4F31112B05E127009455D3 /* Model */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		FD4F31112B05E127009455D3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		FD5EF0402B010B430011CD64 /* Presentation */ = {
@@ -167,21 +182,6 @@
 				FD8B19842B02683F00FBCC34 /* TaskCell.swift */,
 			);
 			path = Component;
-			sourceTree = "<group>";
-		};
-		FD9336BD2B036DBF002FD8C9 /* Domain */ = {
-			isa = PBXGroup;
-			children = (
-				FD9336BE2B036DDB002FD8C9 /* Models */,
-			);
-			path = Domain;
-			sourceTree = "<group>";
-		};
-		FD9336BE2B036DDB002FD8C9 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		FD9336BF2B036DFC002FD8C9 /* ViewModels */ = {

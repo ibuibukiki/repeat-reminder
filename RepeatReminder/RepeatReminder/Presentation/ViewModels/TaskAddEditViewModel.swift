@@ -15,4 +15,12 @@ class TaskAddEditViewModel: ObservableObject,Identifiable {
         self.isEditing = isEditing
     }
     
+    @Published var name = ""
+    @Published var deadline = Date()
+    @Published var isLimitNotified = true
+    @Published var isPreNotified = true
+    @Published var firstNotifiedNum = 1
+    @Published var firstNotifiedRange = "時間"
+    @Published var intervalNotifiedNum = 1
+    @Published var intervalNotifiedRange = "時間"
 }
