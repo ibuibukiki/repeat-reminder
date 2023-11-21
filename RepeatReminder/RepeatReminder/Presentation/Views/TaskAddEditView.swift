@@ -61,8 +61,9 @@ struct TaskAddEditView: View {
                                 .foregroundColor(Color("TextColor"))
                                 .font(.title3)
                             Spacer()
-                            DatePicker("",selection:$viewModel.deadline)
+                            DatePicker("deadline",selection:$viewModel.deadline)
                                 .environment(\.locale, Locale(identifier: "ja_JP"))
+                                .labelsHidden()
                                 .colorInvert()
                                 .colorMultiply(Color("TextColor"))
                         }.padding(.leading,16)
@@ -77,8 +78,9 @@ struct TaskAddEditView: View {
                                 .foregroundColor(Color("TextColor"))
                                 .font(.title3)
                             Spacer()
-                            Toggle("",isOn:$viewModel.isLimitNotified)
+                            Toggle("isLimitNotified",isOn:$viewModel.isLimitNotified)
                                 .toggleStyle(SwitchToggleStyle(tint: Color("ButtonColor")))
+                                .labelsHidden()
                         }.padding(.leading,16)
                             .padding(.trailing,32)
                         HStack{
@@ -86,8 +88,9 @@ struct TaskAddEditView: View {
                                 .foregroundColor(Color("TextColor"))
                                 .font(.title3)
                             Spacer()
-                            Toggle("",isOn:$viewModel.isPreNotified)
+                            Toggle("isPreNotified",isOn:$viewModel.isPreNotified)
                                 .toggleStyle(SwitchToggleStyle(tint: Color("ButtonColor")))
+                                .labelsHidden()
                         }.padding(.leading,16)
                             .padding(.trailing,32)
                         HStack(spacing:-8){
@@ -98,23 +101,25 @@ struct TaskAddEditView: View {
                                 .font(.title3)
                             Spacer()
                             // 数字を選択
-                            Picker("",selection:$viewModel.firstNotifiedNum,content:{
+                            Picker("firstNotifiedNum",selection:$viewModel.firstNotifiedNum,content:{
                                 ForEach(nums, id:\.self) { value in
                                     Text("\(value)").tag(value)
                                 }
                             }).onChange(of:viewModel.firstNotifiedNum) { newValue in
                                 print(newValue)
                             }.pickerStyle(.menu)
+                                .labelsHidden()
                                 .tint(Color("TextColor"))
                                 .disabled(!viewModel.isPreNotified)
                             // 時間日週を選択
-                            Picker("",selection:$viewModel.firstNotifiedRange,content:{
+                            Picker("firstNotifiedRange",selection:$viewModel.firstNotifiedRange,content:{
                                 ForEach(ranges, id:\.self) { value in
                                     Text("\(value)").tag(value)
                                 }
                             }).onChange(of:viewModel.firstNotifiedRange) { newValue in
                                 print(newValue)
                             }.pickerStyle(.menu)
+                                .labelsHidden()
                                 .tint(Color("TextColor"))
                                 .disabled(!viewModel.isPreNotified)
                                 .padding(.trailing,8)
@@ -132,23 +137,25 @@ struct TaskAddEditView: View {
                                 .font(.title3)
                             Spacer()
                             // 数字を選択
-                            Picker("",selection:$viewModel.intervalNotifiedNum,content:{
+                            Picker("intervalNotifiedNum",selection:$viewModel.intervalNotifiedNum,content:{
                                 ForEach(nums, id:\.self) { value in
                                     Text("\(value)").tag(value)
                                 }
                             }).onChange(of:viewModel.intervalNotifiedNum) { newValue in
                                 print(newValue)
                             }.pickerStyle(.menu)
+                                .labelsHidden()
                                 .tint(Color("TextColor"))
                                 .disabled(!viewModel.isPreNotified)
                             // 時間日週を選択
-                            Picker("",selection:$viewModel.intervalNotifiedRange,content:{
+                            Picker("intervalNotifiedRange",selection:$viewModel.intervalNotifiedRange,content:{
                                 ForEach(ranges, id:\.self) { value in
                                     Text("\(value)").tag(value)
                                 }
                             }).onChange(of:viewModel.intervalNotifiedRange) { newValue in
                                 print(newValue)
                             }.pickerStyle(.menu)
+                                .labelsHidden()
                                 .tint(Color("TextColor"))
                                 .disabled(!viewModel.isPreNotified)
                         }.padding(.leading,16)
