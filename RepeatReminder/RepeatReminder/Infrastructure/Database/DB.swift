@@ -80,6 +80,7 @@ final class DB {
         }
     }
     
+    
     func insertTask(task: Task) -> Bool {
         let insertSql = """
                         INSERT INTO tasks (
@@ -110,10 +111,10 @@ final class DB {
         sqlite3_bind_int(insertStmt, 5, Int32(task.isPreNotified ? 1 : 0))
         
         if task.isPreNotified {
-            sqlite3_bind_int(insertStmt, 6, Int32(task.firstNotifiedNum))
-            sqlite3_bind_text(insertStmt, 7, (task.firstNotifiedRange as NSString).utf8String, -1, nil)
-            sqlite3_bind_int(insertStmt, 8, Int32(task.intervalNotifiedNum))
-            sqlite3_bind_text(insertStmt, 9, (task.intervalNotifiedRange as NSString).utf8String, -1, nil)
+            sqlite3_bind_int(insertStmt, 6, Int32(task.firstNotifiedNum!))
+            sqlite3_bind_text(insertStmt, 7, (task.firstNotifiedRange! as NSString).utf8String, -1, nil)
+            sqlite3_bind_int(insertStmt, 8, Int32(task.intervalNotifiedNum!))
+            sqlite3_bind_text(insertStmt, 9, (task.intervalNotifiedRange! as NSString).utf8String, -1, nil)
         } else {
             sqlite3_bind_null(insertStmt, 6)
             sqlite3_bind_null(insertStmt, 7)
@@ -167,10 +168,10 @@ final class DB {
         sqlite3_bind_int(updateStmt, 4, Int32(task.isPreNotified ? 1 : 0))
         
         if task.isPreNotified {
-            sqlite3_bind_int(updateStmt, 5, Int32(task.firstNotifiedNum))
-            sqlite3_bind_text(updateStmt, 6, (task.firstNotifiedRange as NSString).utf8String, -1, nil)
-            sqlite3_bind_int(updateStmt, 7, Int32(task.intervalNotifiedNum))
-            sqlite3_bind_text(updateStmt, 8, (task.intervalNotifiedRange as NSString).utf8String, -1, nil)
+            sqlite3_bind_int(updateStmt, 5, Int32(task.firstNotifiedNum!))
+            sqlite3_bind_text(updateStmt, 6, (task.firstNotifiedRange! as NSString).utf8String, -1, nil)
+            sqlite3_bind_int(updateStmt, 7, Int32(task.intervalNotifiedNum!))
+            sqlite3_bind_text(updateStmt, 8, (task.intervalNotifiedRange! as NSString).utf8String, -1, nil)
         } else {
             sqlite3_bind_null(updateStmt, 5)
             sqlite3_bind_null(updateStmt, 6)
@@ -190,5 +191,68 @@ final class DB {
         sqlite3_finalize(updateStmt)
         
         return true
+    }
+    
+    func getTask(taskId: Int) -> (success: Bool, errorMessage: String?, task: Task?) {
+        
+        var task: Task? = nil
+        
+        let sql = """
+                SELECT  *
+                FROM    tasks
+                WHERE   task_id = ?;
+                """
+        
+        var stmt: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, (sql as NSString).utf8String, -1, &stmt, nil) != SQLITE_OK {
+            return (false, "Unexpected error: \(getDBErrorMessage(db)).", task)
+        }
+        
+        sqlite3_bind_int(stmt, 1, Int32(taskId))
+        
+        // String型をDate型に変換
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        formatter.locale = Locale(identifier: "ja_JP")
+        
+        if sqlite3_step(stmt) == SQLITE_ROW {
+            let taskId = Int(sqlite3_column_int(stmt, 0))
+            let name = String(describing: String(cString: sqlite3_column_text(stmt, 1)))
+            guard let deadline = formatter.date(from: String(cString: sqlite3_column_text(stmt, 2))) else {
+                print("value error: deadline null")
+                return (false, nil, nil)
+            }
+            
+            let isLimitNotified = sqlite3_column_int(stmt, 3)==1 ? true : false
+            let isPreNotified = sqlite3_column_int(stmt, 4)==1 ? true : false
+            
+            var firstNotifiedNum: Int?
+            var firstNotifiedRange: String?
+            var intervalNotifiedNum: Int?
+            var intervalNotifiedRange: String?
+            if isPreNotified {
+                firstNotifiedNum = Int(sqlite3_column_int(stmt, 5))
+                firstNotifiedRange = String(describing: String(cString: sqlite3_column_text(stmt, 6)))
+                intervalNotifiedNum = Int(sqlite3_column_int(stmt, 7))
+                intervalNotifiedRange = String(describing: String(cString: sqlite3_column_text(stmt, 8)))
+            } else {
+                firstNotifiedNum = nil
+                firstNotifiedRange = nil
+                intervalNotifiedNum = nil
+                intervalNotifiedRange = nil
+            }
+            
+            let isCompleted = sqlite3_column_int(stmt, 9)==1 ? true : false
+            let isDeleted = sqlite3_column_int(stmt, 10)==1 ? true : false
+            
+            let task = Task(taskId:taskId, name:name, deadline:deadline, 
+                            isLimitNotified:isLimitNotified, isPreNotified:isPreNotified,
+                            firstNotifiedNum:firstNotifiedNum,firstNotifiedRange:firstNotifiedRange,
+                            intervalNotifiedNum:intervalNotifiedNum, intervalNotifiedRange:intervalNotifiedRange,
+                            isCompleted:isCompleted, isDeleted:isDeleted)
+        }
+        
+        sqlite3_finalize(stmt)
+        return (true, nil, task)
     }
 }

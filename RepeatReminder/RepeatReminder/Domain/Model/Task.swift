@@ -13,14 +13,14 @@ struct Task {
     var deadline: Date
     var isLimitNotified: Bool
     var isPreNotified: Bool
-    var firstNotifiedNum: Int
-    var firstNotifiedRange: String
-    var intervalNotifiedNum: Int
-    var intervalNotifiedRange: String
+    var firstNotifiedNum: Int?
+    var firstNotifiedRange: String?
+    var intervalNotifiedNum: Int?
+    var intervalNotifiedRange: String?
     var isCompleted: Bool
     var isDeleted: Bool
     
-    init(taskId: Int, name: String, deadline: Date, isLimitNotified: Bool, isPreNotified: Bool, firstNotifiedNum: Int, firstNotifiedRange: String, intervalNotifiedNum: Int, intervalNotifiedRange: String, isCompleted: Bool, isDeleted: Bool) {
+    init(taskId: Int, name: String, deadline: Date, isLimitNotified: Bool, isPreNotified: Bool, firstNotifiedNum: Int?, firstNotifiedRange: String?, intervalNotifiedNum: Int?, intervalNotifiedRange: String?, isCompleted: Bool, isDeleted: Bool) {
         self.taskId = taskId
         self.name = name
         self.deadline = deadline
@@ -48,5 +48,20 @@ struct Task {
         } else {
             print("Update Failed")
         }
+    }
+    
+    static func getTask(taskId: Int) -> Task? {
+        let (success, errorMessage, task) = DB.shared.getTask(taskId: taskId)
+        if(success){
+            if let task = task {
+                print(task)
+                return task
+            } else {
+                print("Task not found")
+            }
+        } else {
+            print(errorMessage ?? "Error")
+        }
+        return nil
     }
 }
