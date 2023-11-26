@@ -255,4 +255,26 @@ final class DB {
         sqlite3_finalize(stmt)
         return (true, nil, task)
     }
+    
+    func deleteTask(taskId: Int) -> Bool {
+        let deleteSql = "DELETE FROM tasks WHERE task_id = ?;";
+        var deleteStmt: OpaquePointer? = nil
+        
+        if sqlite3_prepare_v2(db, (deleteSql as NSString).utf8String, -1, &deleteStmt, nil) != SQLITE_OK {
+            print("db error: \(getDBErrorMessage(db))")
+            return false
+        }
+        
+        sqlite3_bind_int(deleteStmt, 1, Int32(taskId))
+        
+        if sqlite3_step(deleteStmt) != SQLITE_DONE {
+            print("db error: \(getDBErrorMessage(db))")
+            sqlite3_finalize(deleteStmt)
+            return false
+        }
+
+        sqlite3_finalize(deleteStmt)
+        return true
+    }
+
 }

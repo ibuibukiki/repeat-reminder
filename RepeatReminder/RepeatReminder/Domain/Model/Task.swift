@@ -34,7 +34,7 @@ struct Task {
         self.isDeleted = isDeleted
     }
     
-    static func insertTask(task: Task){
+    static func insertTask(task: Task) {
         if DB.shared.insertTask(task: task) {
             print("Insert success")
         } else {
@@ -42,7 +42,7 @@ struct Task {
         }
     }
     
-    static func updateTask(task: Task){
+    static func updateTask(task: Task) {
         if DB.shared.updateTask(task: task) {
             print("Update success")
         } else {
@@ -63,5 +63,13 @@ struct Task {
             print(errorMessage ?? "Error")
         }
         return nil
+    }
+    
+    static func deleteTask(taskId: Int) {
+        if DB.shared.deleteTask(taskId: taskId) {
+            print("Delete success")
+        } else {
+            print("Delete Failed")
+        }
     }
 }
