@@ -11,16 +11,8 @@ struct TaskAddEditView: View {
     @Environment(\.presentationMode) var presentation
     @FocusState private var focusedField: Bool?
     @ObservedObject var viewModel: TaskAddEditViewModel
-    @State private var name = ""
-    @State private var endline = Date()
-    @State private var isEndNotified = true
-    @State private var isPreNotified = true
-    @State private var nums = [1,2,3,4,5,6,7,8,9,10]
-    @State private var firstNotifiedNum = 1
-    @State private var intervalNum = 1
-    @State private var ranges = ["時間","日","週間"]
-    @State private var firstNotifiedRange = "時間"
-    @State private var intervalRange = "時間"
+    let nums = [1,2,3,4,5,6,7,8,9,10]
+    let ranges = ["時間","日","週間"]
     
     var body: some View {
         GeometryReader { geometry in
@@ -53,7 +45,7 @@ struct TaskAddEditView: View {
                                 .foregroundColor(Color("TextColor"))
                                 .font(.title3)
                             Spacer()
-                            TextField("タスクを入力",text:$name)
+                            TextField("タスクを入力",text:$viewModel.name)
                                 .foregroundColor(Color("TextColor"))
                                 .frame(width:120,height:4)
                                 .padding()
@@ -69,8 +61,9 @@ struct TaskAddEditView: View {
                                 .foregroundColor(Color("TextColor"))
                                 .font(.title3)
                             Spacer()
-                            DatePicker("",selection:$endline)
+                            DatePicker("deadline",selection:$viewModel.deadline)
                                 .environment(\.locale, Locale(identifier: "ja_JP"))
+                                .labelsHidden()
                                 .colorInvert()
                                 .colorMultiply(Color("TextColor"))
                         }.padding(.leading,16)
@@ -85,8 +78,9 @@ struct TaskAddEditView: View {
                                 .foregroundColor(Color("TextColor"))
                                 .font(.title3)
                             Spacer()
-                            Toggle("",isOn:$isEndNotified)
+                            Toggle("isLimitNotified",isOn:$viewModel.isLimitNotified)
                                 .toggleStyle(SwitchToggleStyle(tint: Color("ButtonColor")))
+                                .labelsHidden()
                         }.padding(.leading,16)
                             .padding(.trailing,32)
                         HStack{
@@ -94,71 +88,76 @@ struct TaskAddEditView: View {
                                 .foregroundColor(Color("TextColor"))
                                 .font(.title3)
                             Spacer()
-                            Toggle("",isOn:$isPreNotified)
+                            Toggle("isPreNotified",isOn:$viewModel.isPreNotified)
                                 .toggleStyle(SwitchToggleStyle(tint: Color("ButtonColor")))
+                                .labelsHidden()
                         }.padding(.leading,16)
                             .padding(.trailing,32)
                         HStack(spacing:-8){
                             Text("最初の通知")
                                 .foregroundColor(Color("TextColor")
-                                    .opacity(isPreNotified ? 1.0 : 0.25)
+                                    .opacity(viewModel.isPreNotified ? 1.0 : 0.25)
                                 )
                                 .font(.title3)
                             Spacer()
                             // 数字を選択
-                            Picker("",selection:$firstNotifiedNum,content:{
+                            Picker("firstNotifiedNum",selection:$viewModel.firstNotifiedNum,content:{
                                 ForEach(nums, id:\.self) { value in
                                     Text("\(value)").tag(value)
                                 }
-                            }).onChange(of:firstNotifiedNum) { newValue in
+                            }).onChange(of:viewModel.firstNotifiedNum) { newValue in
                                 print(newValue)
                             }.pickerStyle(.menu)
+                                .labelsHidden()
                                 .tint(Color("TextColor"))
-                                .disabled(!isPreNotified)
+                                .disabled(!viewModel.isPreNotified)
                             // 時間日週を選択
-                            Picker("",selection:$firstNotifiedRange,content:{
+                            Picker("firstNotifiedRange",selection:$viewModel.firstNotifiedRange,content:{
                                 ForEach(ranges, id:\.self) { value in
                                     Text("\(value)").tag(value)
                                 }
-                            }).onChange(of:firstNotifiedRange) { newValue in
+                            }).onChange(of:viewModel.firstNotifiedRange) { newValue in
                                 print(newValue)
                             }.pickerStyle(.menu)
+                                .labelsHidden()
                                 .tint(Color("TextColor"))
-                                .disabled(!isPreNotified)
+                                .disabled(!viewModel.isPreNotified)
                                 .padding(.trailing,8)
                             Text("前")
                                 .foregroundColor(Color("TextColor")
-                                    .opacity(isPreNotified ? 1.0 : 0.25)
+                                    .opacity(viewModel.isPreNotified ? 1.0 : 0.25)
                                 )
                         }.padding(.leading,16)
                             .padding(.trailing,24)
                         HStack(spacing:-8){
                             Text("通知間隔")
                                 .foregroundColor(Color("TextColor")
-                                    .opacity(isPreNotified ? 1.0 : 0.25)
+                                    .opacity(viewModel.isPreNotified ? 1.0 : 0.25)
                                 )
                                 .font(.title3)
                             Spacer()
                             // 数字を選択
-                            Picker("",selection:$intervalNum,content:{
+                            Picker("intervalNotifiedNum",selection:$viewModel.intervalNotifiedNum,content:{
                                 ForEach(nums, id:\.self) { value in
                                     Text("\(value)").tag(value)
                                 }
-                            }).onChange(of:intervalNum) { newValue in
+                            }).onChange(of:viewModel.intervalNotifiedNum) { newValue in
                                 print(newValue)
                             }.pickerStyle(.menu)
+                                .labelsHidden()
                                 .tint(Color("TextColor"))
-                                .disabled(!isPreNotified)
+                                .disabled(!viewModel.isPreNotified)
                             // 時間日週を選択
-                            Picker("",selection:$intervalRange,content:{
+                            Picker("intervalNotifiedRange",selection:$viewModel.intervalNotifiedRange,content:{
                                 ForEach(ranges, id:\.self) { value in
                                     Text("\(value)").tag(value)
                                 }
-                            }).onChange(of:intervalRange) { newValue in
+                            }).onChange(of:viewModel.intervalNotifiedRange) { newValue in
                                 print(newValue)
                             }.pickerStyle(.menu)
+                                .labelsHidden()
                                 .tint(Color("TextColor"))
-                                .disabled(!isPreNotified)
+                                .disabled(!viewModel.isPreNotified)
                         }.padding(.leading,16)
                             .padding(.trailing,16)
                     }.padding(.top,40)
