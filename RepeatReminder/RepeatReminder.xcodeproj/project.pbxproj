@@ -138,6 +138,21 @@
 			path = RepeatReminderUITests;
 			sourceTree = "<group>";
 		};
+		FD4F31102B05E118009455D3 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				FD4F31112B05E127009455D3 /* Model */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		FD4F31112B05E127009455D3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		FD2814592B1307F9008429E1 /* Database */ = {
 			isa = PBXGroup;
 			children = (
@@ -193,22 +208,6 @@
 				FD8B19842B02683F00FBCC34 /* TaskCell.swift */,
 			);
 			path = Component;
-			sourceTree = "<group>";
-		};
-		FD9336BD2B036DBF002FD8C9 /* Domain */ = {
-			isa = PBXGroup;
-			children = (
-				FD9336BE2B036DDB002FD8C9 /* Model */,
-			);
-			path = Domain;
-			sourceTree = "<group>";
-		};
-		FD9336BE2B036DDB002FD8C9 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				FD28145E2B130ABF008429E1 /* Task.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		FD9336BF2B036DFC002FD8C9 /* ViewModels */ = {
