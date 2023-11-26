@@ -159,6 +159,8 @@
 				FD28145C2B1308AE008429E1 /* DB.swift */,
 			);
 			path = Database;
+			sourceTree = "<group>";
+		};
 		FD4F31102B05E118009455D3 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
