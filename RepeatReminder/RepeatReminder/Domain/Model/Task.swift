@@ -41,4 +41,12 @@ struct Task {
             print("Insert Failed")
         }
     }
+    
+    static func updateTask(task: Task){
+        if DB.shared.updateTask(task: task) {
+            print("Update success")
+        } else {
+            print("Update Failed")
+        }
+    }
 }

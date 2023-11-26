@@ -133,4 +133,62 @@ final class DB {
         
         return true
     }
+    
+    func updateTask(task: Task) -> Bool {
+        let updateSql = """
+        UPDATE  tasks
+        SET     name = ?,
+                deadline = ?,
+                is_limit_notified = ?,
+                is_pre_notified = ?,
+                first_notified_num = ?,
+                first_notified_range = ?,
+                interval_notified_num = ?,
+                interval_notified_range = ?,
+                is_completed = ?,
+                is_deleted = ?,
+        WHERE   taskid = ?
+        """
+        var updateStmt: OpaquePointer? = nil
+        
+        if sqlite3_prepare_v2(db, (updateSql as NSString).utf8String, -1, &updateStmt, nil) != SQLITE_OK {
+            print("db error: \(getDBErrorMessage(db))")
+            return false
+        }
+        
+        // Date型をString型に変換
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let dateString = formatter.string(from: task.deadline)
+        
+        sqlite3_bind_text(updateStmt, 1, (task.name as NSString).utf8String, -1, nil)
+        sqlite3_bind_text(updateStmt, 2, (dateString as NSString).utf8String, -1, nil)
+        sqlite3_bind_int(updateStmt, 3, Int32(task.isLimitNotified ? 1 : 0))
+        sqlite3_bind_int(updateStmt, 4, Int32(task.isPreNotified ? 1 : 0))
+        
+        if task.isPreNotified {
+            sqlite3_bind_int(updateStmt, 5, Int32(task.firstNotifiedNum))
+            sqlite3_bind_text(updateStmt, 6, (task.firstNotifiedRange as NSString).utf8String, -1, nil)
+            sqlite3_bind_int(updateStmt, 7, Int32(task.intervalNotifiedNum))
+            sqlite3_bind_text(updateStmt, 8, (task.intervalNotifiedRange as NSString).utf8String, -1, nil)
+        } else {
+            sqlite3_bind_null(updateStmt, 5)
+            sqlite3_bind_null(updateStmt, 6)
+            sqlite3_bind_null(updateStmt, 7)
+            sqlite3_bind_null(updateStmt, 8)
+        }
+        
+        sqlite3_bind_int(updateStmt, 9, Int32(task.isCompleted ? 1 : 0))
+        sqlite3_bind_int(updateStmt, 10, Int32(task.isDeleted ? 1 : 0))
+        sqlite3_bind_int(updateStmt, 11, Int32(task.taskId))
+        
+        if sqlite3_step(updateStmt) != SQLITE_DONE {
+            print("db error: \(getDBErrorMessage(db))")
+            sqlite3_finalize(updateStmt)
+            return false
+        }
+        sqlite3_finalize(updateStmt)
+        
+        return true
+    }
 }
