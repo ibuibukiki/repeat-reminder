@@ -24,5 +24,9 @@
   * Domain : データモデルを管理
     * Models
   * Infrastructure : 外部リソースの情報を管理
-    * Assets 
+    * Assets
+
+***
+
+デザインやデータベースの定義など、その他の詳細は [Figma](https://www.figma.com/file/yT7NwfrnZssVU1OEmA7K3v/RepeatReminder?type=design&node-id=24-17&mode=design&t=jnbHELUgyhaSQkzg-0) へ
   
