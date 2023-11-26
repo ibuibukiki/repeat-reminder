@@ -9,6 +9,7 @@ import Foundation
 
 struct Task {
     var taskId: Int
+    var name: String
     var deadline: Date
     var isLimitNotified: Bool
     var isPreNotified: Bool
@@ -19,8 +20,9 @@ struct Task {
     var isCompleted: Bool
     var isDeleted: Bool
     
-    init(taskId: Int, deadline: Date, isLimitNotified: Bool, isPreNotified: Bool, firstNotifiedNum: Int, firstNotifiedRange: String, intervalNotifiedNum: Int, intervalNotifiedRange: String, isCompleted: Bool, isDeleted: Bool) {
+    init(taskId: Int, name: String, deadline: Date, isLimitNotified: Bool, isPreNotified: Bool, firstNotifiedNum: Int, firstNotifiedRange: String, intervalNotifiedNum: Int, intervalNotifiedRange: String, isCompleted: Bool, isDeleted: Bool) {
         self.taskId = taskId
+        self.name = name
         self.deadline = deadline
         self.isLimitNotified = isLimitNotified
         self.isPreNotified = isPreNotified
@@ -30,5 +32,13 @@ struct Task {
         self.intervalNotifiedRange = intervalNotifiedRange
         self.isCompleted = isCompleted
         self.isDeleted = isDeleted
+    }
+    
+    static func insertTask(task: Task){
+        if DB.shared.insertTask(task: task) {
+            print("Insert success")
+        } else {
+            print("Insert Failed")
+        }
     }
 }
