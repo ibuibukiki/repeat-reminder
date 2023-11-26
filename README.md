@@ -28,5 +28,5 @@
 
 ***
 
-デザインやデータベースの定義など、その他の詳細は [Figma]([https://www.figma.com/file/yT7NwfrnZssVU1OEmA7K3v/RepeatReminder?type=design&node-id=24-17&mode=design&t=jnbHELUgyhaSQkzg-0](https://www.figma.com/file/yT7NwfrnZssVU1OEmA7K3v/RepeatReminder?type=design&node-id=0%3A1&mode=design&t=jnbHELUgyhaSQkzg-1)https://www.figma.com/file/yT7NwfrnZssVU1OEmA7K3v/RepeatReminder?type=design&node-id=0%3A1&mode=design&t=jnbHELUgyhaSQkzg-1) へ
+デザインやデータベースの定義など、その他の詳細は [Figma](https://www.figma.com/file/yT7NwfrnZssVU1OEmA7K3v/RepeatReminder?type=design&node-id=24-17&mode=design&t=jnbHELUgyhaSQkzg-0](https://www.figma.com/file/yT7NwfrnZssVU1OEmA7K3v/RepeatReminder?type=design&node-id=0%3A1&mode=design&t=jnbHELUgyhaSQkzg-1)https://www.figma.com/file/yT7NwfrnZssVU1OEmA7K3v/RepeatReminder?type=design&node-id=0%3A1&mode=design&t=jnbHELUgyhaSQkzg-1) へ
   
