@@ -36,9 +36,10 @@ final class RepeatReminderTests: XCTestCase {
     func testInsertDB() {
         XCTAssertNoThrow(try db.insertTask(task: task), "Insert task should be successfull")
         
-        let result = db.getTask(taskId: 1)
-        XCTAssertTrue(result.success, "Get task should be successfull")
-        XCTAssertEqual(result.task?.name, task.name, "Task name should have the correct name")
+        var result: Task?
+        
+        XCTAssertNoThrow(result = try? db.getTask(taskId: 1), "Get task should be successfull")
+        XCTAssertEqual(result?.name, task.name, "Task name should have the correct name")
     }
 
     func testPerformanceExample() throws {

@@ -48,9 +48,9 @@ struct Task {
             throw TaskError.databaseUnavailable
         }
         
-        if db.insertTask(task: task) {
-            print("Insert success")
-        } else {
+        do {
+            try db.insertTask(task: task)
+        } catch {
             throw TaskError.insertFailed
         }
     }
@@ -67,22 +67,18 @@ struct Task {
         }
     }
     
-    static func getTask(taskId: Int) throws -> Task {
+    static func getTask(taskId: Int) throws -> Task? {
         guard let db = DB.shared else {
             throw TaskError.databaseUnavailable
         }
         
-        let (success, errorMessage, task) = db.getTask(taskId: taskId)
-        if(success){
-            if let task = task {
-                print(task)
-                return task
-            } else {
-                print("Task not found")
+        do {
+            let task = try db.getTask(taskId: taskId)
+            guard task != nil else{
                 throw TaskError.getNotFound
             }
-        } else {
-            print(errorMessage ?? "Error")
+            return task
+        } catch {
             throw TaskError.getFailed
         }
     }

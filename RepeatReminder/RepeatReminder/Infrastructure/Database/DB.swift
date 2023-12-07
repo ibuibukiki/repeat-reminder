@@ -11,6 +11,8 @@ import SQLite3
 enum DatabaseError: Error {
     case openDatabaseFailed(String)
     case createTableFailed(String)
+    case insertTaskFailed(String)
+    case getTaskFailed(String, Task?)
 }
 
 final class DB {
@@ -89,8 +91,7 @@ final class DB {
         }
     }
     
-    
-    func insertTask(task: Task) -> Bool {
+    func insertTask(task: Task) throws {
         let insertSql = """
                         INSERT INTO tasks (
                                 task_id, name, deadline, is_limit_notified, is_pre_notified,
@@ -104,8 +105,8 @@ final class DB {
         var insertStmt: OpaquePointer? = nil
         
         if sqlite3_prepare_v2(db, (insertSql as NSString).utf8String, -1, &insertStmt, nil) != SQLITE_OK {
-            print("db error: \(getDBErrorMessage(db))")
-            return false
+            let errorMessage = getDBErrorMessage(db)
+            throw DatabaseError.insertTaskFailed(errorMessage)
         }
         
         // Date型をString型に変換
@@ -135,13 +136,12 @@ final class DB {
         sqlite3_bind_int(insertStmt, 11, Int32(task.isDeleted ? 1 : 0))
         
         if sqlite3_step(insertStmt) != SQLITE_DONE {
-            print("db error: \(getDBErrorMessage(db))")
+            let errorMessage = getDBErrorMessage(db)
             sqlite3_finalize(insertStmt)
-            return false
+            throw DatabaseError.insertTaskFailed(errorMessage)
         }
-        sqlite3_finalize(insertStmt)
         
-        return true
+        sqlite3_finalize(insertStmt)
     }
     
     func updateTask(task: Task) -> Bool {
@@ -202,7 +202,7 @@ final class DB {
         return true
     }
     
-    func getTask(taskId: Int) -> (success: Bool, errorMessage: String?, task: Task?) {
+    func getTask(taskId: Int) throws -> Task? {
         
         var task: Task? = nil
         
@@ -213,8 +213,10 @@ final class DB {
                 """
         
         var stmt: OpaquePointer? = nil
+        
         if sqlite3_prepare_v2(db, (sql as NSString).utf8String, -1, &stmt, nil) != SQLITE_OK {
-            return (false, "Unexpected error: \(getDBErrorMessage(db)).", task)
+            let errorMessage = getDBErrorMessage(db)
+            throw DatabaseError.getTaskFailed(errorMessage, task)
         }
         
         sqlite3_bind_int(stmt, 1, Int32(taskId))
@@ -227,9 +229,10 @@ final class DB {
         if sqlite3_step(stmt) == SQLITE_ROW {
             let taskId = Int(sqlite3_column_int(stmt, 0))
             let name = String(describing: String(cString: sqlite3_column_text(stmt, 1)))
+            
             guard let deadline = formatter.date(from: String(cString: sqlite3_column_text(stmt, 2))) else {
-                print("value error: deadline null")
-                return (false, nil, nil)
+                let errorMessage = "value error: deadline null"
+                throw DatabaseError.getTaskFailed(errorMessage, nil)
             }
             
             let isLimitNotified = sqlite3_column_int(stmt, 3)==1 ? true : false
@@ -254,15 +257,15 @@ final class DB {
             let isCompleted = sqlite3_column_int(stmt, 9)==1 ? true : false
             let isDeleted = sqlite3_column_int(stmt, 10)==1 ? true : false
             
-            let task = Task(taskId:taskId, name:name, deadline:deadline, 
-                            isLimitNotified:isLimitNotified, isPreNotified:isPreNotified,
-                            firstNotifiedNum:firstNotifiedNum,firstNotifiedRange:firstNotifiedRange,
-                            intervalNotifiedNum:intervalNotifiedNum, intervalNotifiedRange:intervalNotifiedRange,
-                            isCompleted:isCompleted, isDeleted:isDeleted)
+            task = Task(taskId:taskId, name:name, deadline:deadline,
+                        isLimitNotified:isLimitNotified, isPreNotified:isPreNotified,
+                        firstNotifiedNum:firstNotifiedNum,firstNotifiedRange:firstNotifiedRange,
+                        intervalNotifiedNum:intervalNotifiedNum, intervalNotifiedRange:intervalNotifiedRange,
+                        isCompleted:isCompleted, isDeleted:isDeleted)
         }
         
         sqlite3_finalize(stmt)
-        return (true, nil, task)
+        return task
     }
     
     func deleteTask(taskId: Int) -> Bool {
