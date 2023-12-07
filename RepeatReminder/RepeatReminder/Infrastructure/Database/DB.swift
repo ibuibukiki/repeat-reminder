@@ -61,7 +61,7 @@ final class DB {
             interval_notified_num INTEGER NULL,
             interval_notified_range TEXT NULL,
             is_completed INTEGER NOT NULL,
-            is_deleted INTEGER NOT NULL,
+            is_deleted INTEGER NOT NULL
         );
         """
         
@@ -96,7 +96,7 @@ final class DB {
                                 task_id, name, deadline, is_limit_notified, is_pre_notified,
                                 first_notified_num, first_notified_range,
                                 interval_notified_num, interval_notified_range,
-                                is_completed, is_deleted,
+                                is_completed, is_deleted
                             )
                             VALUES
                             (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
@@ -156,7 +156,7 @@ final class DB {
                 interval_notified_num = ?,
                 interval_notified_range = ?,
                 is_completed = ?,
-                is_deleted = ?,
+                is_deleted = ?
         WHERE   taskid = ?
         """
         var updateStmt: OpaquePointer? = nil
