@@ -8,20 +8,31 @@
 import Foundation
 import SQLite3
 
+enum DatabaseError: Error {
+    case openDatabaseFailed(String)
+    case createTableFailed(String)
+}
+
 final class DB {
     static let shared = DB()
     
     private let dbFile = "DBVer1.sqlite"
     private var db: OpaquePointer?
     
-    private init() {
-        db = openDatabase()
-        if !createTable() {
-            print("Failed to create table")
+    private init?() {
+        do {
+            db = try openDatabase()
+            try createTable()
+        } catch let error as DatabaseError {
+            print("Database initialization failed: \(error)")
+            return nil
+        } catch {
+            print("An unexpected error occurred: \(error)")
+            return nil
         }
     }
     
-    private func openDatabase() -> OpaquePointer? {
+    private func openDatabase() throws -> OpaquePointer? {
         let fileURL = try! FileManager.default.url(for: .documentDirectory,
                                                    in: .userDomainMask,
                                                    appropriateFor: nil,
@@ -29,16 +40,15 @@ final class DB {
         
         var db: OpaquePointer? = nil
         if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
-            print("Failed to open database")
-            return nil
-        }
-        else {
+            let errorMessage = getDBErrorMessage(db)
+            throw DatabaseError.openDatabaseFailed(errorMessage)
+        } else {
             print("Opened connection to database")
             return db
         }
     }
     
-    private func createTable() -> Bool {
+    private func createTable() throws {
         let createSql = """
         CREATE TABLE IF NOT EXISTS tasks (
             task_id INTEGER NOT NULL PRIMARY KEY,
@@ -58,18 +68,17 @@ final class DB {
         var createStmt: OpaquePointer? = nil
         
         if sqlite3_prepare_v2(db, (createSql as NSString).utf8String, -1, &createStmt, nil) != SQLITE_OK {
-            print("db error: \(getDBErrorMessage(db))")
-            return false
+            let errorMessage = getDBErrorMessage(db)
+            throw DatabaseError.createTableFailed(errorMessage)
         }
         
         if sqlite3_step(createStmt) != SQLITE_DONE {
-            print("db error: \(getDBErrorMessage(db))")
+            let errorMessage = getDBErrorMessage(db)
             sqlite3_finalize(createStmt)
-            return false
+            throw DatabaseError.createTableFailed(errorMessage)
         }
         
         sqlite3_finalize(createStmt)
-        return true
     }
     
     private func getDBErrorMessage(_ db: OpaquePointer?) -> String {
