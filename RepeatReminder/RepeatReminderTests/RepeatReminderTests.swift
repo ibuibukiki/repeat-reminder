@@ -41,6 +41,13 @@ final class RepeatReminderTests: XCTestCase {
         XCTAssertNoThrow(result = try? db.getTask(taskId: 1), "Get task should be successfull")
         XCTAssertEqual(result?.name, task.name, "Task name should have the correct name")
     }
+    
+    func testGetDBNotFound() {
+        var result: Task?
+        
+        XCTAssertNoThrow(result = try? db.getTask(taskId: 100), "Get task should be successfull")
+        XCTAssertNil(result, "Task should be nil")
+    }
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
