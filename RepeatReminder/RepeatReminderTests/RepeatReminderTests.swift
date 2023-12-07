@@ -9,18 +9,36 @@ import XCTest
 @testable import RepeatReminder
 
 final class RepeatReminderTests: XCTestCase {
+    
+    var db: DB!
+    var task: Task!
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        super.setUp()
+        db = DB.shared
+        task = Task(taskId: 1, name: "Test Task", deadline: Date(),
+                        isLimitNotified: true, isPreNotified: false,
+                        firstNotifiedNum: nil, firstNotifiedRange: nil,
+                        intervalNotifiedNum: nil, intervalNotifiedRange: nil,
+                        isCompleted: false, isDeleted: false)
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        db = nil
+        task = nil
+        super.tearDown()
     }
 
     func testInitializedDB() {
-        let db = DB.shared
         XCTAssertNotNil(db, "DB instance should not be nil")
+    }
+    
+    func testInsertDB() {
+        XCTAssertNoThrow(try db.insertTask(task: task), "Insert task should be successfull")
+        
+        let result = db.getTask(taskId: 1)
+        XCTAssertTrue(result.success, "Get task should be successfull")
+        XCTAssertEqual(result.task?.name, task.name, "Task name should have the correct name")
     }
 
     func testPerformanceExample() throws {
