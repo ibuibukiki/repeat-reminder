@@ -15,6 +15,7 @@ enum DatabaseError: Error {
     case noRecordFound
     case updateTaskFailed(String)
     case getTaskFailed(String, Task?)
+    case deleteTaskFailed(String)
 }
 
 final class DB {
@@ -286,25 +287,41 @@ final class DB {
         return task
     }
     
-    func deleteTask(taskId: Int) -> Bool {
+    func deleteTask(taskId: Int) throws {
+        // レコードの存在チェック
+        let checkSql = "SELECT COUNT(*) FROM tasks WHERE task_id = ?"
+        var checkStmt: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, checkSql, -1, &checkStmt, nil) == SQLITE_OK {
+            sqlite3_bind_int(checkStmt, 1, Int32(taskId))
+
+            if sqlite3_step(checkStmt) == SQLITE_ROW {
+                let count = sqlite3_column_int(checkStmt, 0)
+                if count == 0 {
+                    // レコードが存在しない場合のエラー
+                    throw DatabaseError.noRecordFound
+                }
+            }
+        }
+        sqlite3_finalize(checkStmt)
+        
+        // 削除処理
         let deleteSql = "DELETE FROM tasks WHERE task_id = ?;";
         var deleteStmt: OpaquePointer? = nil
         
         if sqlite3_prepare_v2(db, (deleteSql as NSString).utf8String, -1, &deleteStmt, nil) != SQLITE_OK {
-            print("db error: \(getDBErrorMessage(db))")
-            return false
+            let errorMessage = getDBErrorMessage(db)
+            throw DatabaseError.deleteTaskFailed(errorMessage)
         }
         
         sqlite3_bind_int(deleteStmt, 1, Int32(taskId))
         
         if sqlite3_step(deleteStmt) != SQLITE_DONE {
-            print("db error: \(getDBErrorMessage(db))")
+            let errorMessage = getDBErrorMessage(db)
             sqlite3_finalize(deleteStmt)
-            return false
+            throw DatabaseError.deleteTaskFailed(errorMessage)
         }
 
         sqlite3_finalize(deleteStmt)
-        return true
     }
 
 }
