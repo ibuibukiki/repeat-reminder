@@ -33,7 +33,7 @@ final class RepeatReminderTests: XCTestCase {
         XCTAssertNotNil(db, "DB instance should not be nil")
     }
     
-    func testInsertDB() {
+    func testInsertTask() {
         XCTAssertNoThrow(try db.insertTask(task: task), "Insert task should be successfull")
         
         var result: Task?
@@ -42,11 +42,36 @@ final class RepeatReminderTests: XCTestCase {
         XCTAssertEqual(result?.name, task.name, "Task name should have the correct name")
     }
     
-    func testGetDBNotFound() {
+    func testGetTaskNotFound() {
         var result: Task?
         
         XCTAssertNoThrow(result = try? db.getTask(taskId: 100), "Get task should be successfull")
         XCTAssertNil(result, "Task should be nil")
+    }
+    
+    func testUpdateTask() {
+        let taskUpdated = Task(taskId: 1, name: "Test Task Updated", deadline: Date(),
+                            isLimitNotified: true, isPreNotified: false,
+                            firstNotifiedNum: nil, firstNotifiedRange: nil,
+                            intervalNotifiedNum: nil, intervalNotifiedRange: nil,
+                            isCompleted: false, isDeleted: false)
+        
+        XCTAssertNoThrow(try db.updateTask(task: taskUpdated), "Update task should be successfull")
+        
+        var result: Task?
+        
+        XCTAssertNoThrow(result = try? db.getTask(taskId: 1), "Get task should be successfull")
+        XCTAssertEqual(result?.name, taskUpdated.name, "Task name should have the correct changed name")
+    }
+    
+    func testUpdateFailed() {
+        let taskUpdateFailed = Task(taskId: 2, name: "Test Task Updated", deadline: Date(),
+                                    isLimitNotified: true, isPreNotified: false,
+                                    firstNotifiedNum: nil, firstNotifiedRange: nil,
+                                    intervalNotifiedNum: nil, intervalNotifiedRange: nil,
+                                    isCompleted: false, isDeleted: false)
+        
+        XCTAssertThrowsError(try db.updateTask(task: taskUpdateFailed), "Update task should be failed")
     }
 
     func testPerformanceExample() throws {
