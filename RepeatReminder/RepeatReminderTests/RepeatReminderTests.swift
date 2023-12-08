@@ -64,7 +64,7 @@ final class RepeatReminderTests: XCTestCase {
         XCTAssertEqual(result?.name, taskUpdated.name, "Task name should have the correct changed name")
     }
     
-    func testUpdateFailed() {
+    func testUpdateTaskFailed() {
         let taskUpdateFailed = Task(taskId: 2, name: "Test Task Updated", deadline: Date(),
                                     isLimitNotified: true, isPreNotified: false,
                                     firstNotifiedNum: nil, firstNotifiedRange: nil,
@@ -72,6 +72,14 @@ final class RepeatReminderTests: XCTestCase {
                                     isCompleted: false, isDeleted: false)
         
         XCTAssertThrowsError(try db.updateTask(task: taskUpdateFailed), "Update task should be failed")
+    }
+    
+    func testDeleteTask() {
+        XCTAssertNoThrow(try db.deleteTask(taskId: 1), "Delete task should be successfull")
+    }
+    
+    func testDeleteTaskFailed() {
+        XCTAssertThrowsError(try db.deleteTask(taskId: 2), "Delete task should be failed")
     }
 
     func testPerformanceExample() throws {
