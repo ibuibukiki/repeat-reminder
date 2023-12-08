@@ -9,21 +9,77 @@ import XCTest
 @testable import RepeatReminder
 
 final class RepeatReminderTests: XCTestCase {
+    
+    var db: DB!
+    var task: Task!
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        super.setUp()
+        db = DB.shared
+        task = Task(taskId: 1, name: "Test Task", deadline: Date(),
+                        isLimitNotified: true, isPreNotified: false,
+                        firstNotifiedNum: nil, firstNotifiedRange: nil,
+                        intervalNotifiedNum: nil, intervalNotifiedRange: nil,
+                        isCompleted: false, isDeleted: false)
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        db = nil
+        task = nil
+        super.tearDown()
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    func testInitializedDB() {
+        XCTAssertNotNil(db, "DB instance should not be nil")
+    }
+    
+    func testInsertTask() {
+        XCTAssertNoThrow(try db.insertTask(task: task), "Insert task should be successfull")
+        
+        var result: Task?
+        
+        XCTAssertNoThrow(result = try? db.getTask(taskId: 1), "Get task should be successfull")
+        XCTAssertEqual(result?.name, task.name, "Task name should have the correct name")
+    }
+    
+    func testGetTaskNotFound() {
+        var result: Task?
+        
+        XCTAssertNoThrow(result = try? db.getTask(taskId: 100), "Get task should be successfull")
+        XCTAssertNil(result, "Task should be nil")
+    }
+    
+    func testUpdateTask() {
+        let taskUpdated = Task(taskId: 1, name: "Test Task Updated", deadline: Date(),
+                            isLimitNotified: true, isPreNotified: false,
+                            firstNotifiedNum: nil, firstNotifiedRange: nil,
+                            intervalNotifiedNum: nil, intervalNotifiedRange: nil,
+                            isCompleted: false, isDeleted: false)
+        
+        XCTAssertNoThrow(try db.updateTask(task: taskUpdated), "Update task should be successfull")
+        
+        var result: Task?
+        
+        XCTAssertNoThrow(result = try? db.getTask(taskId: 1), "Get task should be successfull")
+        XCTAssertEqual(result?.name, taskUpdated.name, "Task name should have the correct changed name")
+    }
+    
+    func testUpdateTaskFailed() {
+        let taskUpdateFailed = Task(taskId: 2, name: "Test Task Updated", deadline: Date(),
+                                    isLimitNotified: true, isPreNotified: false,
+                                    firstNotifiedNum: nil, firstNotifiedRange: nil,
+                                    intervalNotifiedNum: nil, intervalNotifiedRange: nil,
+                                    isCompleted: false, isDeleted: false)
+        
+        XCTAssertThrowsError(try db.updateTask(task: taskUpdateFailed), "Update task should be failed")
+    }
+    
+    func testDeleteTask() {
+        XCTAssertNoThrow(try db.deleteTask(taskId: 1), "Delete task should be successfull")
+    }
+    
+    func testDeleteTaskFailed() {
+        XCTAssertThrowsError(try db.deleteTask(taskId: 2), "Delete task should be failed")
     }
 
     func testPerformanceExample() throws {

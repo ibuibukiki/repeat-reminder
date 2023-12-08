@@ -7,6 +7,15 @@
 
 import Foundation
 
+enum TaskError: Error {
+    case databaseUnavailable
+    case insertFailed
+    case updateFailed
+    case getFailed
+    case getNotFound
+    case deleteFailed
+}
+
 struct Task {
     var taskId: Int
     var name: String
@@ -34,42 +43,55 @@ struct Task {
         self.isDeleted = isDeleted
     }
     
-    static func insertTask(task: Task) {
-        if DB.shared.insertTask(task: task) {
-            print("Insert success")
-        } else {
-            print("Insert Failed")
+    static func insertTask(task: Task) throws {
+        guard let db = DB.shared else {
+            throw TaskError.databaseUnavailable
+        }
+        
+        do {
+            try db.insertTask(task: task)
+        } catch {
+            throw TaskError.insertFailed
         }
     }
     
-    static func updateTask(task: Task) {
-        if DB.shared.updateTask(task: task) {
-            print("Update success")
-        } else {
-            print("Update Failed")
+    static func updateTask(task: Task) throws {
+        guard let db = DB.shared else {
+            throw TaskError.databaseUnavailable
+        }
+        
+        do {
+            try db.updateTask(task: task)
+        } catch {
+            throw TaskError.updateFailed
         }
     }
     
-    static func getTask(taskId: Int) -> Task? {
-        let (success, errorMessage, task) = DB.shared.getTask(taskId: taskId)
-        if(success){
-            if let task = task {
-                print(task)
-                return task
-            } else {
-                print("Task not found")
+    static func getTask(taskId: Int) throws -> Task? {
+        guard let db = DB.shared else {
+            throw TaskError.databaseUnavailable
+        }
+        
+        do {
+            let task = try db.getTask(taskId: taskId)
+            guard task != nil else{
+                throw TaskError.getNotFound
             }
-        } else {
-            print(errorMessage ?? "Error")
+            return task
+        } catch {
+            throw TaskError.getFailed
         }
-        return nil
     }
     
-    static func deleteTask(taskId: Int) {
-        if DB.shared.deleteTask(taskId: taskId) {
-            print("Delete success")
-        } else {
-            print("Delete Failed")
+    static func deleteTask(taskId: Int) throws {
+        guard let db = DB.shared else {
+            throw TaskError.databaseUnavailable
+        }
+        
+        do {
+            try db.deleteTask(taskId: taskId)
+        } catch {
+            throw TaskError.updateFailed
         }
     }
 }
