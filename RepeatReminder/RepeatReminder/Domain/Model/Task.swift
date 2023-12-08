@@ -88,9 +88,9 @@ struct Task {
             throw TaskError.databaseUnavailable
         }
         
-        if db.deleteTask(taskId: taskId) {
-            print("Delete success")
-        } else {
+        do {
+            try db.deleteTask(taskId: taskId)
+        } catch {
             throw TaskError.deleteFailed
         }
     }
