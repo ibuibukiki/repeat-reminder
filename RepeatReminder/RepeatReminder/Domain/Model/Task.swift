@@ -60,9 +60,9 @@ struct Task {
             throw TaskError.databaseUnavailable
         }
         
-        if db.updateTask(task: task) {
-            print("Update success")
-        } else {
+        do {
+            try db.updateTask(task: task)
+        } catch {
             throw TaskError.updateFailed
         }
     }

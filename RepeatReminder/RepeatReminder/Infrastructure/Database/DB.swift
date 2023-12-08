@@ -12,6 +12,8 @@ enum DatabaseError: Error {
     case openDatabaseFailed(String)
     case createTableFailed(String)
     case insertTaskFailed(String)
+    case noRecordFound
+    case updateTaskFailed(String)
     case getTaskFailed(String, Task?)
 }
 
@@ -144,7 +146,24 @@ final class DB {
         sqlite3_finalize(insertStmt)
     }
     
-    func updateTask(task: Task) -> Bool {
+    func updateTask(task: Task) throws {
+        // レコードの存在チェック
+        let checkSql = "SELECT COUNT(*) FROM tasks WHERE task_id = ?"
+        var checkStmt: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, checkSql, -1, &checkStmt, nil) == SQLITE_OK {
+            sqlite3_bind_int(checkStmt, 1, Int32(task.taskId))
+
+            if sqlite3_step(checkStmt) == SQLITE_ROW {
+                let count = sqlite3_column_int(checkStmt, 0)
+                if count == 0 {
+                    // レコードが存在しない場合のエラー
+                    throw DatabaseError.noRecordFound
+                }
+            }
+        }
+        sqlite3_finalize(checkStmt)
+        
+        // 更新処理
         let updateSql = """
         UPDATE  tasks
         SET     name = ?,
@@ -157,13 +176,13 @@ final class DB {
                 interval_notified_range = ?,
                 is_completed = ?,
                 is_deleted = ?
-        WHERE   taskid = ?
+        WHERE   task_id = ?
         """
         var updateStmt: OpaquePointer? = nil
         
         if sqlite3_prepare_v2(db, (updateSql as NSString).utf8String, -1, &updateStmt, nil) != SQLITE_OK {
-            print("db error: \(getDBErrorMessage(db))")
-            return false
+            let errorMessage = getDBErrorMessage(db)
+            throw DatabaseError.updateTaskFailed(errorMessage)
         }
         
         // Date型をString型に変換
@@ -193,13 +212,12 @@ final class DB {
         sqlite3_bind_int(updateStmt, 11, Int32(task.taskId))
         
         if sqlite3_step(updateStmt) != SQLITE_DONE {
-            print("db error: \(getDBErrorMessage(db))")
+            let errorMessage = getDBErrorMessage(db)
             sqlite3_finalize(updateStmt)
-            return false
+            throw DatabaseError.updateTaskFailed(errorMessage)
         }
-        sqlite3_finalize(updateStmt)
         
-        return true
+        sqlite3_finalize(updateStmt)
     }
     
     func getTask(taskId: Int) throws -> Task? {
