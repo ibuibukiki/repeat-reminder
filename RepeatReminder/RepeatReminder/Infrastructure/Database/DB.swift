@@ -15,14 +15,14 @@ enum DatabaseError: Error {
     case noRecordFound
     case updateTaskFailed(String)
     case getTaskFailed(String, Task?)
-    case getAllTasksFailed(String)
+    case getTasksFailed(String)
     case deleteTaskFailed(String)
 }
 
 final class DB {
     static let shared = DB()
     
-    private let dbFile = "DBVer98.sqlite"
+    private let dbFile = "DBVer1.sqlite"
     private var db: OpaquePointer?
     
     private init?() {
@@ -306,7 +306,7 @@ final class DB {
         
         if sqlite3_prepare_v2(db, (sql as NSString).utf8String, -1, &stmt, nil) != SQLITE_OK {
             let errorMessage = getDBErrorMessage(db)
-            throw DatabaseError.getAllTasksFailed(errorMessage)
+            throw DatabaseError.getTasksFailed(errorMessage)
         }
         
         if isCompleted == nil {
@@ -372,7 +372,7 @@ final class DB {
                             firstNotifiedNum:firstNotifiedNum,firstNotifiedRange:firstNotifiedRange,
                             intervalNotifiedNum:intervalNotifiedNum, intervalNotifiedRange:intervalNotifiedRange,
                             isCompleted:isCompleted, isDeleted:isDeleted)
-            
+            print(task.taskId)
             tasks.append(task)
         }
         sqlite3_finalize(stmt)
