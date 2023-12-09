@@ -15,6 +15,7 @@ enum DatabaseError: Error {
     case noRecordFound
     case updateTaskFailed(String)
     case getTaskFailed(String, Task?)
+    case getTasksFailed(String)
     case deleteTaskFailed(String)
 }
 
@@ -285,6 +286,98 @@ final class DB {
         
         sqlite3_finalize(stmt)
         return task
+    }
+    
+    /// 該当するタスクをデータベースから取得
+    /// - Parameters:
+    ///   - isCompleted: bool?  true=完了済みのタスクを取得 / false=未完了のタスクを取得 nilなら両方
+    ///   - isDeleted: bool?  true=画面上から削除したタスクを取得 / false=画面上に表示しているタスクを取得 nilなら両方
+    /// - Returns: [Task]  該当するタスクが入ったリスト
+    func getTasks(isCompleted: Bool?, isDeleted: Bool?) throws -> [Task] {
+        var tasks: [Task] = []
+        
+        let sql = """
+                SELECT  *
+                FROM    tasks
+                WHERE (is_completed = ? OR is_completed = ?) AND (is_deleted = ? OR is_deleted = ?);
+                """
+        
+        var stmt: OpaquePointer? = nil
+        
+        if sqlite3_prepare_v2(db, (sql as NSString).utf8String, -1, &stmt, nil) != SQLITE_OK {
+            let errorMessage = getDBErrorMessage(db)
+            throw DatabaseError.getTasksFailed(errorMessage)
+        }
+        
+        if isCompleted == nil {
+            sqlite3_bind_int(stmt, 1, 1)
+            sqlite3_bind_int(stmt, 2, 0)
+        } else if isCompleted! {
+            sqlite3_bind_int(stmt, 1, 1)
+            sqlite3_bind_int(stmt, 2, 1)
+        } else {
+            sqlite3_bind_int(stmt, 1, 0)
+            sqlite3_bind_int(stmt, 2, 0)
+        }
+        
+        if isDeleted == nil {
+            sqlite3_bind_int(stmt, 3, 1)
+            sqlite3_bind_int(stmt, 4, 0)
+        } else if isDeleted! {
+            sqlite3_bind_int(stmt, 3, 1)
+            sqlite3_bind_int(stmt, 4, 1)
+        } else {
+            sqlite3_bind_int(stmt, 3, 0)
+            sqlite3_bind_int(stmt, 4, 0)
+        }
+        
+        // String型をDate型に変換
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        formatter.locale = Locale(identifier: "ja_JP")
+        
+        while sqlite3_step(stmt) == SQLITE_ROW {
+            let taskId = Int(sqlite3_column_int(stmt, 0))
+            let name = String(describing: String(cString: sqlite3_column_text(stmt, 1)))
+            
+            guard let deadline = formatter.date(from: String(cString: sqlite3_column_text(stmt, 2))) else {
+                let errorMessage = "value error: deadline null"
+                throw DatabaseError.getTaskFailed(errorMessage, nil)
+            }
+            
+            let isLimitNotified = sqlite3_column_int(stmt, 3)==1 ? true : false
+            let isPreNotified = sqlite3_column_int(stmt, 4)==1 ? true : false
+            
+            var firstNotifiedNum: Int?
+            var firstNotifiedRange: String?
+            var intervalNotifiedNum: Int?
+            var intervalNotifiedRange: String?
+            if isPreNotified {
+                firstNotifiedNum = Int(sqlite3_column_int(stmt, 5))
+                firstNotifiedRange = String(describing: String(cString: sqlite3_column_text(stmt, 6)))
+                intervalNotifiedNum = Int(sqlite3_column_int(stmt, 7))
+                intervalNotifiedRange = String(describing: String(cString: sqlite3_column_text(stmt, 8)))
+            } else {
+                firstNotifiedNum = nil
+                firstNotifiedRange = nil
+                intervalNotifiedNum = nil
+                intervalNotifiedRange = nil
+            }
+            
+            let isCompleted = sqlite3_column_int(stmt, 9)==1 ? true : false
+            let isDeleted = sqlite3_column_int(stmt, 10)==1 ? true : false
+            
+            let task = Task(taskId:taskId, name:name, deadline:deadline,
+                            isLimitNotified:isLimitNotified, isPreNotified:isPreNotified,
+                            firstNotifiedNum:firstNotifiedNum,firstNotifiedRange:firstNotifiedRange,
+                            intervalNotifiedNum:intervalNotifiedNum, intervalNotifiedRange:intervalNotifiedRange,
+                            isCompleted:isCompleted, isDeleted:isDeleted)
+            print(task.taskId)
+            tasks.append(task)
+        }
+        sqlite3_finalize(stmt)
+        
+        return tasks
     }
     
     func deleteTask(taskId: Int) throws {
