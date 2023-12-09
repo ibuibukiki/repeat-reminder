@@ -10,7 +10,7 @@
 		FD1396542AF7D39000003C37 /* RepeatReminderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1396532AF7D39000003C37 /* RepeatReminderApp.swift */; };
 		FD1396582AF7D39100003C37 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD1396572AF7D39100003C37 /* Assets.xcassets */; };
 		FD13965B2AF7D39100003C37 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD13965A2AF7D39100003C37 /* Preview Assets.xcassets */; };
-		FD1396652AF7D39100003C37 /* RepeatReminderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1396642AF7D39100003C37 /* RepeatReminderTests.swift */; };
+		FD1396652AF7D39100003C37 /* DBTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1396642AF7D39100003C37 /* DBTests.swift */; };
 		FD13966F2AF7D39100003C37 /* RepeatReminderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD13966E2AF7D39100003C37 /* RepeatReminderUITests.swift */; };
 		FD1396712AF7D39100003C37 /* RepeatReminderUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1396702AF7D39100003C37 /* RepeatReminderUITestsLaunchTests.swift */; };
 		FD28145D2B1308AE008429E1 /* DB.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD28145C2B1308AE008429E1 /* DB.swift */; };
@@ -44,7 +44,7 @@
 		FD1396572AF7D39100003C37 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FD13965A2AF7D39100003C37 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		FD1396602AF7D39100003C37 /* RepeatReminderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RepeatReminderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FD1396642AF7D39100003C37 /* RepeatReminderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatReminderTests.swift; sourceTree = "<group>"; };
+		FD1396642AF7D39100003C37 /* DBTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBTests.swift; sourceTree = "<group>"; };
 		FD13966A2AF7D39100003C37 /* RepeatReminderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RepeatReminderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD13966E2AF7D39100003C37 /* RepeatReminderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatReminderUITests.swift; sourceTree = "<group>"; };
 		FD1396702AF7D39100003C37 /* RepeatReminderUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatReminderUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -125,7 +125,7 @@
 		FD1396632AF7D39100003C37 /* RepeatReminderTests */ = {
 			isa = PBXGroup;
 			children = (
-				FD1396642AF7D39100003C37 /* RepeatReminderTests.swift */,
+				FD1396642AF7D39100003C37 /* DBTests.swift */,
 			);
 			path = RepeatReminderTests;
 			sourceTree = "<group>";
@@ -358,7 +358,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD1396652AF7D39100003C37 /* RepeatReminderTests.swift in Sources */,
+				FD1396652AF7D39100003C37 /* DBTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
