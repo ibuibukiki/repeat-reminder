@@ -18,11 +18,12 @@
 ### フォルダ構成
 クリーンアーキテクチャとMVVMを併用
 * RepeatReminder
-  * Presentation : 画面の情報を管理
-    * Views
-    * ViewModels
   * Domain : データモデルを管理
-    * Models
+    * Model
+    * Usecase
+  * Presentation : 画面の情報を管理
+    * ViewModel
+    * View
   * Infrastructure : 外部リソースの情報を管理
     * Assets 
   
