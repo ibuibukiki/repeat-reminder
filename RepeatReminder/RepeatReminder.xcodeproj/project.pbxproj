@@ -112,8 +112,8 @@
 			isa = PBXGroup;
 			children = (
 				FD1396532AF7D39000003C37 /* RepeatReminderApp.swift */,
-				FD5EF0402B010B430011CD64 /* Presentation */,
 				FD4F31102B05E118009455D3 /* Domain */,
+				FD5EF0402B010B430011CD64 /* Presentation */,
 				FD5EF0462B010BB30011CD64 /* Infrastructure */,
 				FD1396592AF7D39100003C37 /* Preview Content */,
 			);
@@ -146,18 +146,19 @@
 			path = RepeatReminderUITests;
 			sourceTree = "<group>";
 		};
-		FD2814592B1307F9008429E1 /* Database */ = {
+		FD2814592B1307F9008429E1 /* Usecase */ = {
 			isa = PBXGroup;
 			children = (
 				FD28145C2B1308AE008429E1 /* DB.swift */,
 			);
-			path = Database;
+			path = Usecase;
 			sourceTree = "<group>";
 		};
 		FD4F31102B05E118009455D3 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
 				FD4F31112B05E127009455D3 /* Model */,
+				FD2814592B1307F9008429E1 /* Usecase */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -174,8 +175,8 @@
 		FD5EF0402B010B430011CD64 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				FD5EF0412B010B620011CD64 /* Views */,
 				FD9336BF2B036DFC002FD8C9 /* ViewModels */,
+				FD5EF0412B010B620011CD64 /* Views */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -193,7 +194,6 @@
 		FD5EF0462B010BB30011CD64 /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
-				FD2814592B1307F9008429E1 /* Database */,
 				FD1396572AF7D39100003C37 /* Assets.xcassets */,
 			);
 			path = Infrastructure;
