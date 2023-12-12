@@ -10,17 +10,14 @@ import SwiftUI
 
 class TaskAddEditViewModel: ObservableObject,Identifiable {
     @Published var isEditing: Bool
+    @Published var task: Task
     
     init(isEditing: Bool){
         self.isEditing = isEditing
+        self.task = Task(taskId:UUID().uuidString,name:"",deadline:Date(),
+                          isLimitNotified:true,isPreNotified:true,
+                          firstNotifiedNum:1,firstNotifiedRange:"時間",
+                          intervalNotifiedNum:1,intervalNotifiedRange: "時間",
+                          isCompleted:false,isDeleted:false)
     }
-    
-    @Published var name = ""
-    @Published var deadline = Date()
-    @Published var isLimitNotified = true
-    @Published var isPreNotified = true
-    @Published var firstNotifiedNum = 1
-    @Published var firstNotifiedRange = "時間"
-    @Published var intervalNotifiedNum = 1
-    @Published var intervalNotifiedRange = "時間"
 }

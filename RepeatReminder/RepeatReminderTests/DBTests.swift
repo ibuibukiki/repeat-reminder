@@ -16,7 +16,7 @@ final class DBTests: XCTestCase {
     override func setUpWithError() throws {
         super.setUp()
         db = DB.shared
-        task = Task(taskId: 1, name: "Test Task", deadline: Date(),
+        task = Task(taskId: UUID().uuidString, name: "Test Task", deadline: Date(),
                         isLimitNotified: true, isPreNotified: false,
                         firstNotifiedNum: nil, firstNotifiedRange: nil,
                         intervalNotifiedNum: nil, intervalNotifiedRange: nil,
@@ -33,67 +33,18 @@ final class DBTests: XCTestCase {
         XCTAssertNotNil(db, "DB instance should not be nil")
     }
     
-    func testInsertTask() {
-        XCTAssertNoThrow(try db.insertTask(task: task), "Insert task should be successfull")
-        
-        var result: Task?
-        
-        XCTAssertNoThrow(result = try? db.getTask(taskId: 1), "Get task should be successfull")
-        XCTAssertEqual(result?.name, task.name, "Task name should have the correct name")
-    }
-    
-    func testGetTaskNotFound() {
-        var result: Task?
-        
-        XCTAssertNoThrow(result = try? db.getTask(taskId: 100), "Get task should be successfull")
-        XCTAssertNil(result, "Task should be nil")
-    }
-    
-    func testUpdateTask() {
-        let taskUpdated = Task(taskId: 1, name: "Test Task Updated", deadline: Date(),
-                            isLimitNotified: true, isPreNotified: false,
-                            firstNotifiedNum: nil, firstNotifiedRange: nil,
-                            intervalNotifiedNum: nil, intervalNotifiedRange: nil,
-                            isCompleted: false, isDeleted: false)
-        
-        XCTAssertNoThrow(try db.updateTask(task: taskUpdated), "Update task should be successfull")
-        
-        var result: Task?
-        
-        XCTAssertNoThrow(result = try? db.getTask(taskId: 1), "Get task should be successfull")
-        XCTAssertEqual(result?.name, taskUpdated.name, "Task name should have the correct changed name")
-    }
-    
-    func testUpdateTaskFailed() {
-        let taskUpdateFailed = Task(taskId: 2, name: "Test Task Updated", deadline: Date(),
-                                    isLimitNotified: true, isPreNotified: false,
-                                    firstNotifiedNum: nil, firstNotifiedRange: nil,
-                                    intervalNotifiedNum: nil, intervalNotifiedRange: nil,
-                                    isCompleted: false, isDeleted: false)
-        
-        XCTAssertThrowsError(try db.updateTask(task: taskUpdateFailed), "Update task should be failed")
-    }
-    
-    func testDeleteTask() {
-        XCTAssertNoThrow(try db.deleteTask(taskId: 1), "Delete task should be successfull")
-    }
-    
-    func testDeleteTaskFailed() {
-        XCTAssertThrowsError(try db.deleteTask(taskId: 2), "Delete task should be failed")
-    }
-    
     func testGetTasks() {
         var result1: [Task] = []
         var result2: [Task] = []
         var result3: [Task] = []
         var result4: [Task] = []
         
-        let task1 = Task(taskId: 1, name: "Task1", deadline: Date(),
+        let task1 = Task(taskId: UUID().uuidString, name: "Task1", deadline: Date(),
                         isLimitNotified: true, isPreNotified: false,
                         firstNotifiedNum: nil, firstNotifiedRange: nil,
                         intervalNotifiedNum: nil, intervalNotifiedRange: nil,
                         isCompleted: false, isDeleted: false)
-        let task2 = Task(taskId: 2, name: "Task2", deadline: Date(),
+        let task2 = Task(taskId: UUID().uuidString, name: "Task2", deadline: Date(),
                         isLimitNotified: true, isPreNotified: false,
                         firstNotifiedNum: nil, firstNotifiedRange: nil,
                         intervalNotifiedNum: nil, intervalNotifiedRange: nil,
@@ -107,17 +58,74 @@ final class DBTests: XCTestCase {
         
         XCTAssertNoThrow(result2 = try db.getTasks(isCompleted:false,isDeleted:false), "Get no completed and no deleted task should be successfull")
         XCTAssertEqual(result2.count, 1, "No completed and No deleted Tasks should be one")
-        XCTAssertEqual(result2[0].taskId, 1, "No completed and No deleted Tasks should have correct id")
+        XCTAssertEqual(result2[0].taskId, task1.taskId, "No completed and No deleted Tasks should have correct id")
         
         XCTAssertNoThrow(result3 = try db.getTasks(isCompleted:true,isDeleted:true), "Get completed and deleted task should be successfull")
         XCTAssertEqual(result3.count, 1, "Completed and Deleted Tasks should be one")
-        XCTAssertEqual(result3[0].taskId, 2, "Completed and Deleted Tasks should have correct id")
+        XCTAssertEqual(result3[0].taskId, task2.taskId, "Completed and Deleted Tasks should have correct id")
         
         XCTAssertNoThrow(result4 = try db.getTasks(isCompleted:true,isDeleted:false), "Get completed and no deleted task should be successfull")
         XCTAssertEqual(result4.count, 0, "Completed and no deleted Tasks should be zero")
         
-        XCTAssertNoThrow(try db.deleteTask(taskId: 1), "Delete task should be successfull")
-        XCTAssertNoThrow(try db.deleteTask(taskId: 2), "Delete task should be successfull")
+        XCTAssertNoThrow(try db.deleteTask(taskId: task1.taskId), "Delete task should be successfull")
+        XCTAssertNoThrow(try db.deleteTask(taskId: task2.taskId), "Delete task should be successfull")
+    }
+    
+    func testInsertTask() {
+        XCTAssertNoThrow(try db.insertTask(task: task), "Insert task should be successfull")
+        
+        var result: Task?
+        
+        XCTAssertNoThrow(result = try? db.getTask(taskId: task.taskId), "Get task should be successfull")
+        XCTAssertEqual(result?.name, task.name, "Task name should have the correct name")
+    }
+    
+    func testGetTaskNotFound() {
+        var result: Task?
+        
+        XCTAssertNoThrow(result = try? db.getTask(taskId: UUID().uuidString), "Get task should be successfull")
+        XCTAssertNil(result, "Task should be nil")
+    }
+    
+    func testUpdateTask() {
+        XCTAssertNoThrow(try db.insertTask(task: task), "Insert task should be successfull")
+        
+        let taskUpdated = Task(taskId: task.taskId, name: "Test Task Updated", deadline: Date(),
+                            isLimitNotified: true, isPreNotified: false,
+                            firstNotifiedNum: nil, firstNotifiedRange: nil,
+                            intervalNotifiedNum: nil, intervalNotifiedRange: nil,
+                            isCompleted: false, isDeleted: false)
+        
+        XCTAssertNoThrow(try db.updateTask(task: taskUpdated), "Update task should be successfull")
+        
+        var result: Task?
+        
+        XCTAssertNoThrow(result = try? db.getTask(taskId: task.taskId), "Get task should be successfull")
+        XCTAssertEqual(result?.name, taskUpdated.name, "Task name should have the correct changed name")
+    }
+    
+    func testUpdateTaskFailed() {
+        XCTAssertNoThrow(try db.insertTask(task: task), "Insert task should be successfull")
+        
+        let taskUpdateFailed = Task(taskId: UUID().uuidString, name: "Test Task Updated", deadline: Date(),
+                                    isLimitNotified: true, isPreNotified: false,
+                                    firstNotifiedNum: nil, firstNotifiedRange: nil,
+                                    intervalNotifiedNum: nil, intervalNotifiedRange: nil,
+                                    isCompleted: false, isDeleted: false)
+        
+        XCTAssertThrowsError(try db.updateTask(task: taskUpdateFailed), "Update task should be failed")
+    }
+    
+    func testDeleteTask() {
+        XCTAssertNoThrow(try db.insertTask(task: task), "Insert task should be successfull")
+        
+        XCTAssertNoThrow(try db.deleteTask(taskId: task.taskId), "Delete task should be successfull")
+    }
+    
+    func testDeleteTaskFailed() {
+        XCTAssertNoThrow(try db.insertTask(task: task), "Insert task should be successfull")
+        
+        XCTAssertThrowsError(try db.deleteTask(taskId: UUID().uuidString), "Delete task should be failed")
     }
 
     func testPerformanceExample() throws {
