@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct TaskListView: View {
+    @ObservedObject var viewModel = TaskListViewModel()
+    
     var body: some View {
         NavigationView{
             ZStack(alignment:.top){
@@ -23,8 +25,9 @@ struct TaskListView: View {
                             .padding(.top,20)
                             .padding(.bottom,8)
                         VStack{
-                            Text("・レポート提出")
-                                .font(.title3)
+                            ForEach(viewModel.todayTasks.indices, id: \.self) { index in
+                                Text(viewModel.todayTasks[index]).font(.title3)
+                            }
                         }.foregroundColor(Color("TextColor"))
                             .padding()
                             .frame(width:296,height:152,alignment:.topLeading)
@@ -69,8 +72,11 @@ struct TaskListView: View {
                         }
                     }.padding(.bottom,24)
                     // 今後のタスク一覧を表示
-                    TaskCell()
-                    TaskCell()
+                    List {
+                        ForEach(viewModel.tasks.indices, id: \.self) { index in
+                            TaskCell()
+                        }
+                    }
                 }.padding(.top,40)
             }
         }
