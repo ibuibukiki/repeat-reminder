@@ -11,22 +11,21 @@ struct TaskList {
     var tasks: [Task] = []
     var todayTasks: [String] = []
     
-    init(isCompleted:Bool?,isDeleted:Bool?) {
+    mutating func getTask(isCompleted:Bool?,isDeleted:Bool?) {
         guard let db = DB.shared else {
             return
         }
         
         do {
             self.tasks = try db.getTasks(isCompleted: isCompleted, isDeleted: isDeleted)
+            return
         } catch {
-            self.tasks = []
+            return
         }
-        
-        self.todayTasks = getTodayTask()
     }
     
     /// 締め切りが今日中のタスクの名前を取得
-    func getTodayTask() -> [String]{
+    mutating func getTodayTask() {
         var nameList: [String] = []
         
         for task in tasks {
@@ -40,6 +39,6 @@ struct TaskList {
             }
         }
         
-        return nameList
+        self.todayTasks = nameList
     }
 }

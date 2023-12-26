@@ -17,7 +17,7 @@ enum TaskError: Error {
 }
 
 struct Task {
-    var taskId: Int
+    var taskId: String
     var name: String
     var deadline: Date
     var isLimitNotified: Bool
@@ -29,7 +29,7 @@ struct Task {
     var isCompleted: Bool
     var isDeleted: Bool
     
-    init(taskId: Int, name: String, deadline: Date, isLimitNotified: Bool, isPreNotified: Bool, firstNotifiedNum: Int?, firstNotifiedRange: String?, intervalNotifiedNum: Int?, intervalNotifiedRange: String?, isCompleted: Bool, isDeleted: Bool) {
+    init(taskId: String, name: String, deadline: Date, isLimitNotified: Bool, isPreNotified: Bool, firstNotifiedNum: Int?, firstNotifiedRange: String?, intervalNotifiedNum: Int?, intervalNotifiedRange: String?, isCompleted: Bool, isDeleted: Bool) {
         self.taskId = taskId
         self.name = name
         self.deadline = deadline

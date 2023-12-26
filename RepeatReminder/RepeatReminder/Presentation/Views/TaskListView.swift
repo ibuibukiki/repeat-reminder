@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct TaskListView: View {
+    @ObservedObject var viewModel = TaskListViewModel()
+    
     var body: some View {
-        NavigationView{
+        NavigationStack{
             ZStack(alignment:.top){
                 Color("BackgroundColor")
                     .edgesIgnoringSafeArea(.all)
@@ -23,8 +25,9 @@ struct TaskListView: View {
                             .padding(.top,20)
                             .padding(.bottom,8)
                         VStack{
-                            Text("・レポート提出")
-                                .font(.title3)
+                            ForEach(viewModel.todayTasks.indices, id: \.self) { index in
+                                Text(viewModel.todayTasks[index]).font(.title3)
+                            }
                         }.foregroundColor(Color("TextColor"))
                             .padding()
                             .frame(width:296,height:152,alignment:.topLeading)
@@ -55,7 +58,8 @@ struct TaskListView: View {
                                 .compositingGroup()
                                 .shadow(color:.gray,radius:5,x:0,y:8)
                         }
-                        NavigationLink(destination: TaskAddEditView(viewModel:TaskAddEditViewModel(isEditing:false))
+                        NavigationLink(
+                            destination: TaskAddEditView(isEditing:false,task:nil)
                         ){
                             Text("追 加")
                                 .fontWeight(.bold)
@@ -67,11 +71,23 @@ struct TaskListView: View {
                                 .compositingGroup()
                                 .shadow(color:.gray,radius:5,x:0,y:8)
                         }
-                    }.padding(.bottom,24)
+                    }.padding(.bottom,8)
                     // 今後のタスク一覧を表示
-                    TaskCell()
-                    TaskCell()
+                    List {
+                        ForEach(viewModel.tasks.indices, id: \.self) { index in
+                            TaskCell(task:viewModel.tasks[index])
+                                .listRowBackground(Color("BackgroundColor"))
+                                .listRowInsets(
+                                    EdgeInsets(top:CGFloat(4),
+                                               leading:CGFloat(32),
+                                               bottom:CGFloat(4),
+                                               trailing:CGFloat(8)))
+                        }.listRowSeparator(.hidden)
+                    }.scrollContentBackground(.hidden)
+                        .listStyle(PlainListStyle())
                 }.padding(.top,40)
+            }.onAppear {
+                viewModel.readTask()
             }
         }
     }

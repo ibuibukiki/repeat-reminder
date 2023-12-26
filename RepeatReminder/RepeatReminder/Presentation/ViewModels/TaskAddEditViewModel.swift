@@ -8,19 +8,38 @@
 import Foundation
 import SwiftUI
 
+enum TaskAddEditViewModelError: Error {
+    case EditTaskNilError
+}
+
 class TaskAddEditViewModel: ObservableObject,Identifiable {
-    @Published var isEditing: Bool
+    var db: DB!
+    var task: Task
     
-    init(isEditing: Bool){
-        self.isEditing = isEditing
+    let initialTask = Task(taskId:UUID().uuidString,name:"",deadline:Date(),
+                           isLimitNotified:true,isPreNotified:true,
+                           firstNotifiedNum:1,firstNotifiedRange:"時間",
+                           intervalNotifiedNum:1,intervalNotifiedRange: "時間",
+                           isCompleted:false,isDeleted:false)
+
+    init() {
+        self.db = DB.shared
+        self.task = initialTask
     }
     
-    @Published var name = ""
-    @Published var deadline = Date()
-    @Published var isLimitNotified = true
-    @Published var isPreNotified = true
-    @Published var firstNotifiedNum = 1
-    @Published var firstNotifiedRange = "時間"
-    @Published var intervalNotifiedNum = 1
-    @Published var intervalNotifiedRange = "時間"
+    func setTask(task:Task) {
+        self.task = task
+    }
+    
+    func addTask() {
+        try! db.insertTask(task:task)
+    }
+    
+    func updateTask() {
+        try! db.updateTask(task:task)
+    }
+    
+    func deleteTask() {
+        try! db.deleteTask(taskId:task.taskId)
+    }
 }

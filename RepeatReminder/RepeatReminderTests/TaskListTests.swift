@@ -12,12 +12,12 @@ final class TaskListViewModelTests: XCTestCase {
 
     var db: DB!
     
-    let task1 = Task(taskId: 1, name: "Today Task", deadline: Date(),
+    let task1 = Task(taskId: UUID().uuidString, name: "Today Task", deadline: Date(),
                     isLimitNotified: true, isPreNotified: false,
                     firstNotifiedNum: nil, firstNotifiedRange: nil,
                     intervalNotifiedNum: nil, intervalNotifiedRange: nil,
                     isCompleted: false, isDeleted: false)
-    let task2 = Task(taskId: 2, name: "Tomorrow Task", deadline: Date(timeIntervalSinceNow: ( 60 * 60 * 24 )),
+    let task2 = Task(taskId: UUID().uuidString, name: "Tomorrow Task", deadline: Date(timeIntervalSinceNow: ( 60 * 60 * 24 )),
                     isLimitNotified: true, isPreNotified: false,
                     firstNotifiedNum: nil, firstNotifiedRange: nil,
                     intervalNotifiedNum: nil, intervalNotifiedRange: nil,
@@ -37,8 +37,8 @@ final class TaskListViewModelTests: XCTestCase {
 
     override func tearDownWithError() throws {
         do {
-            try db.deleteTask(taskId: 1)
-            try db.deleteTask(taskId: 2)
+            try db.deleteTask(taskId: task1.taskId)
+            try db.deleteTask(taskId: task2.taskId)
         } catch {
             throw TaskError.deleteFailed
         }

@@ -22,7 +22,7 @@ enum DatabaseError: Error {
 final class DB {
     static let shared = DB()
     
-    private let dbFile = "DBVer1.sqlite"
+    private let dbFile = "DBVer2.sqlite"
     private var db: OpaquePointer?
     
     private init?() {
@@ -57,7 +57,7 @@ final class DB {
     private func createTable() throws {
         let createSql = """
         CREATE TABLE IF NOT EXISTS tasks (
-            task_id INTEGER NOT NULL PRIMARY KEY,
+            task_id TEXT NOT NULL PRIMARY KEY,
             name TEXT NOT NULL,
             deadline TEXT NOT NULL,
             is_limit_notified INTEGER NOT NULL,
@@ -118,7 +118,7 @@ final class DB {
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let dateString = formatter.string(from: task.deadline)
         
-        sqlite3_bind_int(insertStmt, 1, Int32(task.taskId))
+        sqlite3_bind_text(insertStmt, 1, (task.taskId as NSString).utf8String, -1, nil)
         sqlite3_bind_text(insertStmt, 2, (task.name as NSString).utf8String, -1, nil)
         sqlite3_bind_text(insertStmt, 3, (dateString as NSString).utf8String, -1, nil)
         sqlite3_bind_int(insertStmt, 4, Int32(task.isLimitNotified ? 1 : 0))
@@ -153,7 +153,7 @@ final class DB {
         let checkSql = "SELECT COUNT(*) FROM tasks WHERE task_id = ?"
         var checkStmt: OpaquePointer? = nil
         if sqlite3_prepare_v2(db, checkSql, -1, &checkStmt, nil) == SQLITE_OK {
-            sqlite3_bind_int(checkStmt, 1, Int32(task.taskId))
+            sqlite3_bind_text(checkStmt, 1, (task.taskId as NSString).utf8String, -1, nil)
 
             if sqlite3_step(checkStmt) == SQLITE_ROW {
                 let count = sqlite3_column_int(checkStmt, 0)
@@ -211,7 +211,7 @@ final class DB {
         
         sqlite3_bind_int(updateStmt, 9, Int32(task.isCompleted ? 1 : 0))
         sqlite3_bind_int(updateStmt, 10, Int32(task.isDeleted ? 1 : 0))
-        sqlite3_bind_int(updateStmt, 11, Int32(task.taskId))
+        sqlite3_bind_text(updateStmt, 11, (task.taskId as NSString).utf8String, -1, nil)
         
         if sqlite3_step(updateStmt) != SQLITE_DONE {
             let errorMessage = getDBErrorMessage(db)
@@ -222,7 +222,7 @@ final class DB {
         sqlite3_finalize(updateStmt)
     }
     
-    func getTask(taskId: Int) throws -> Task? {
+    func getTask(taskId: String) throws -> Task? {
         
         var task: Task? = nil
         
@@ -239,7 +239,7 @@ final class DB {
             throw DatabaseError.getTaskFailed(errorMessage, task)
         }
         
-        sqlite3_bind_int(stmt, 1, Int32(taskId))
+        sqlite3_bind_text(stmt, 1, (taskId as NSString).utf8String, -1, nil)
         
         // String型をDate型に変換
         let formatter = DateFormatter()
@@ -247,7 +247,6 @@ final class DB {
         formatter.locale = Locale(identifier: "ja_JP")
         
         if sqlite3_step(stmt) == SQLITE_ROW {
-            let taskId = Int(sqlite3_column_int(stmt, 0))
             let name = String(describing: String(cString: sqlite3_column_text(stmt, 1)))
             
             guard let deadline = formatter.date(from: String(cString: sqlite3_column_text(stmt, 2))) else {
@@ -337,7 +336,7 @@ final class DB {
         formatter.locale = Locale(identifier: "ja_JP")
         
         while sqlite3_step(stmt) == SQLITE_ROW {
-            let taskId = Int(sqlite3_column_int(stmt, 0))
+            let taskId = String(describing: String(cString: sqlite3_column_text(stmt, 0)))
             let name = String(describing: String(cString: sqlite3_column_text(stmt, 1)))
             
             guard let deadline = formatter.date(from: String(cString: sqlite3_column_text(stmt, 2))) else {
@@ -380,12 +379,12 @@ final class DB {
         return tasks
     }
     
-    func deleteTask(taskId: Int) throws {
+    func deleteTask(taskId: String) throws {
         // レコードの存在チェック
         let checkSql = "SELECT COUNT(*) FROM tasks WHERE task_id = ?"
         var checkStmt: OpaquePointer? = nil
         if sqlite3_prepare_v2(db, checkSql, -1, &checkStmt, nil) == SQLITE_OK {
-            sqlite3_bind_int(checkStmt, 1, Int32(taskId))
+            sqlite3_bind_text(checkStmt, 1, (taskId as NSString).utf8String, -1, nil)
 
             if sqlite3_step(checkStmt) == SQLITE_ROW {
                 let count = sqlite3_column_int(checkStmt, 0)
@@ -406,7 +405,7 @@ final class DB {
             throw DatabaseError.deleteTaskFailed(errorMessage)
         }
         
-        sqlite3_bind_int(deleteStmt, 1, Int32(taskId))
+        sqlite3_bind_text(deleteStmt, 1, (taskId as NSString).utf8String, -1, nil)
         
         if sqlite3_step(deleteStmt) != SQLITE_DONE {
             let errorMessage = getDBErrorMessage(db)
