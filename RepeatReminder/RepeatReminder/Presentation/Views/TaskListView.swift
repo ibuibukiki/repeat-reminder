@@ -58,7 +58,8 @@ struct TaskListView: View {
                                 .compositingGroup()
                                 .shadow(color:.gray,radius:5,x:0,y:8)
                         }
-                        NavigationLink(destination: TaskAddEditView(viewModel:TaskAddEditViewModel(isEditing:false))
+                        NavigationLink(
+                            destination: TaskAddEditView(viewModel:TaskAddEditViewModel())
                         ){
                             Text("追 加")
                                 .fontWeight(.bold)
@@ -70,13 +71,20 @@ struct TaskListView: View {
                                 .compositingGroup()
                                 .shadow(color:.gray,radius:5,x:0,y:8)
                         }
-                    }.padding(.bottom,24)
+                    }.padding(.bottom,8)
                     // 今後のタスク一覧を表示
                     List {
                         ForEach(viewModel.tasks.indices, id: \.self) { index in
                             TaskCell()
-                        }
-                    }
+                                .listRowBackground(Color("BackgroundColor"))
+                                .listRowInsets(
+                                    EdgeInsets(top:CGFloat(4),
+                                               leading:CGFloat(32),
+                                               bottom:CGFloat(4),
+                                               trailing:CGFloat(8)))
+                        }.listRowSeparator(.hidden)
+                    }.scrollContentBackground(.hidden)
+                        .listStyle(PlainListStyle())
                 }.padding(.top,40)
             }
         }

@@ -14,6 +14,10 @@ class TaskListViewModel: ObservableObject {
     @Published var todayTasks: [String] = []
     
     init(){
+        readTask()
+    }
+    
+    func readTask(){
         self.tasks = model.tasks
         self.todayTasks = model.todayTasks
     }

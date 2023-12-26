@@ -40,8 +40,10 @@ struct TaskCell: View {
                 .shadow(color:.gray,radius:5,x:0,y:8)
             // ボタンを表示
             VStack(spacing:4){
-                NavigationLink(destination: TaskAddEditView(viewModel:TaskAddEditViewModel(isEditing:true))
-                ){
+                ZStack {
+                    NavigationLink(
+                        destination: TaskAddEditView(viewModel:TaskAddEditViewModel())
+                    ){ EmptyView() }.opacity(0)
                     Image(systemName:"pencil.circle")
                         .foregroundColor(Color("ButtonColor"))
                         .font(.system(size:48))
@@ -54,7 +56,7 @@ struct TaskCell: View {
                         .font(.system(size:48))
                 }
             }
-        }.padding(.bottom,8)
+        }.background(Color("BackgroundColor"))
     }
 }
 

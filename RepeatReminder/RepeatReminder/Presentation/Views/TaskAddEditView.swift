@@ -106,7 +106,7 @@ struct TaskAddEditView: View {
                                     Text("\(value)").tag(value)
                                 }
                             }).onChange(of:viewModel.task.firstNotifiedNum) { newValue in
-                                print(newValue ?? <#default value#>)
+                                print(newValue ?? "default")
                             }.pickerStyle(.menu)
                                 .labelsHidden()
                                 .tint(Color("TextColor"))
@@ -117,7 +117,7 @@ struct TaskAddEditView: View {
                                     Text("\(value)").tag(value)
                                 }
                             }).onChange(of:viewModel.task.firstNotifiedRange) { newValue in
-                                print(newValue ?? <#default value#>)
+                                print(newValue ?? "default")
                             }.pickerStyle(.menu)
                                 .labelsHidden()
                                 .tint(Color("TextColor"))
@@ -142,7 +142,7 @@ struct TaskAddEditView: View {
                                     Text("\(value)").tag(value)
                                 }
                             }).onChange(of:viewModel.task.intervalNotifiedNum) { newValue in
-                                print(newValue ?? <#default value#>)
+                                print(newValue ?? "default")
                             }.pickerStyle(.menu)
                                 .labelsHidden()
                                 .tint(Color("TextColor"))
@@ -153,7 +153,7 @@ struct TaskAddEditView: View {
                                     Text("\(value)").tag(value)
                                 }
                             }).onChange(of:viewModel.task.intervalNotifiedRange) { newValue in
-                                print(newValue ?? <#default value#>)
+                                print(newValue ?? "default")
                             }.pickerStyle(.menu)
                                 .labelsHidden()
                                 .tint(Color("TextColor"))
@@ -197,6 +197,11 @@ struct TaskAddEditView: View {
                         Button(action:{
                             self.presentation.wrappedValue.dismiss()
                             print("tap add or edit button")
+                            if viewModel.isEditing {
+                                viewModel.updateTask()
+                            } else {
+                                viewModel.addTask()
+                            }
                         }){
                             if viewModel.isEditing {
                                 Text("編 集")
