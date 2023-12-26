@@ -240,7 +240,9 @@ struct TaskAddEditView: View {
                     Spacer()
                     if isEditing {
                         Button(action:{
+                            self.presentation.wrappedValue.dismiss()
                             print("tap delete button")
+                            viewModel.deleteTask()
                         }){
                             Text("このタスクを削除")
                                 .fontWeight(.bold)
