@@ -11,7 +11,7 @@ struct TaskListView: View {
     @ObservedObject var viewModel = TaskListViewModel()
     
     var body: some View {
-        NavigationView{
+        NavigationStack{
             ZStack(alignment:.top){
                 Color("BackgroundColor")
                     .edgesIgnoringSafeArea(.all)
@@ -86,6 +86,8 @@ struct TaskListView: View {
                     }.scrollContentBackground(.hidden)
                         .listStyle(PlainListStyle())
                 }.padding(.top,40)
+            }.onAppear {
+                viewModel.readTask()
             }
         }
     }
