@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct TaskCell: View {
+    let task: Task
+    
     var body: some View {
         HStack(spacing:8){
             // タスクの情報を表示
@@ -27,7 +29,7 @@ struct TaskCell: View {
                 .padding(.leading,4)
                 .frame(width:96)
                 VStack(spacing:16){
-                    Text("レポート提出")
+                    Text(task.name)
                     Text("10月10日 14:00")
                 }.foregroundColor(Color("TextColor"))
                     .frame(width:160,height:88)
@@ -42,7 +44,7 @@ struct TaskCell: View {
             VStack(spacing:4){
                 ZStack {
                     NavigationLink(
-                        destination: TaskAddEditView(viewModel:TaskAddEditViewModel())
+                        destination: TaskAddEditView(isEditing:true,task:task)
                     ){ EmptyView() }.opacity(0)
                     Image(systemName:"pencil.circle")
                         .foregroundColor(Color("ButtonColor"))

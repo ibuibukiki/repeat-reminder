@@ -8,11 +8,22 @@
 import SwiftUI
 
 struct TaskAddEditView: View {
+    var isEditing: Bool
+    var task: Task?
+    
     @Environment(\.presentationMode) var presentation
     @FocusState private var focusedField: Bool?
-    @ObservedObject var viewModel: TaskAddEditViewModel
+    @ObservedObject var viewModel = TaskAddEditViewModel()
+    
     let nums = [1,2,3,4,5,6,7,8,9,10]
     let ranges = ["時間","日","週間"]
+    
+    init (isEditing:Bool,task:Task?) {
+        self.isEditing = isEditing
+        if task != nil {
+            viewModel.setTask(task:task!)
+        }
+    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -20,7 +31,7 @@ struct TaskAddEditView: View {
                 Color("BackgroundColor")
                     .ignoresSafeArea(.all)
                 VStack{
-                    if viewModel.isEditing {
+                    if isEditing {
                         Text("タスクを編集")
                             .foregroundColor(Color("MainColor"))
                             .fontWeight(.bold)
@@ -197,13 +208,13 @@ struct TaskAddEditView: View {
                         Button(action:{
                             self.presentation.wrappedValue.dismiss()
                             print("tap add or edit button")
-                            if viewModel.isEditing {
+                            if isEditing {
                                 viewModel.updateTask()
                             } else {
                                 viewModel.addTask()
                             }
                         }){
-                            if viewModel.isEditing {
+                            if isEditing {
                                 Text("編 集")
                                     .fontWeight(.bold)
                                     .font(.title2)
@@ -227,7 +238,7 @@ struct TaskAddEditView: View {
                         }
                     }
                     Spacer()
-                    if viewModel.isEditing {
+                    if isEditing {
                         Button(action:{
                             print("tap delete button")
                         }){

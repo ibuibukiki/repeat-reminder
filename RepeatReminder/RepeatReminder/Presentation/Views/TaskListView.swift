@@ -59,7 +59,7 @@ struct TaskListView: View {
                                 .shadow(color:.gray,radius:5,x:0,y:8)
                         }
                         NavigationLink(
-                            destination: TaskAddEditView(viewModel:TaskAddEditViewModel())
+                            destination: TaskAddEditView(isEditing:false,task:nil)
                         ){
                             Text("追 加")
                                 .fontWeight(.bold)
@@ -75,7 +75,7 @@ struct TaskListView: View {
                     // 今後のタスク一覧を表示
                     List {
                         ForEach(viewModel.tasks.indices, id: \.self) { index in
-                            TaskCell()
+                            TaskCell(task:viewModel.tasks[index])
                                 .listRowBackground(Color("BackgroundColor"))
                                 .listRowInsets(
                                     EdgeInsets(top:CGFloat(4),
