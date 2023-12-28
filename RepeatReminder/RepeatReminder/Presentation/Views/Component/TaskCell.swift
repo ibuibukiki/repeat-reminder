@@ -28,10 +28,12 @@ struct TaskCell: View {
                 .fontWeight(.bold)
                 .padding(.leading,4)
                 .frame(width:96)
-                VStack(spacing:16){
+                VStack(alignment:.leading,spacing:8){
                     Text(viewModel.name)
                     Text(viewModel.deadline)
                 }.foregroundColor(Color("TextColor"))
+                    .padding(.leading,8)
+                    .padding(.trailing,8)
                     .frame(width:160,height:88)
                     .background(Color("BackgroundColor"))
                     .cornerRadius(10)
