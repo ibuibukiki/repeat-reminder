@@ -112,7 +112,7 @@ struct TaskListView: View {
                                     }
                                 }
                             }
-                        }
+                        }.padding(.leading,8)
                     }
                 }.padding(.top,32)
             }.onAppear {
