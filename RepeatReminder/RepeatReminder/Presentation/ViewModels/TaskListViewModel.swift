@@ -24,7 +24,7 @@ class TaskListViewModel: ObservableObject {
     }
     
     func readTask(){
-        model.getTask(isCompleted: false, isDeleted: false)
+        model.getTask()
         model.getTodayTask()
     }
     
