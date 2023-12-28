@@ -44,9 +44,9 @@ struct TaskListView: View {
                         .padding(.bottom,24)
                     // ボタンを表示
                     HStack(spacing:24){
-                        Button(action:{
-                            print("tap setting button")
-                        }){
+                        NavigationLink(
+                            destination: SettingView()
+                        ){
                             Text("設 定")
                                 .fontWeight(.bold)
                                 .font(.title2)
