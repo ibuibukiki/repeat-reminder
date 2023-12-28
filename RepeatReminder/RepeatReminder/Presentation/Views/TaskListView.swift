@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TaskListView: View {
     @ObservedObject var viewModel = TaskListViewModel()
+    @State private var isShowedAlert = false
     
     var body: some View {
         NavigationStack{
@@ -73,20 +74,48 @@ struct TaskListView: View {
                                 .compositingGroup()
                                 .shadow(color:.gray,radius:5,x:0,y:8)
                         }
-                    }.padding(.bottom,8)
+                    }.padding(.bottom,16)
                     // 今後のタスク一覧を表示
-                    List {
-                        ForEach(viewModel.tasks.indices, id: \.self) { index in
-                            TaskCell(task:viewModel.tasks[index])
-                                .listRowBackground(Color("BackgroundColor"))
-                                .listRowInsets(
-                                    EdgeInsets(top:CGFloat(4),
-                                               leading:CGFloat(32),
-                                               bottom:CGFloat(4),
-                                               trailing:CGFloat(8)))
-                        }.listRowSeparator(.hidden)
-                    }.scrollContentBackground(.hidden)
-                        .listStyle(PlainListStyle())
+                    ScrollView {
+                        VStack {
+                            ForEach(viewModel.tasks.indices, id: \.self) { index in
+                                let task = viewModel.tasks[index]
+                                HStack(spacing:8){
+                                    // タスクの情報を表示
+                                    TaskCell(task:task)
+                                    // ボタンを表示
+                                    VStack(spacing:4){
+                                        NavigationLink(
+                                            destination: TaskAddEditView(isEditing:true,task:task)
+                                        ){
+                                            Image(systemName:"pencil.circle")
+                                                .foregroundColor(Color("ButtonColor"))
+                                                .font(.system(size:48))
+                                        }
+                                        Button {
+                                            print("tap complete button")
+                                            isShowedAlert = true
+                                        } label: {
+                                            Image(systemName:"checkmark.circle.fill")
+                                                .foregroundColor(Color("ButtonColor"))
+                                                .font(.system(size:48))
+                                        }
+                                        .alert("このタスクを完了しますか？\n"+task.name, isPresented: $isShowedAlert) {
+                                            Button("キャンセル",role:.cancel) {
+                                                isShowedAlert = false
+                                            }
+                                            Button("OK") {
+                                                isShowedAlert = false
+                                                viewModel.completeTask(task: task)
+                                            }
+                                        } message: {
+                                            Text("設定から復元できます")
+                                        }
+                                    }
+                                }
+                            }
+                        }.padding(.leading,8)
+                    }
                 }.padding(.top,32)
             }.onAppear {
                 viewModel.readTask()

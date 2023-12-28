@@ -27,4 +27,14 @@ class TaskListViewModel: ObservableObject {
         model.getTask(isCompleted: false, isDeleted: false)
         model.getTodayTask()
     }
+    
+    func completeTask(task: Task) {
+        guard let db = DB.shared else {
+            return
+        }
+        var completedTask = task
+        completedTask.isCompleted = true
+        try! db.updateTask(task:completedTask)
+        readTask()
+    }
 }
