@@ -8,30 +8,32 @@
 import SwiftUI
 
 struct TaskCell: View {
-    let task: Task
+    @ObservedObject var viewModel=TaskCellViewModel()
+    
+    init(task: Task) {
+        viewModel.setTask(task:task)
+    }
     
     var body: some View {
         HStack(spacing:8){
             // タスクの情報を表示
             HStack{
-                HStack{
-                    Text("1")
-                        .font(.largeTitle)
-                        .padding(.top,20)
-                        .padding(.bottom,12)
-                    Text("日後")
-                        .font(.title2)
-                        .padding(.top,24)
+                HStack(spacing:4){
+                    viewModel.remainingNumText
+                    Text(viewModel.remainingText)
+                        .padding(.top,32)
                         .padding(.bottom,4)
                 }
                 .foregroundColor(Color("BackgroundColor"))
                 .fontWeight(.bold)
                 .padding(.leading,4)
                 .frame(width:96)
-                VStack(spacing:16){
-                    Text(task.name)
-                    Text("10月10日 14:00")
+                VStack(alignment:.leading,spacing:8){
+                    Text(viewModel.name)
+                    Text(viewModel.deadline)
                 }.foregroundColor(Color("TextColor"))
+                    .padding(.leading,8)
+                    .padding(.trailing,8)
                     .frame(width:160,height:88)
                     .background(Color("BackgroundColor"))
                     .cornerRadius(10)
@@ -44,7 +46,7 @@ struct TaskCell: View {
             VStack(spacing:4){
                 ZStack {
                     NavigationLink(
-                        destination: TaskAddEditView(isEditing:true,task:task)
+                        destination: TaskAddEditView(isEditing:true,task:viewModel.task)
                     ){ EmptyView() }.opacity(0)
                     Image(systemName:"pencil.circle")
                         .foregroundColor(Color("ButtonColor"))

@@ -22,18 +22,20 @@ struct TaskListView: View {
                             .foregroundColor(Color("BackgroundColor"))
                             .fontWeight(.bold)
                             .font(.title2)
-                            .padding(.top,20)
+                            .padding(.top,16)
                             .padding(.bottom,8)
-                        VStack{
-                            ForEach(viewModel.todayTasks.indices, id: \.self) { index in
-                                Text(viewModel.todayTasks[index]).font(.title3)
+                        ScrollView{
+                            VStack(alignment:.leading,spacing:8){
+                                ForEach(viewModel.todayTasks.indices, id: \.self) { index in
+                                    Text(viewModel.todayTasks[index]).font(.title3)
+                                }
                             }
                         }.foregroundColor(Color("TextColor"))
                             .padding()
-                            .frame(width:296,height:152,alignment:.topLeading)
+                            .frame(width:296,height:168,alignment:.topLeading)
                             .background(Color("BackgroundColor"))
                             .cornerRadius(10)
-                    }.frame(width:328,height:232,alignment:.top)
+                    }.frame(width:328,height:240,alignment:.top)
                         .background(Color("MainColor"))
                         .cornerRadius(15)
                         .compositingGroup()
@@ -85,7 +87,7 @@ struct TaskListView: View {
                         }.listRowSeparator(.hidden)
                     }.scrollContentBackground(.hidden)
                         .listStyle(PlainListStyle())
-                }.padding(.top,40)
+                }.padding(.top,32)
             }.onAppear {
                 viewModel.readTask()
             }
