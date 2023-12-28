@@ -40,6 +40,7 @@ class TaskAddEditViewModel: ObservableObject,Identifiable {
     }
     
     func deleteTask() {
-        try! db.deleteTask(taskId:task.taskId)
+        self.task.isDeleted = true
+        try! db.updateTask(task:task)
     }
 }

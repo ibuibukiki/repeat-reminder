@@ -101,13 +101,15 @@ struct TaskListView: View {
                                                 .font(.system(size:48))
                                         }
                                         .alert("このタスクを完了しますか？\n"+task.name, isPresented: $isShowedAlert) {
-                                            Button("キャンセル") {
+                                            Button("キャンセル",role:.cancel) {
                                                 isShowedAlert = false
                                             }
                                             Button("OK") {
                                                 isShowedAlert = false
                                                 viewModel.completeTask(task: task)
                                             }
+                                        } message: {
+                                            Text("設定から復元できます")
                                         }
                                     }
                                 }

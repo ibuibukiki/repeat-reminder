@@ -13,6 +13,7 @@ struct TaskAddEditView: View {
     @Environment(\.presentationMode) var presentation
     @FocusState private var focusedField: Bool?
     @ObservedObject var viewModel = TaskAddEditViewModel()
+    @State private var isShowedAlert = false
     
     let nums = [1,2,3,4,5,6,7,8,9,10]
     let ranges = ["時間","日","週間"]
@@ -239,16 +240,27 @@ struct TaskAddEditView: View {
                     Spacer()
                     if isEditing {
                         Button(action:{
-                            self.presentation.wrappedValue.dismiss()
                             print("tap delete button")
-                            viewModel.deleteTask()
+                            isShowedAlert = true
                         }){
                             Text("このタスクを削除")
                                 .fontWeight(.bold)
                                 .font(.title2)
                                 .foregroundColor(Color("ButtonColor"))
                                 .frame(width:200,height:40)
-                        }.padding(.bottom,24)
+                                .padding(.bottom,24)
+                        }.alert("このタスクを削除しますか？", isPresented: $isShowedAlert) {
+                            Button("削除",role:.destructive) {
+                                isShowedAlert = false
+                                viewModel.deleteTask()
+                                self.presentation.wrappedValue.dismiss()
+                            }.foregroundColor(.red)
+                            Button("キャンセル",role:.cancel) {
+                                isShowedAlert = false
+                            }
+                        } message: {
+                            Text("設定から復元できます")
+                        }
                     }
                 }
             }.onTapGesture {
