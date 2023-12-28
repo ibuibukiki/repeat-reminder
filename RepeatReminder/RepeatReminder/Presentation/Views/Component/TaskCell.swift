@@ -8,14 +8,18 @@
 import SwiftUI
 
 struct TaskCell: View {
-    let task: Task
+    @ObservedObject var viewModel=TaskCellViewModel()
+    
+    init(task: Task) {
+        viewModel.setTask(task:task)
+    }
     
     var body: some View {
         HStack(spacing:8){
             // タスクの情報を表示
             HStack{
                 HStack{
-                    Text("1")
+                    Text(viewModel.remainingDays)
                         .font(.largeTitle)
                         .padding(.top,20)
                         .padding(.bottom,12)
@@ -29,8 +33,8 @@ struct TaskCell: View {
                 .padding(.leading,4)
                 .frame(width:96)
                 VStack(spacing:16){
-                    Text(task.name)
-                    Text("10月10日 14:00")
+                    Text(viewModel.name)
+                    Text(viewModel.deadline)
                 }.foregroundColor(Color("TextColor"))
                     .frame(width:160,height:88)
                     .background(Color("BackgroundColor"))
@@ -44,7 +48,7 @@ struct TaskCell: View {
             VStack(spacing:4){
                 ZStack {
                     NavigationLink(
-                        destination: TaskAddEditView(isEditing:true,task:task)
+                        destination: TaskAddEditView(isEditing:true,task:viewModel.task)
                     ){ EmptyView() }.opacity(0)
                     Image(systemName:"pencil.circle")
                         .foregroundColor(Color("ButtonColor"))

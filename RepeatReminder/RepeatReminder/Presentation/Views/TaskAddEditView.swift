@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct TaskAddEditView: View {
-    var isEditing: Bool
-    var task: Task?
+    let isEditing: Bool
     
     @Environment(\.presentationMode) var presentation
     @FocusState private var focusedField: Bool?
@@ -215,7 +214,7 @@ struct TaskAddEditView: View {
                             }
                         }){
                             if isEditing {
-                                Text("編 集")
+                                Text("保 存")
                                     .fontWeight(.bold)
                                     .font(.title2)
                                     .foregroundColor(Color("BackgroundColor"))

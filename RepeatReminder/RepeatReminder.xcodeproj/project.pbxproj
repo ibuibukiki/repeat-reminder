@@ -22,6 +22,7 @@
 		FDEAA6232B24504B003DB9DA /* TaskListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEAA6222B24504B003DB9DA /* TaskListViewModel.swift */; };
 		FDEAA6252B245220003DB9DA /* TaskList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEAA6242B245220003DB9DA /* TaskList.swift */; };
 		FDEAA6272B246479003DB9DA /* TaskListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEAA6262B246479003DB9DA /* TaskListTests.swift */; };
+		FDEE0C302B3D064100B97C41 /* TaskCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEE0C2F2B3D064100B97C41 /* TaskCellViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		FDEAA6222B24504B003DB9DA /* TaskListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewModel.swift; sourceTree = "<group>"; };
 		FDEAA6242B245220003DB9DA /* TaskList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskList.swift; sourceTree = "<group>"; };
 		FDEAA6262B246479003DB9DA /* TaskListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListTests.swift; sourceTree = "<group>"; };
+		FDEE0C2F2B3D064100B97C41 /* TaskCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCellViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,6 +212,7 @@
 		FD9336BF2B036DFC002FD8C9 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				FDEE0C2F2B3D064100B97C41 /* TaskCellViewModel.swift */,
 				FDEAA6222B24504B003DB9DA /* TaskListViewModel.swift */,
 				FD9336BB2B03586D002FD8C9 /* TaskAddEditViewModel.swift */,
 			);
@@ -362,6 +365,7 @@
 				FDEAA6232B24504B003DB9DA /* TaskListViewModel.swift in Sources */,
 				FD28145F2B130ABF008429E1 /* Task.swift in Sources */,
 				FD28145D2B1308AE008429E1 /* DB.swift in Sources */,
+				FDEE0C302B3D064100B97C41 /* TaskCellViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
