@@ -73,7 +73,7 @@ class TaskCellViewModel: ObservableObject {
         } else {
             remaining = "年"
         }
-        if remainingDays < 0 {
+        if self.task!.deadline < Date() {
             remaining = remaining + "前"
         } else {
             remaining = remaining + "後"

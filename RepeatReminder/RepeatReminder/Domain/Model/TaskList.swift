@@ -17,7 +17,12 @@ struct TaskList {
         }
         
         do {
-            self.tasks = try db.getTasks(isCompleted: isCompleted, isDeleted: isDeleted)
+            let taskList = try db.getTasks(isCompleted: isCompleted, isDeleted: isDeleted)
+            /// 締め切り順にソート
+            let sortedTasks = taskList.sorted(by: { leftTask, rightTask -> Bool in
+                return leftTask.deadline < rightTask.deadline
+            })
+            self.tasks = sortedTasks
             return
         } catch {
             return
