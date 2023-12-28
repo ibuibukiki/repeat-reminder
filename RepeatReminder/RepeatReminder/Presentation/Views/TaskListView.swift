@@ -76,49 +76,44 @@ struct TaskListView: View {
                         }
                     }.padding(.bottom,16)
                     // 今後のタスク一覧を表示
-                    List {
-                        ForEach(viewModel.tasks.indices, id: \.self) { index in
-                            HStack(spacing:8){
-                                // タスクの情報を表示
-                                TaskCell(task:viewModel.tasks[index])
-                                // ボタンを表示
-                                VStack(spacing:4){
-                                    ZStack {
-                                        //                    NavigationLink(
-                                        //                        destination: TaskAddEditView(isEditing:true,task:viewModel.task)
-                                        //                    ){ EmptyView() }.opacity(0)
-                                        Image(systemName:"pencil.circle")
-                                            .foregroundColor(Color("ButtonColor"))
-                                            .font(.system(size:48))
-                                    }
-                                    Button {
-                                        print("tap complete button")
-                                        isShowedAlert = true
-                                    } label: {
-                                        Image(systemName:"checkmark.circle.fill")
-                                            .foregroundColor(Color("ButtonColor"))
-                                            .font(.system(size:48))
-                                    }
-                                    .alert("このタスクを完了しますか？\n"+viewModel.tasks[index].name, isPresented: $isShowedAlert) {
-                                        Button("キャンセル") {
-                                            isShowedAlert = false
+                    ScrollView {
+                        VStack {
+                            ForEach(viewModel.tasks.indices, id: \.self) { index in
+                                let task = viewModel.tasks[index]
+                                HStack(spacing:8){
+                                    // タスクの情報を表示
+                                    TaskCell(task:task)
+                                    // ボタンを表示
+                                    VStack(spacing:4){
+                                        NavigationLink(
+                                            destination: TaskAddEditView(isEditing:true,task:task)
+                                        ){
+                                            Image(systemName:"pencil.circle")
+                                                .foregroundColor(Color("ButtonColor"))
+                                                .font(.system(size:48))
                                         }
-                                        Button("OK") {
-                                            isShowedAlert = false
-                                            viewModel.completeTask(task: viewModel.tasks[index])
+                                        Button {
+                                            print("tap complete button")
+                                            isShowedAlert = true
+                                        } label: {
+                                            Image(systemName:"checkmark.circle.fill")
+                                                .foregroundColor(Color("ButtonColor"))
+                                                .font(.system(size:48))
+                                        }
+                                        .alert("このタスクを完了しますか？\n"+task.name, isPresented: $isShowedAlert) {
+                                            Button("キャンセル") {
+                                                isShowedAlert = false
+                                            }
+                                            Button("OK") {
+                                                isShowedAlert = false
+                                                viewModel.completeTask(task: task)
+                                            }
                                         }
                                     }
                                 }
-                            }.background(Color("BackgroundColor"))
-                                .listRowBackground(Color("BackgroundColor"))
-                                .listRowInsets(
-                                    EdgeInsets(top:CGFloat(0),
-                                               leading:CGFloat(32),
-                                               bottom:CGFloat(8),
-                                               trailing:CGFloat(8)))
-                        }.listRowSeparator(.hidden)
-                    }.scrollContentBackground(.hidden)
-                        .listStyle(PlainListStyle())
+                            }
+                        }
+                    }
                 }.padding(.top,32)
             }.onAppear {
                 viewModel.readTask()
