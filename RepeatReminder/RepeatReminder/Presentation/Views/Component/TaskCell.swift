@@ -18,14 +18,10 @@ struct TaskCell: View {
         HStack(spacing:8){
             // タスクの情報を表示
             HStack{
-                HStack{
-                    Text(viewModel.remainingDays)
-                        .font(.largeTitle)
-                        .padding(.top,20)
-                        .padding(.bottom,12)
-                    Text("日後")
-                        .font(.title2)
-                        .padding(.top,24)
+                HStack(spacing:4){
+                    viewModel.remainingNumText
+                    Text(viewModel.remainingText)
+                        .padding(.top,32)
                         .padding(.bottom,4)
                 }
                 .foregroundColor(Color("BackgroundColor"))

@@ -32,13 +32,52 @@ class TaskCellViewModel: ObservableObject {
         return dateString
     }
     
-    var remainingDays: String {
+    private var remainingDays: Int {
         guard (self.task != nil) else {
-            return ""
+            return 0
         }
         let deadline = Calendar.current.startOfDay(for: task!.deadline)
         let today = Calendar.current.startOfDay(for: Date())
         let remainingDays = Calendar.current.dateComponents([.day], from: today, to: deadline).day!
-        return String(remainingDays)
+        return remainingDays
+    }
+    
+    private var remainingYears: Int {
+        guard (self.task != nil) else {
+            return 0
+        }
+        let deadline = Calendar.current.startOfDay(for: task!.deadline)
+        let today = Calendar.current.startOfDay(for: Date())
+        let remainingDays = Calendar.current.dateComponents([.day], from: today, to: deadline).day!
+        return Int(remainingDays/365)
+    }
+    
+    var remainingNumText: Text {
+        var remaining = ""
+        if remainingDays < 365 {
+            remaining = String(abs(remainingDays))
+        } else {
+            remaining = String(abs(remainingYears))
+        }
+        if remaining.count < 3 {
+            return Text(remaining).font(.largeTitle)
+        } else {
+            return Text(remaining).font(.title)
+        }
+    }
+    
+    var remainingText: String {
+        var remaining = ""
+        if remainingDays < 365 {
+            remaining = "日"
+        } else {
+            remaining = "年"
+        }
+        if remainingDays < 0 {
+            remaining = remaining + "前"
+        } else {
+            remaining = remaining + "後"
+        }
+        return remaining
     }
 }
