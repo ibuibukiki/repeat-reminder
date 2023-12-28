@@ -26,4 +26,32 @@ class SettingListViewModel: ObservableObject {
         model.getCompletedTasks()
         model.getDeletedTasks()
     }
+    
+    func notCompletedTask(task: Task){
+        guard let db = DB.shared else {
+            return
+        }
+        var notCompletedTask = task
+        notCompletedTask.isCompleted = false
+        try! db.updateTask(task:notCompletedTask)
+        readTask()
+    }
+    
+    func notDeletedTask(task: Task){
+        guard let db = DB.shared else {
+            return
+        }
+        var notDeletedTask = task
+        notDeletedTask.isDeleted = false
+        try! db.updateTask(task:notDeletedTask)
+        readTask()
+    }
+    
+    func completelydeletedTask(taskId: String){
+        guard let db = DB.shared else {
+            return
+        }
+        try! db.deleteTask(taskId:taskId)
+        readTask()
+    }
 }
