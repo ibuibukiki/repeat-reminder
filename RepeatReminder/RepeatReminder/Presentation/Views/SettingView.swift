@@ -52,7 +52,7 @@ struct SettingView: View {
                         .shadow(color:.gray,radius:5,x:0,y:4)
                 }
                 Button {
-                    print("tap cash button")
+                    print("tap delete cache button")
                     isShowedAlert = true
                 } label: {
                     Text("キャッシュの削除")
@@ -69,6 +69,7 @@ struct SettingView: View {
                 }.alert("過去に完了・削除した\nタスクのデータを\n消去しますか？", isPresented: $isShowedAlert) {
                     Button("消去",role:.destructive) {
                         isShowedAlert = false
+                        viewModel.deleteCache()
                     }
                     Button("キャンセル",role:.cancel) {
                         isShowedAlert = false
