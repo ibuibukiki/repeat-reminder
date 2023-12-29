@@ -254,7 +254,7 @@ struct TaskAddEditView: View {
                                 isShowedAlert = false
                                 viewModel.deleteTask()
                                 self.presentation.wrappedValue.dismiss()
-                            }.foregroundColor(.red)
+                            }
                             Button("キャンセル",role:.cancel) {
                                 isShowedAlert = false
                             }

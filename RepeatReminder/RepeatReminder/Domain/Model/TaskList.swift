@@ -11,13 +11,13 @@ struct TaskList {
     var tasks: [Task] = []
     var todayTasks: [String] = []
     
-    mutating func getTask(isCompleted:Bool?,isDeleted:Bool?) {
+    mutating func getTask() {
         guard let db = DB.shared else {
             return
         }
         
         do {
-            let taskList = try db.getTasks(isCompleted: isCompleted, isDeleted: isDeleted)
+            let taskList = try db.getTasks(isCompleted: false, isDeleted: false)
             /// 締め切り順にソート
             let sortedTasks = taskList.sorted(by: { leftTask, rightTask -> Bool in
                 return leftTask.deadline < rightTask.deadline

@@ -371,7 +371,6 @@ final class DB {
                             firstNotifiedNum:firstNotifiedNum,firstNotifiedRange:firstNotifiedRange,
                             intervalNotifiedNum:intervalNotifiedNum, intervalNotifiedRange:intervalNotifiedRange,
                             isCompleted:isCompleted, isDeleted:isDeleted)
-            print(task.taskId)
             tasks.append(task)
         }
         sqlite3_finalize(stmt)
