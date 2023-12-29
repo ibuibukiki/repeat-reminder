@@ -55,7 +55,7 @@ struct SettingView: View {
                     print("tap delete cache button")
                     isShowedAlert = true
                 } label: {
-                    Text("キャッシュの削除")
+                    Text("キャッシュの消去")
                         .frame(width:320,height:48)
                         .foregroundColor(Color("TextColor"))
                         .background(Color("BackgroundColor"))

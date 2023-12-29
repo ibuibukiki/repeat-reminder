@@ -19,6 +19,8 @@
 		FD8B19852B02683F00FBCC34 /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8B19842B02683F00FBCC34 /* TaskCell.swift */; };
 		FD9336BA2B033851002FD8C9 /* TaskAddEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9336B92B033851002FD8C9 /* TaskAddEditView.swift */; };
 		FD9336BC2B03586D002FD8C9 /* TaskAddEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9336BB2B03586D002FD8C9 /* TaskAddEditViewModel.swift */; };
+		FDDA1B892B3E595F00BFA737 /* ClearButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDA1B882B3E595F00BFA737 /* ClearButton.swift */; };
+		FDDA1B8B2B3E5D1100BFA737 /* SettingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDA1B8A2B3E5D1100BFA737 /* SettingButton.swift */; };
 		FDEAA6232B24504B003DB9DA /* TaskListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEAA6222B24504B003DB9DA /* TaskListViewModel.swift */; };
 		FDEAA6252B245220003DB9DA /* TaskList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEAA6242B245220003DB9DA /* TaskList.swift */; };
 		FDEAA6272B246479003DB9DA /* TaskListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEAA6262B246479003DB9DA /* TaskListTests.swift */; };
@@ -63,6 +65,8 @@
 		FD8B19842B02683F00FBCC34 /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
 		FD9336B92B033851002FD8C9 /* TaskAddEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskAddEditView.swift; sourceTree = "<group>"; };
 		FD9336BB2B03586D002FD8C9 /* TaskAddEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TaskAddEditViewModel.swift; path = RepeatReminder/Presentation/ViewModels/TaskAddEditViewModel.swift; sourceTree = SOURCE_ROOT; };
+		FDDA1B882B3E595F00BFA737 /* ClearButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearButton.swift; sourceTree = "<group>"; };
+		FDDA1B8A2B3E5D1100BFA737 /* SettingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingButton.swift; sourceTree = "<group>"; };
 		FDEAA6222B24504B003DB9DA /* TaskListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewModel.swift; sourceTree = "<group>"; };
 		FDEAA6242B245220003DB9DA /* TaskList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskList.swift; sourceTree = "<group>"; };
 		FDEAA6262B246479003DB9DA /* TaskListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListTests.swift; sourceTree = "<group>"; };
@@ -218,6 +222,8 @@
 			isa = PBXGroup;
 			children = (
 				FD8B19842B02683F00FBCC34 /* TaskCell.swift */,
+				FDDA1B882B3E595F00BFA737 /* ClearButton.swift */,
+				FDDA1B8A2B3E5D1100BFA737 /* SettingButton.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -377,6 +383,7 @@
 				FD8B19852B02683F00FBCC34 /* TaskCell.swift in Sources */,
 				FDEAA6252B245220003DB9DA /* TaskList.swift in Sources */,
 				FD8B19822B0251D900FBCC34 /* TaskListView.swift in Sources */,
+				FDDA1B8B2B3E5D1100BFA737 /* SettingButton.swift in Sources */,
 				FDEE0C362B3D70C300B97C41 /* SettingListView.swift in Sources */,
 				FD9336BC2B03586D002FD8C9 /* TaskAddEditViewModel.swift in Sources */,
 				FDEAA6232B24504B003DB9DA /* TaskListViewModel.swift in Sources */,
@@ -386,6 +393,7 @@
 				FD28145D2B1308AE008429E1 /* DB.swift in Sources */,
 				FDEE0C302B3D064100B97C41 /* TaskCellViewModel.swift in Sources */,
 				FDEE0C322B3D6A6200B97C41 /* SettingView.swift in Sources */,
+				FDDA1B892B3E595F00BFA737 /* ClearButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
