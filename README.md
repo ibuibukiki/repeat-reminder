@@ -11,7 +11,8 @@
 ### 画面
 * 登録済みのタスクのリストを表示する画面
 * タスクの追加・編集ができる画面
-* 設定画面 (削除済みタスクの復元やキャッシュの削除を実行)
+* 設定画面 (削除済みタスクの復元やキャッシュの消去を実行)
+* [デザイン](https://www.figma.com/file/yT7NwfrnZssVU1OEmA7K3v/RepeatReminder?type=design&node-id=0%3A1&mode=design&t=fi46CjliQRW1q6Kz-1)
 
 ***
 
