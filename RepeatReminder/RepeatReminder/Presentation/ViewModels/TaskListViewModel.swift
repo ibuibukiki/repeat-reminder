@@ -23,6 +23,20 @@ class TaskListViewModel: ObservableObject {
         return model.todayTasks
     }
     
+    func authorizeNotification() {
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert,.sound]) { granted, error in
+            if error != nil {
+                print("Notification Authorization Error: \(String(describing: error))")
+            }
+            if granted {
+                print("Notification Authorized")
+            } else {
+                print("Notification Not Authorized")
+            }
+        }
+    }
+    
     func readTask(){
         model.getTask()
         model.getTodayTask()

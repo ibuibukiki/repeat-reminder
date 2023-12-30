@@ -10,6 +10,10 @@ import SwiftUI
 struct TaskListView: View {
     @ObservedObject var viewModel = TaskListViewModel()
     
+    init(){
+        viewModel.authorizeNotification()
+    }
+    
     var body: some View {
         NavigationStack{
             ZStack(alignment:.top){
