@@ -22,7 +22,7 @@ enum TaskDatabaseError: Error {
 final class TaskDB {
     static let shared = TaskDB()
     
-    private let dbFile = "DBVer2.sqlite"
+    private let dbFile = "TaskDBVer1.sqlite"
     private var db: OpaquePointer?
     
     private init?() {

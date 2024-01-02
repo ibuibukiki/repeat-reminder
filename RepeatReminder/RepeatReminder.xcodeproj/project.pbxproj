@@ -19,6 +19,8 @@
 		FD8B19852B02683F00FBCC34 /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8B19842B02683F00FBCC34 /* TaskCell.swift */; };
 		FD9336BA2B033851002FD8C9 /* TaskAddEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9336B92B033851002FD8C9 /* TaskAddEditView.swift */; };
 		FD9336BC2B03586D002FD8C9 /* TaskAddEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9336BB2B03586D002FD8C9 /* TaskAddEditViewModel.swift */; };
+		FD9E42122B44063800F5938F /* NotificationDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9E42112B44063800F5938F /* NotificationDB.swift */; };
+		FD9E42142B4408A400F5938F /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9E42132B4408A400F5938F /* Notification.swift */; };
 		FDDA1B892B3E595F00BFA737 /* ClearButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDA1B882B3E595F00BFA737 /* ClearButton.swift */; };
 		FDDA1B8B2B3E5D1100BFA737 /* SettingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDA1B8A2B3E5D1100BFA737 /* SettingButton.swift */; };
 		FDE4DE082B3FD20200C948B6 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE4DE072B3FD20200C948B6 /* NotificationManager.swift */; };
@@ -67,6 +69,8 @@
 		FD8B19842B02683F00FBCC34 /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
 		FD9336B92B033851002FD8C9 /* TaskAddEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskAddEditView.swift; sourceTree = "<group>"; };
 		FD9336BB2B03586D002FD8C9 /* TaskAddEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TaskAddEditViewModel.swift; path = RepeatReminder/Presentation/ViewModels/TaskAddEditViewModel.swift; sourceTree = SOURCE_ROOT; };
+		FD9E42112B44063800F5938F /* NotificationDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDB.swift; sourceTree = "<group>"; };
+		FD9E42132B4408A400F5938F /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		FDDA1B882B3E595F00BFA737 /* ClearButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearButton.swift; sourceTree = "<group>"; };
 		FDDA1B8A2B3E5D1100BFA737 /* SettingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingButton.swift; sourceTree = "<group>"; };
 		FDE4DE072B3FD20200C948B6 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
@@ -170,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				FD28145C2B1308AE008429E1 /* TaskDB.swift */,
+				FD9E42112B44063800F5938F /* NotificationDB.swift */,
 				FDE4DE072B3FD20200C948B6 /* NotificationManager.swift */,
 			);
 			path = Usecase;
@@ -190,6 +195,7 @@
 				FD28145E2B130ABF008429E1 /* Task.swift */,
 				FDEAA6242B245220003DB9DA /* TaskList.swift */,
 				FDEE0C372B3D732400B97C41 /* SettingList.swift */,
+				FD9E42132B4408A400F5938F /* Notification.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -387,6 +393,7 @@
 				FD1396542AF7D39000003C37 /* RepeatReminderApp.swift in Sources */,
 				FDE4DE0A2B3FD4AD00C948B6 /* AppDelegate.swift in Sources */,
 				FD9336BA2B033851002FD8C9 /* TaskAddEditView.swift in Sources */,
+				FD9E42122B44063800F5938F /* NotificationDB.swift in Sources */,
 				FD8B19852B02683F00FBCC34 /* TaskCell.swift in Sources */,
 				FDEAA6252B245220003DB9DA /* TaskList.swift in Sources */,
 				FD8B19822B0251D900FBCC34 /* TaskListView.swift in Sources */,
@@ -399,6 +406,7 @@
 				FDE4DE082B3FD20200C948B6 /* NotificationManager.swift in Sources */,
 				FDEE0C382B3D732400B97C41 /* SettingList.swift in Sources */,
 				FD28145D2B1308AE008429E1 /* TaskDB.swift in Sources */,
+				FD9E42142B4408A400F5938F /* Notification.swift in Sources */,
 				FDEE0C302B3D064100B97C41 /* TaskCellViewModel.swift in Sources */,
 				FDEE0C322B3D6A6200B97C41 /* SettingView.swift in Sources */,
 				FDDA1B892B3E595F00BFA737 /* ClearButton.swift in Sources */,
