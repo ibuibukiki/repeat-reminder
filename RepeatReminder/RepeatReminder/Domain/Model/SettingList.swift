@@ -12,7 +12,7 @@ struct SettingList {
     var deletedTasks: [Task] = []
     
     mutating func getCompletedTasks() {
-        guard let db = DB.shared else {
+        guard let db = TaskDB.shared else {
             return
         }
         
@@ -29,7 +29,7 @@ struct SettingList {
     }
     
     mutating func getDeletedTasks() {
-        guard let db = DB.shared else {
+        guard let db = TaskDB.shared else {
             return
         }
         

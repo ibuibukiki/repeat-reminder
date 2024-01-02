@@ -28,7 +28,7 @@ class SettingListViewModel: ObservableObject {
     }
     
     func notCompletedTask(task: Task){
-        guard let db = DB.shared else {
+        guard let db = TaskDB.shared else {
             return
         }
         var notCompletedTask = task
@@ -38,7 +38,7 @@ class SettingListViewModel: ObservableObject {
     }
     
     func notDeletedTask(task: Task){
-        guard let db = DB.shared else {
+        guard let db = TaskDB.shared else {
             return
         }
         var notDeletedTask = task
@@ -48,7 +48,7 @@ class SettingListViewModel: ObservableObject {
     }
     
     func completelydeletedTask(taskId: String){
-        guard let db = DB.shared else {
+        guard let db = TaskDB.shared else {
             return
         }
         try! db.deleteTask(taskId:taskId)

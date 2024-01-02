@@ -13,7 +13,7 @@ enum TaskAddEditViewModelError: Error {
 }
 
 class TaskAddEditViewModel: ObservableObject,Identifiable {
-    var db: DB!
+    var db: TaskDB!
     var task: Task
     
     let initialTask = Task(taskId:UUID().uuidString,name:"",deadline:Date(),
@@ -23,7 +23,7 @@ class TaskAddEditViewModel: ObservableObject,Identifiable {
                            isCompleted:false,isDeleted:false)
 
     init() {
-        self.db = DB.shared
+        self.db = TaskDB.shared
         self.task = initialTask
     }
     

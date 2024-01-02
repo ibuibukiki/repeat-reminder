@@ -29,7 +29,7 @@ class TaskListViewModel: ObservableObject {
     }
     
     func completeTask(task: Task) {
-        guard let db = DB.shared else {
+        guard let db = TaskDB.shared else {
             return
         }
         var completedTask = task

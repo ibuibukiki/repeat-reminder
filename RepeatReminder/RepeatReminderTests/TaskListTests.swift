@@ -10,7 +10,7 @@ import XCTest
 
 final class TaskListViewModelTests: XCTestCase {
 
-    var db: DB!
+    var db: TaskDB!
     
     let task1 = Task(taskId: UUID().uuidString, name: "Today Task", deadline: Date(),
                     isLimitNotified: true, isPreNotified: false,
@@ -25,7 +25,7 @@ final class TaskListViewModelTests: XCTestCase {
     
     override func setUpWithError() throws {
         super.setUp()
-        db = DB.shared
+        db = TaskDB.shared
         
         do {
             try db.insertTask(task: task1)
@@ -48,13 +48,13 @@ final class TaskListViewModelTests: XCTestCase {
     }
     
     func testGetTasks() throws {
-        let model = TaskList(isCompleted:false,isDeleted:false)
+        let model = TaskList()
         let tasks = model.tasks
         XCTAssertEqual(tasks.count, 2, "Get task should be all")
     }
 
     func testGetTodayTasks() throws {
-        let model = TaskList(isCompleted:false,isDeleted:false)
+        let model = TaskList()
         let todayTasks = model.todayTasks
         XCTAssertEqual(todayTasks.count, 1, "Get task should be one")
         XCTAssertEqual(todayTasks[0], task1.name, "Get task should be today task")

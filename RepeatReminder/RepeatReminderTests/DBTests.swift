@@ -8,14 +8,14 @@
 import XCTest
 @testable import RepeatReminder
 
-final class DBTests: XCTestCase {
+final class TaskDBTests: XCTestCase {
     
-    var db: DB!
+    var db: TaskDB!
     var task: Task!
 
     override func setUpWithError() throws {
         super.setUp()
-        db = DB.shared
+        db = TaskDB.shared
         task = Task(taskId: UUID().uuidString, name: "Test Task", deadline: Date(),
                         isLimitNotified: true, isPreNotified: false,
                         firstNotifiedNum: nil, firstNotifiedRange: nil,
@@ -29,8 +29,8 @@ final class DBTests: XCTestCase {
         super.tearDown()
     }
 
-    func testInitializedDB() {
-        XCTAssertNotNil(db, "DB instance should not be nil")
+    func testInitializedTaskDB() {
+        XCTAssertNotNil(db, "TaskDB instance should not be nil")
     }
     
     func testGetTasks() {

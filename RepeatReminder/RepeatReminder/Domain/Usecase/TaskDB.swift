@@ -1,5 +1,5 @@
 //
-//  DB.swift
+//  TaskDB.swift
 //  RepeatReminder
 //
 //  Created by 吉田郁吹 on 2023/11/26.
@@ -8,7 +8,7 @@
 import Foundation
 import SQLite3
 
-enum DatabaseError: Error {
+enum TaskDatabaseError: Error {
     case openDatabaseFailed(String)
     case createTableFailed(String)
     case insertTaskFailed(String)
@@ -19,8 +19,8 @@ enum DatabaseError: Error {
     case deleteTaskFailed(String)
 }
 
-final class DB {
-    static let shared = DB()
+final class TaskDB {
+    static let shared = TaskDB()
     
     private let dbFile = "DBVer2.sqlite"
     private var db: OpaquePointer?
@@ -29,7 +29,7 @@ final class DB {
         do {
             db = try openDatabase()
             try createTable()
-        } catch let error as DatabaseError {
+        } catch let error as TaskDatabaseError {
             print("Database initialization failed: \(error)")
             return nil
         } catch {
@@ -47,7 +47,7 @@ final class DB {
         var db: OpaquePointer? = nil
         if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
             let errorMessage = getDBErrorMessage(db)
-            throw DatabaseError.openDatabaseFailed(errorMessage)
+            throw TaskDatabaseError.openDatabaseFailed(errorMessage)
         } else {
             print("Opened connection to database")
             return db
@@ -75,13 +75,13 @@ final class DB {
         
         if sqlite3_prepare_v2(db, (createSql as NSString).utf8String, -1, &createStmt, nil) != SQLITE_OK {
             let errorMessage = getDBErrorMessage(db)
-            throw DatabaseError.createTableFailed(errorMessage)
+            throw TaskDatabaseError.createTableFailed(errorMessage)
         }
         
         if sqlite3_step(createStmt) != SQLITE_DONE {
             let errorMessage = getDBErrorMessage(db)
             sqlite3_finalize(createStmt)
-            throw DatabaseError.createTableFailed(errorMessage)
+            throw TaskDatabaseError.createTableFailed(errorMessage)
         }
         
         sqlite3_finalize(createStmt)
@@ -110,7 +110,7 @@ final class DB {
         
         if sqlite3_prepare_v2(db, (insertSql as NSString).utf8String, -1, &insertStmt, nil) != SQLITE_OK {
             let errorMessage = getDBErrorMessage(db)
-            throw DatabaseError.insertTaskFailed(errorMessage)
+            throw TaskDatabaseError.insertTaskFailed(errorMessage)
         }
         
         // Date型をString型に変換
@@ -142,7 +142,7 @@ final class DB {
         if sqlite3_step(insertStmt) != SQLITE_DONE {
             let errorMessage = getDBErrorMessage(db)
             sqlite3_finalize(insertStmt)
-            throw DatabaseError.insertTaskFailed(errorMessage)
+            throw TaskDatabaseError.insertTaskFailed(errorMessage)
         }
         
         sqlite3_finalize(insertStmt)
@@ -159,7 +159,7 @@ final class DB {
                 let count = sqlite3_column_int(checkStmt, 0)
                 if count == 0 {
                     // レコードが存在しない場合のエラー
-                    throw DatabaseError.noRecordFound
+                    throw TaskDatabaseError.noRecordFound
                 }
             }
         }
@@ -184,7 +184,7 @@ final class DB {
         
         if sqlite3_prepare_v2(db, (updateSql as NSString).utf8String, -1, &updateStmt, nil) != SQLITE_OK {
             let errorMessage = getDBErrorMessage(db)
-            throw DatabaseError.updateTaskFailed(errorMessage)
+            throw TaskDatabaseError.updateTaskFailed(errorMessage)
         }
         
         // Date型をString型に変換
@@ -216,7 +216,7 @@ final class DB {
         if sqlite3_step(updateStmt) != SQLITE_DONE {
             let errorMessage = getDBErrorMessage(db)
             sqlite3_finalize(updateStmt)
-            throw DatabaseError.updateTaskFailed(errorMessage)
+            throw TaskDatabaseError.updateTaskFailed(errorMessage)
         }
         
         sqlite3_finalize(updateStmt)
@@ -236,7 +236,7 @@ final class DB {
         
         if sqlite3_prepare_v2(db, (sql as NSString).utf8String, -1, &stmt, nil) != SQLITE_OK {
             let errorMessage = getDBErrorMessage(db)
-            throw DatabaseError.getTaskFailed(errorMessage, task)
+            throw TaskDatabaseError.getTaskFailed(errorMessage, task)
         }
         
         sqlite3_bind_text(stmt, 1, (taskId as NSString).utf8String, -1, nil)
@@ -251,7 +251,7 @@ final class DB {
             
             guard let deadline = formatter.date(from: String(cString: sqlite3_column_text(stmt, 2))) else {
                 let errorMessage = "value error: deadline null"
-                throw DatabaseError.getTaskFailed(errorMessage, nil)
+                throw TaskDatabaseError.getTaskFailed(errorMessage, nil)
             }
             
             let isLimitNotified = sqlite3_column_int(stmt, 3)==1 ? true : false
@@ -305,7 +305,7 @@ final class DB {
         
         if sqlite3_prepare_v2(db, (sql as NSString).utf8String, -1, &stmt, nil) != SQLITE_OK {
             let errorMessage = getDBErrorMessage(db)
-            throw DatabaseError.getTasksFailed(errorMessage)
+            throw TaskDatabaseError.getTasksFailed(errorMessage)
         }
         
         if isCompleted == nil {
@@ -341,7 +341,7 @@ final class DB {
             
             guard let deadline = formatter.date(from: String(cString: sqlite3_column_text(stmt, 2))) else {
                 let errorMessage = "value error: deadline null"
-                throw DatabaseError.getTaskFailed(errorMessage, nil)
+                throw TaskDatabaseError.getTaskFailed(errorMessage, nil)
             }
             
             let isLimitNotified = sqlite3_column_int(stmt, 3)==1 ? true : false
@@ -389,7 +389,7 @@ final class DB {
                 let count = sqlite3_column_int(checkStmt, 0)
                 if count == 0 {
                     // レコードが存在しない場合のエラー
-                    throw DatabaseError.noRecordFound
+                    throw TaskDatabaseError.noRecordFound
                 }
             }
         }
@@ -401,7 +401,7 @@ final class DB {
         
         if sqlite3_prepare_v2(db, (deleteSql as NSString).utf8String, -1, &deleteStmt, nil) != SQLITE_OK {
             let errorMessage = getDBErrorMessage(db)
-            throw DatabaseError.deleteTaskFailed(errorMessage)
+            throw TaskDatabaseError.deleteTaskFailed(errorMessage)
         }
         
         sqlite3_bind_text(deleteStmt, 1, (taskId as NSString).utf8String, -1, nil)
@@ -409,7 +409,7 @@ final class DB {
         if sqlite3_step(deleteStmt) != SQLITE_DONE {
             let errorMessage = getDBErrorMessage(db)
             sqlite3_finalize(deleteStmt)
-            throw DatabaseError.deleteTaskFailed(errorMessage)
+            throw TaskDatabaseError.deleteTaskFailed(errorMessage)
         }
 
         sqlite3_finalize(deleteStmt)
