@@ -9,8 +9,11 @@ import Foundation
 
 class SettingListViewModel: ObservableObject {
     @Published var model = SettingList()
+    var notificationDb: NotificationDB!
+    var manager = NotificationManager()
     
     init(){
+        notificationDb = NotificationDB.shared
         readTask()
     }
     
@@ -34,6 +37,10 @@ class SettingListViewModel: ObservableObject {
         var notCompletedTask = task
         notCompletedTask.isCompleted = false
         try! db.updateTask(task:notCompletedTask)
+        let notifications = manager.createNotification(task:task)
+        for notification in notifications {
+            try! notificationDb.insertNotification(notification:notification)
+        }
         readTask()
     }
     
@@ -44,6 +51,10 @@ class SettingListViewModel: ObservableObject {
         var notDeletedTask = task
         notDeletedTask.isDeleted = false
         try! db.updateTask(task:notDeletedTask)
+        let notifications = manager.createNotification(task:task)
+        for notification in notifications {
+            try! notificationDb.insertNotification(notification:notification)
+        }
         readTask()
     }
     
