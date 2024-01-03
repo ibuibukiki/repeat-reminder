@@ -13,9 +13,10 @@ enum TaskAddEditViewModelError: Error {
 }
 
 class TaskAddEditViewModel: ObservableObject,Identifiable {
-    var db: TaskDB!
+    var taskDb: TaskDB!
+    var notificationDb: NotificationDB!
     var task: Task
-    
+    var manager = NotificationManager()
     let initialTask = Task(taskId:UUID().uuidString,name:"",deadline:Date(),
                            isLimitNotified:true,isPreNotified:true,
                            firstNotifiedNum:1,firstNotifiedRange:"時間",
@@ -23,7 +24,8 @@ class TaskAddEditViewModel: ObservableObject,Identifiable {
                            isCompleted:false,isDeleted:false)
 
     init() {
-        self.db = TaskDB.shared
+        self.taskDb = TaskDB.shared
+        self.notificationDb = NotificationDB.shared
         self.task = initialTask
     }
     
@@ -32,15 +34,19 @@ class TaskAddEditViewModel: ObservableObject,Identifiable {
     }
     
     func addTask() {
-        try! db.insertTask(task:task)
+        try! taskDb.insertTask(task:task)
+        let notifications = manager.createNotification(task:task)
+        for notification in notifications {
+            try! notificationDb.insertNotification(notification: notification)
+        }
     }
     
     func updateTask() {
-        try! db.updateTask(task:task)
+        try! taskDb.updateTask(task:task)
     }
     
     func deleteTask() {
         self.task.isDeleted = true
-        try! db.updateTask(task:task)
+        try! taskDb.updateTask(task:task)
     }
 }
