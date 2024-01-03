@@ -20,11 +20,12 @@
 クリーンアーキテクチャとMVVMを併用
 * RepeatReminder
   * Domain : データモデルを管理
-    * Model
-    * Usecase
+    * Entities 
+    * Usecases
+    * Models
   * Presentation : 画面の情報を管理
-    * ViewModel
-    * View
+    * ViewModels
+    * Views
   * Infrastructure : 外部リソースの情報を管理
     * Assets 
   
