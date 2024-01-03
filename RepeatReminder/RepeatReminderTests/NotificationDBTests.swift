@@ -11,7 +11,7 @@ import XCTest
 final class AppNotificationDBTests: XCTestCase {
     
     var db: NotificationDB!
-    let notification = AppNotification(notificationId:UUID().uuidString,taskId:UUID().uuidString)
+    let notification = AppNotification(notificationId:UUID().uuidString,taskId:UUID().uuidString,datetime:Date(),isLimit:true)
     
     override func setUpWithError() throws {
         super.setUp()
@@ -42,6 +42,22 @@ final class AppNotificationDBTests: XCTestCase {
         
         XCTAssertNoThrow(result = try! db.getNotifications(taskId: UUID().uuidString), "Get Notification should be successfull")
         XCTAssertEqual(result.count, 0, "Notification should be zero")
+    }
+    
+    func testUpdateNotification() {
+        XCTAssertNoThrow(try db.insertNotification(notification: notification), "Insert notification should be successfull")
+        
+        let notificationUpdated = AppNotification(notificationId:notification.notificationId,taskId:notification.taskId, datetime:Date(),isLimit:false)
+        
+        XCTAssertNoThrow(try db.updateNotification(notification: notificationUpdated), "Update notification should be successful")
+    }
+    
+    func testUpdateNotificationFailed() {
+        XCTAssertNoThrow(try db.insertNotification(notification: notification), "Insert notification should be successfull")
+        
+        let notificationUpdatedFailed = AppNotification(notificationId:UUID().uuidString,taskId:notification.taskId, datetime:Date(),isLimit:false)
+        
+        XCTAssertThrowsError(try db.updateNotification(notification: notificationUpdatedFailed), "Update notification should be failed")
     }
     
     func testDeleteNotification() {
