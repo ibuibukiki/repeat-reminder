@@ -218,12 +218,12 @@ final class NotificationDB{
         return notifications
     }
     
-    func deleteNotification(notificationId: String) throws {
+    func deleteNotification(taskId: String) throws {
         // レコードの存在チェック
-        let checkSql = "SELECT COUNT(*) FROM notifications WHERE notification_id = ?"
+        let checkSql = "SELECT COUNT(*) FROM notifications WHERE task_id = ?"
         var checkStmt: OpaquePointer? = nil
         if sqlite3_prepare_v2(db, checkSql, -1, &checkStmt, nil) == SQLITE_OK {
-            sqlite3_bind_text(checkStmt, 1, (notificationId as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(checkStmt, 1, (taskId as NSString).utf8String, -1, nil)
 
             if sqlite3_step(checkStmt) == SQLITE_ROW {
                 let count = sqlite3_column_int(checkStmt, 0)
@@ -236,7 +236,7 @@ final class NotificationDB{
         sqlite3_finalize(checkStmt)
         
         // 削除処理
-        let deleteSql = "DELETE FROM notifications WHERE notification_id = ?;";
+        let deleteSql = "DELETE FROM notifications WHERE task_id = ?;";
         var deleteStmt: OpaquePointer? = nil
         
         if sqlite3_prepare_v2(db, (deleteSql as NSString).utf8String, -1, &deleteStmt, nil) != SQLITE_OK {
@@ -244,7 +244,7 @@ final class NotificationDB{
             throw NotificationDatabaseError.deleteNotificationFailed(errorMessage)
         }
         
-        sqlite3_bind_text(deleteStmt, 1, (notificationId as NSString).utf8String, -1, nil)
+        sqlite3_bind_text(deleteStmt, 1, (taskId as NSString).utf8String, -1, nil)
         
         if sqlite3_step(deleteStmt) != SQLITE_DONE {
             let errorMessage = getDBErrorMessage(db)

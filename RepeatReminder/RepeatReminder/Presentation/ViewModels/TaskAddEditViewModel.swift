@@ -37,16 +37,31 @@ class TaskAddEditViewModel: ObservableObject,Identifiable {
         try! taskDb.insertTask(task:task)
         let notifications = manager.createNotification(task:task)
         for notification in notifications {
-            try! notificationDb.insertNotification(notification: notification)
+            try! notificationDb.insertNotification(notification:notification)
         }
     }
     
     func updateTask() {
         try! taskDb.updateTask(task:task)
+        
+        let notifications = try! notificationDb.getNotifications(taskId: task.taskId)
+        let result = manager.mergeNotification(task:task, notifications:notifications)
+        if result.isNeededDelete {
+            // 以前登録した通知の削除が必要な場合、変更前の通知を削除して変更後の通知を追加
+            try! notificationDb.deleteNotification(taskId: task.taskId)
+            for notification in result.mergedNotifications {
+                try! notificationDb.insertNotification(notification: notification)
+            }
+        } else {
+            // 以前登録した通知の削除が不要な場合、通知を更新
+            for notification in result.mergedNotifications {
+                try! notificationDb.updateNotification(notification: notification)
+            }
+        }
     }
     
     func deleteTask() {
-        self.task.isDeleted = true
+        task.isDeleted = true
         try! taskDb.updateTask(task:task)
     }
 }

@@ -63,13 +63,13 @@ final class AppNotificationDBTests: XCTestCase {
     func testDeleteNotification() {
         XCTAssertNoThrow(try db.insertNotification(notification: notification), "Insert notification should be successfull")
         
-        XCTAssertNoThrow(try db.deleteNotification(notificationId: notification.notificationId), "Delete Notification should be successfull")
+        XCTAssertNoThrow(try db.deleteNotification(taskId: notification.taskId), "Delete Notification should be successfull")
     }
     
     func testDeleteNotificationFailed() {
         XCTAssertNoThrow(try db.insertNotification(notification: notification), "Insert notification should be successfull")
         
-        XCTAssertThrowsError(try db.deleteNotification(notificationId: UUID().uuidString), "Delete Notification should be failed")
+        XCTAssertThrowsError(try db.deleteNotification(taskId: UUID().uuidString), "Delete Notification should be failed")
     }
     
     func testPerformanceExample() throws {
