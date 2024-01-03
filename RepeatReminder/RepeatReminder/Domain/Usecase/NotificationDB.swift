@@ -84,7 +84,7 @@ final class NotificationDB{
         }
     }
     
-    func insertNortification(notification: Notification) throws {
+    func insertNotification(notification: AppNotification) throws {
         let insertSql = """
                         INSERT INTO notifications (
                                 notification_id, task_id
@@ -111,14 +111,14 @@ final class NotificationDB{
         sqlite3_finalize(insertStmt)
     }
     
-    func getNotifications(taskId: String) throws -> [Notification] {
+    func getNotifications(taskId: String) throws -> [AppNotification] {
         
-        var notifications: [Notification] = []
+        var notifications: [AppNotification] = []
         
         let sql = """
                 SELECT  *
                 FROM    notifications
-                WHERE   notification_id = ?;
+                WHERE   task_id = ?;
                 """
         
         var stmt: OpaquePointer? = nil
@@ -134,8 +134,9 @@ final class NotificationDB{
             let notificationId = String(describing: String(cString: sqlite3_column_text(stmt, 0)))
             let taskId = String(describing: String(cString: sqlite3_column_text(stmt, 1)))
             
-            let notification = Notification(notificationId:notificationId,taskId:taskId)
+            let notification = AppNotification(notificationId:notificationId,taskId:taskId)
             
+            print(notificationId)
             notifications.append(notification)
         }
         sqlite3_finalize(stmt)

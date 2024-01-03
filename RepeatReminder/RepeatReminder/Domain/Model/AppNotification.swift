@@ -1,5 +1,5 @@
 //
-//  Notification.swift
+//  AppNotification.swift
 //  RepeatReminder
 //
 //  Created by 吉田郁吹 on 2024/01/02.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Notification {
+struct AppNotification {
     var notificationId: String
     var taskId: String
     
