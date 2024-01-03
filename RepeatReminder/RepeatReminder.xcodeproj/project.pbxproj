@@ -65,7 +65,7 @@
 		FD13966E2AF7D39100003C37 /* RepeatReminderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatReminderUITests.swift; sourceTree = "<group>"; };
 		FD1396702AF7D39100003C37 /* RepeatReminderUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatReminderUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		FD28145C2B1308AE008429E1 /* TaskDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDB.swift; sourceTree = "<group>"; };
-		FD28145E2B130ABF008429E1 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Task.swift; path = RepeatReminder/Domain/Model/Task.swift; sourceTree = SOURCE_ROOT; };
+		FD28145E2B130ABF008429E1 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Task.swift; path = RepeatReminder/Domain/Entities/Task.swift; sourceTree = SOURCE_ROOT; };
 		FD8B19812B0251D900FBCC34 /* TaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListView.swift; sourceTree = "<group>"; };
 		FD8B19842B02683F00FBCC34 /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
 		FD9336B92B033851002FD8C9 /* TaskAddEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskAddEditView.swift; sourceTree = "<group>"; };
@@ -173,34 +173,42 @@
 			path = RepeatReminderUITests;
 			sourceTree = "<group>";
 		};
-		FD2814592B1307F9008429E1 /* Usecase */ = {
+		FD2814592B1307F9008429E1 /* Usecases */ = {
 			isa = PBXGroup;
 			children = (
 				FD28145C2B1308AE008429E1 /* TaskDB.swift */,
 				FD9E42112B44063800F5938F /* NotificationDB.swift */,
 				FDE4DE072B3FD20200C948B6 /* NotificationManager.swift */,
 			);
-			path = Usecase;
+			path = Usecases;
 			sourceTree = "<group>";
 		};
 		FD4F31102B05E118009455D3 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				FD4F31112B05E127009455D3 /* Model */,
-				FD2814592B1307F9008429E1 /* Usecase */,
+				FD5122572B45274E003F2A76 /* Entities */,
+				FD2814592B1307F9008429E1 /* Usecases */,
+				FD4F31112B05E127009455D3 /* Models */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
 		};
-		FD4F31112B05E127009455D3 /* Model */ = {
+		FD4F31112B05E127009455D3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FDEAA6242B245220003DB9DA /* TaskList.swift */,
+				FDEE0C372B3D732400B97C41 /* SettingList.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		FD5122572B45274E003F2A76 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
 				FD28145E2B130ABF008429E1 /* Task.swift */,
-				FDEAA6242B245220003DB9DA /* TaskList.swift */,
-				FDEE0C372B3D732400B97C41 /* SettingList.swift */,
 				FD9E42132B4408A400F5938F /* AppNotification.swift */,
 			);
-			path = Model;
+			path = Entities;
 			sourceTree = "<group>";
 		};
 		FD5EF0402B010B430011CD64 /* Presentation */ = {
