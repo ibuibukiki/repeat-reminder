@@ -8,18 +8,20 @@
 import XCTest
 @testable import RepeatReminder
 
-final class AppNotificationDBTests: XCTestCase {
+final class NotificationDBTests: XCTestCase {
     
     var db: NotificationDB!
-    let notification = AppNotification(notificationId:UUID().uuidString,taskId:UUID().uuidString,datetime:Date(),isLimit:true)
+    var notification: AppNotification!
     
     override func setUpWithError() throws {
         super.setUp()
         db = NotificationDB.shared
+        notification = AppNotification(notificationId:UUID().uuidString,taskId:UUID().uuidString,datetime:Date(),isLimit:true)
     }
     
     override func tearDownWithError() throws {
         db = nil
+        notification = nil
         super.tearDown()
     }
     

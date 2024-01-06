@@ -15,6 +15,7 @@
 		FD1396712AF7D39100003C37 /* RepeatReminderUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1396702AF7D39100003C37 /* RepeatReminderUITestsLaunchTests.swift */; };
 		FD28145D2B1308AE008429E1 /* TaskDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD28145C2B1308AE008429E1 /* TaskDB.swift */; };
 		FD28145F2B130ABF008429E1 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD28145E2B130ABF008429E1 /* Task.swift */; };
+		FD82FBBA2B498A13004BA85D /* NotificationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD82FBB92B498A13004BA85D /* NotificationManagerTests.swift */; };
 		FD8B19822B0251D900FBCC34 /* TaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8B19812B0251D900FBCC34 /* TaskListView.swift */; };
 		FD8B19852B02683F00FBCC34 /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8B19842B02683F00FBCC34 /* TaskCell.swift */; };
 		FD9336BA2B033851002FD8C9 /* TaskAddEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9336B92B033851002FD8C9 /* TaskAddEditView.swift */; };
@@ -28,7 +29,6 @@
 		FDE4DE0A2B3FD4AD00C948B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE4DE092B3FD4AD00C948B6 /* AppDelegate.swift */; };
 		FDEAA6232B24504B003DB9DA /* TaskListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEAA6222B24504B003DB9DA /* TaskListViewModel.swift */; };
 		FDEAA6252B245220003DB9DA /* TaskList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEAA6242B245220003DB9DA /* TaskList.swift */; };
-		FDEAA6272B246479003DB9DA /* TaskListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEAA6262B246479003DB9DA /* TaskListTests.swift */; };
 		FDEE0C302B3D064100B97C41 /* TaskCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEE0C2F2B3D064100B97C41 /* TaskCellViewModel.swift */; };
 		FDEE0C322B3D6A6200B97C41 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEE0C312B3D6A6200B97C41 /* SettingView.swift */; };
 		FDEE0C342B3D6F0800B97C41 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEE0C332B3D6F0800B97C41 /* SettingViewModel.swift */; };
@@ -66,6 +66,7 @@
 		FD1396702AF7D39100003C37 /* RepeatReminderUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatReminderUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		FD28145C2B1308AE008429E1 /* TaskDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDB.swift; sourceTree = "<group>"; };
 		FD28145E2B130ABF008429E1 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Task.swift; path = RepeatReminder/Domain/Entities/Task.swift; sourceTree = SOURCE_ROOT; };
+		FD82FBB92B498A13004BA85D /* NotificationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManagerTests.swift; sourceTree = "<group>"; };
 		FD8B19812B0251D900FBCC34 /* TaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListView.swift; sourceTree = "<group>"; };
 		FD8B19842B02683F00FBCC34 /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
 		FD9336B92B033851002FD8C9 /* TaskAddEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskAddEditView.swift; sourceTree = "<group>"; };
@@ -79,7 +80,6 @@
 		FDE4DE092B3FD4AD00C948B6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FDEAA6222B24504B003DB9DA /* TaskListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewModel.swift; sourceTree = "<group>"; };
 		FDEAA6242B245220003DB9DA /* TaskList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskList.swift; sourceTree = "<group>"; };
-		FDEAA6262B246479003DB9DA /* TaskListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListTests.swift; sourceTree = "<group>"; };
 		FDEE0C2F2B3D064100B97C41 /* TaskCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCellViewModel.swift; sourceTree = "<group>"; };
 		FDEE0C312B3D6A6200B97C41 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		FDEE0C332B3D6F0800B97C41 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
@@ -158,8 +158,8 @@
 			isa = PBXGroup;
 			children = (
 				FD1396642AF7D39100003C37 /* TaskDBTests.swift */,
-				FDEAA6262B246479003DB9DA /* TaskListTests.swift */,
 				FD9E42152B440FDE00F5938F /* NotificationDBTests.swift */,
+				FD82FBB92B498A13004BA85D /* NotificationManagerTests.swift */,
 			);
 			path = RepeatReminderTests;
 			sourceTree = "<group>";
@@ -429,7 +429,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD1396652AF7D39100003C37 /* TaskDBTests.swift in Sources */,
-				FDEAA6272B246479003DB9DA /* TaskListTests.swift in Sources */,
+				FD82FBBA2B498A13004BA85D /* NotificationManagerTests.swift in Sources */,
 				FD9E42162B440FDE00F5938F /* NotificationDBTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

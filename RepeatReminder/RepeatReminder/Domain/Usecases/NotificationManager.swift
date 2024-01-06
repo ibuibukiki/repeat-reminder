@@ -65,8 +65,9 @@ final class NotificationManager {
         var mergedNotifications: [AppNotification] = []
         if notifications.count == updatedNotifications.count {
             // 通知の数が同じ場合さらに詳細を比較し、必要があれば更新
+            let calendar = Calendar(identifier: .gregorian)
             for i in 0 ..< notifications.count {
-                if notifications[i].datetime == updatedNotifications[i].datetime {
+                if calendar.isDate(notifications[i].datetime, equalTo: updatedNotifications[i].datetime, toGranularity: .second) {
                     if notifications[i].isLimit == updatedNotifications[i].isLimit {
                         continue
                     }
