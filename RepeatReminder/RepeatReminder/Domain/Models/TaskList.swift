@@ -12,7 +12,7 @@ struct TaskList {
     var todayTasks: [String] = []
     
     mutating func getTask() {
-        guard let db = DB.shared else {
+        guard let db = TaskDB.shared else {
             return
         }
         

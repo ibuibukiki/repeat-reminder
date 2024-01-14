@@ -10,20 +10,25 @@
 		FD1396542AF7D39000003C37 /* RepeatReminderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1396532AF7D39000003C37 /* RepeatReminderApp.swift */; };
 		FD1396582AF7D39100003C37 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD1396572AF7D39100003C37 /* Assets.xcassets */; };
 		FD13965B2AF7D39100003C37 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD13965A2AF7D39100003C37 /* Preview Assets.xcassets */; };
-		FD1396652AF7D39100003C37 /* DBTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1396642AF7D39100003C37 /* DBTests.swift */; };
+		FD1396652AF7D39100003C37 /* TaskDBTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1396642AF7D39100003C37 /* TaskDBTests.swift */; };
 		FD13966F2AF7D39100003C37 /* RepeatReminderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD13966E2AF7D39100003C37 /* RepeatReminderUITests.swift */; };
 		FD1396712AF7D39100003C37 /* RepeatReminderUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1396702AF7D39100003C37 /* RepeatReminderUITestsLaunchTests.swift */; };
-		FD28145D2B1308AE008429E1 /* DB.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD28145C2B1308AE008429E1 /* DB.swift */; };
+		FD28145D2B1308AE008429E1 /* TaskDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD28145C2B1308AE008429E1 /* TaskDB.swift */; };
 		FD28145F2B130ABF008429E1 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD28145E2B130ABF008429E1 /* Task.swift */; };
+		FD82FBBA2B498A13004BA85D /* NotificationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD82FBB92B498A13004BA85D /* NotificationManagerTests.swift */; };
 		FD8B19822B0251D900FBCC34 /* TaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8B19812B0251D900FBCC34 /* TaskListView.swift */; };
 		FD8B19852B02683F00FBCC34 /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8B19842B02683F00FBCC34 /* TaskCell.swift */; };
 		FD9336BA2B033851002FD8C9 /* TaskAddEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9336B92B033851002FD8C9 /* TaskAddEditView.swift */; };
 		FD9336BC2B03586D002FD8C9 /* TaskAddEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9336BB2B03586D002FD8C9 /* TaskAddEditViewModel.swift */; };
+		FD9E42122B44063800F5938F /* NotificationDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9E42112B44063800F5938F /* NotificationDB.swift */; };
+		FD9E42142B4408A400F5938F /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9E42132B4408A400F5938F /* AppNotification.swift */; };
+		FD9E42162B440FDE00F5938F /* NotificationDBTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9E42152B440FDE00F5938F /* NotificationDBTests.swift */; };
 		FDDA1B892B3E595F00BFA737 /* ClearButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDA1B882B3E595F00BFA737 /* ClearButton.swift */; };
 		FDDA1B8B2B3E5D1100BFA737 /* SettingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDA1B8A2B3E5D1100BFA737 /* SettingButton.swift */; };
+		FDE4DE082B3FD20200C948B6 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE4DE072B3FD20200C948B6 /* NotificationManager.swift */; };
+		FDE4DE0A2B3FD4AD00C948B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE4DE092B3FD4AD00C948B6 /* AppDelegate.swift */; };
 		FDEAA6232B24504B003DB9DA /* TaskListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEAA6222B24504B003DB9DA /* TaskListViewModel.swift */; };
 		FDEAA6252B245220003DB9DA /* TaskList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEAA6242B245220003DB9DA /* TaskList.swift */; };
-		FDEAA6272B246479003DB9DA /* TaskListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEAA6262B246479003DB9DA /* TaskListTests.swift */; };
 		FDEE0C302B3D064100B97C41 /* TaskCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEE0C2F2B3D064100B97C41 /* TaskCellViewModel.swift */; };
 		FDEE0C322B3D6A6200B97C41 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEE0C312B3D6A6200B97C41 /* SettingView.swift */; };
 		FDEE0C342B3D6F0800B97C41 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDEE0C332B3D6F0800B97C41 /* SettingViewModel.swift */; };
@@ -55,21 +60,26 @@
 		FD1396572AF7D39100003C37 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FD13965A2AF7D39100003C37 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		FD1396602AF7D39100003C37 /* RepeatReminderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RepeatReminderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FD1396642AF7D39100003C37 /* DBTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBTests.swift; sourceTree = "<group>"; };
+		FD1396642AF7D39100003C37 /* TaskDBTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDBTests.swift; sourceTree = "<group>"; };
 		FD13966A2AF7D39100003C37 /* RepeatReminderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RepeatReminderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD13966E2AF7D39100003C37 /* RepeatReminderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatReminderUITests.swift; sourceTree = "<group>"; };
 		FD1396702AF7D39100003C37 /* RepeatReminderUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatReminderUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		FD28145C2B1308AE008429E1 /* DB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DB.swift; sourceTree = "<group>"; };
-		FD28145E2B130ABF008429E1 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Task.swift; path = RepeatReminder/Domain/Model/Task.swift; sourceTree = SOURCE_ROOT; };
+		FD28145C2B1308AE008429E1 /* TaskDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDB.swift; sourceTree = "<group>"; };
+		FD28145E2B130ABF008429E1 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Task.swift; path = RepeatReminder/Domain/Entities/Task.swift; sourceTree = SOURCE_ROOT; };
+		FD82FBB92B498A13004BA85D /* NotificationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManagerTests.swift; sourceTree = "<group>"; };
 		FD8B19812B0251D900FBCC34 /* TaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListView.swift; sourceTree = "<group>"; };
 		FD8B19842B02683F00FBCC34 /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
 		FD9336B92B033851002FD8C9 /* TaskAddEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskAddEditView.swift; sourceTree = "<group>"; };
 		FD9336BB2B03586D002FD8C9 /* TaskAddEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TaskAddEditViewModel.swift; path = RepeatReminder/Presentation/ViewModels/TaskAddEditViewModel.swift; sourceTree = SOURCE_ROOT; };
+		FD9E42112B44063800F5938F /* NotificationDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDB.swift; sourceTree = "<group>"; };
+		FD9E42132B4408A400F5938F /* AppNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNotification.swift; sourceTree = "<group>"; };
+		FD9E42152B440FDE00F5938F /* NotificationDBTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDBTests.swift; sourceTree = "<group>"; };
 		FDDA1B882B3E595F00BFA737 /* ClearButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearButton.swift; sourceTree = "<group>"; };
 		FDDA1B8A2B3E5D1100BFA737 /* SettingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingButton.swift; sourceTree = "<group>"; };
+		FDE4DE072B3FD20200C948B6 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		FDE4DE092B3FD4AD00C948B6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FDEAA6222B24504B003DB9DA /* TaskListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewModel.swift; sourceTree = "<group>"; };
 		FDEAA6242B245220003DB9DA /* TaskList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskList.swift; sourceTree = "<group>"; };
-		FDEAA6262B246479003DB9DA /* TaskListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListTests.swift; sourceTree = "<group>"; };
 		FDEE0C2F2B3D064100B97C41 /* TaskCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCellViewModel.swift; sourceTree = "<group>"; };
 		FDEE0C312B3D6A6200B97C41 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		FDEE0C332B3D6F0800B97C41 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
@@ -147,8 +157,9 @@
 		FD1396632AF7D39100003C37 /* RepeatReminderTests */ = {
 			isa = PBXGroup;
 			children = (
-				FD1396642AF7D39100003C37 /* DBTests.swift */,
-				FDEAA6262B246479003DB9DA /* TaskListTests.swift */,
+				FD1396642AF7D39100003C37 /* TaskDBTests.swift */,
+				FD9E42152B440FDE00F5938F /* NotificationDBTests.swift */,
+				FD82FBB92B498A13004BA85D /* NotificationManagerTests.swift */,
 			);
 			path = RepeatReminderTests;
 			sourceTree = "<group>";
@@ -162,31 +173,42 @@
 			path = RepeatReminderUITests;
 			sourceTree = "<group>";
 		};
-		FD2814592B1307F9008429E1 /* Usecase */ = {
+		FD2814592B1307F9008429E1 /* Usecases */ = {
 			isa = PBXGroup;
 			children = (
-				FD28145C2B1308AE008429E1 /* DB.swift */,
+				FD28145C2B1308AE008429E1 /* TaskDB.swift */,
+				FD9E42112B44063800F5938F /* NotificationDB.swift */,
+				FDE4DE072B3FD20200C948B6 /* NotificationManager.swift */,
 			);
-			path = Usecase;
+			path = Usecases;
 			sourceTree = "<group>";
 		};
 		FD4F31102B05E118009455D3 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				FD4F31112B05E127009455D3 /* Model */,
-				FD2814592B1307F9008429E1 /* Usecase */,
+				FD5122572B45274E003F2A76 /* Entities */,
+				FD2814592B1307F9008429E1 /* Usecases */,
+				FD4F31112B05E127009455D3 /* Models */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
 		};
-		FD4F31112B05E127009455D3 /* Model */ = {
+		FD4F31112B05E127009455D3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				FD28145E2B130ABF008429E1 /* Task.swift */,
 				FDEAA6242B245220003DB9DA /* TaskList.swift */,
 				FDEE0C372B3D732400B97C41 /* SettingList.swift */,
 			);
-			path = Model;
+			path = Models;
+			sourceTree = "<group>";
+		};
+		FD5122572B45274E003F2A76 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				FD28145E2B130ABF008429E1 /* Task.swift */,
+				FD9E42132B4408A400F5938F /* AppNotification.swift */,
+			);
+			path = Entities;
 			sourceTree = "<group>";
 		};
 		FD5EF0402B010B430011CD64 /* Presentation */ = {
@@ -213,6 +235,7 @@
 		FD5EF0462B010BB30011CD64 /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
+				FDE4DE092B3FD4AD00C948B6 /* AppDelegate.swift */,
 				FD1396572AF7D39100003C37 /* Assets.xcassets */,
 			);
 			path = Infrastructure;
@@ -379,7 +402,9 @@
 			files = (
 				FDEE0C3A2B3D762A00B97C41 /* SettingListViewModel.swift in Sources */,
 				FD1396542AF7D39000003C37 /* RepeatReminderApp.swift in Sources */,
+				FDE4DE0A2B3FD4AD00C948B6 /* AppDelegate.swift in Sources */,
 				FD9336BA2B033851002FD8C9 /* TaskAddEditView.swift in Sources */,
+				FD9E42122B44063800F5938F /* NotificationDB.swift in Sources */,
 				FD8B19852B02683F00FBCC34 /* TaskCell.swift in Sources */,
 				FDEAA6252B245220003DB9DA /* TaskList.swift in Sources */,
 				FD8B19822B0251D900FBCC34 /* TaskListView.swift in Sources */,
@@ -389,8 +414,10 @@
 				FDEAA6232B24504B003DB9DA /* TaskListViewModel.swift in Sources */,
 				FDEE0C342B3D6F0800B97C41 /* SettingViewModel.swift in Sources */,
 				FD28145F2B130ABF008429E1 /* Task.swift in Sources */,
+				FDE4DE082B3FD20200C948B6 /* NotificationManager.swift in Sources */,
 				FDEE0C382B3D732400B97C41 /* SettingList.swift in Sources */,
-				FD28145D2B1308AE008429E1 /* DB.swift in Sources */,
+				FD28145D2B1308AE008429E1 /* TaskDB.swift in Sources */,
+				FD9E42142B4408A400F5938F /* AppNotification.swift in Sources */,
 				FDEE0C302B3D064100B97C41 /* TaskCellViewModel.swift in Sources */,
 				FDEE0C322B3D6A6200B97C41 /* SettingView.swift in Sources */,
 				FDDA1B892B3E595F00BFA737 /* ClearButton.swift in Sources */,
@@ -401,8 +428,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD1396652AF7D39100003C37 /* DBTests.swift in Sources */,
-				FDEAA6272B246479003DB9DA /* TaskListTests.swift in Sources */,
+				FD1396652AF7D39100003C37 /* TaskDBTests.swift in Sources */,
+				FD82FBBA2B498A13004BA85D /* NotificationManagerTests.swift in Sources */,
+				FD9E42162B440FDE00F5938F /* NotificationDBTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -29,12 +29,16 @@ class TaskListViewModel: ObservableObject {
     }
     
     func completeTask(task: Task) {
-        guard let db = DB.shared else {
+        guard let taskDb = TaskDB.shared else {
             return
         }
         var completedTask = task
         completedTask.isCompleted = true
-        try! db.updateTask(task:completedTask)
+        try! taskDb.updateTask(task:completedTask)
+        guard let notificationDb = NotificationDB.shared else {
+            return
+        }
+        try! notificationDb.deleteNotification(taskId: task.taskId)
         readTask()
     }
 }

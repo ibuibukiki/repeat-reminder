@@ -10,7 +10,7 @@ import Foundation
 class SettingViewModel: ObservableObject {
     
     func deleteCache() {
-        guard let db = DB.shared else {
+        guard let db = TaskDB.shared else {
             return
         }
         do {
