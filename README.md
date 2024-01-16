@@ -27,5 +27,4 @@
     * ViewModels
     * Views
   * Infrastructure : 外部リソースの情報を管理
-    * Assets 
   
