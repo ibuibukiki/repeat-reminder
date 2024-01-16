@@ -15,7 +15,14 @@ enum TaskAddEditViewModelError: Error {
 class TaskAddEditViewModel: ObservableObject,Identifiable {
     var taskDb: TaskDB!
     var notificationDb: NotificationDB!
-    var task: Task
+    @Published var task: Task
+    
+    // pickerの情報を管理
+    @Published var selectedFirstNum = 1
+    @Published var selectedFirstRange = "時間"
+    @Published var selectedIntervalNum = 1
+    @Published var selectedIntervalRange = "時間"
+    
     var manager = NotificationManager()
     let initialTask = Task(taskId:UUID().uuidString,name:"",deadline:Date(),
                            isLimitNotified:true,isPreNotified:true,
@@ -31,9 +38,25 @@ class TaskAddEditViewModel: ObservableObject,Identifiable {
     
     func setTask(task:Task) {
         self.task = task
+        if task.isPreNotified {
+            selectedFirstNum = task.firstNotifiedNum!
+            selectedFirstRange = task.firstNotifiedRange!
+            selectedIntervalNum = task.intervalNotifiedNum!
+            selectedIntervalRange = task.intervalNotifiedRange!
+        }
+    }
+    
+    func setPickerValue() {
+        task.firstNotifiedNum = selectedFirstNum
+        task.firstNotifiedRange = selectedFirstRange
+        task.intervalNotifiedNum = selectedIntervalNum
+        task.intervalNotifiedRange = selectedIntervalRange
     }
     
     func addTask() {
+        if task.isPreNotified {
+            setPickerValue()
+        }
         // タスクをデータベースに登録
         try! taskDb.insertTask(task:task)
         // 通知を作成してデータベースに登録
@@ -46,6 +69,7 @@ class TaskAddEditViewModel: ObservableObject,Identifiable {
     }
     
     func updateTask() {
+        setPickerValue()
         // タスクをデータベース上で更新
         try! taskDb.updateTask(task:task)
         // 通知関連で変更があるか調べる
