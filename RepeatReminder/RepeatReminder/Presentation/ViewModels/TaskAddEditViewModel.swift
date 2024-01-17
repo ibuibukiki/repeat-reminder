@@ -110,6 +110,6 @@ class TaskAddEditViewModel: ObservableObject,Identifiable {
         }
         manager.removeNotification(id: notificationIds)
         // 通知をデータベースから削除
-        try! notificationDb.deleteNotification(taskId:task.taskId)
+        try? notificationDb.deleteNotification(taskId:task.taskId)
     }
 }
