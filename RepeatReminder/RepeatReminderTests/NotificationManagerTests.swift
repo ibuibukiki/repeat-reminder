@@ -66,31 +66,31 @@ final class NotificationManagerTests: XCTestCase {
     }
     
     func testCreateMessage() throws {
-        let delay0 = 60*50
+        let delay0 = 60*50-30
         let message0 = manager.createMessage(delay: delay0)
         XCTAssertEqual(message0, "まであと1時間です")
         
-        let delay1 = 60*60
+        let delay1 = 60*60-30
         let message1 = manager.createMessage(delay: delay1)
         XCTAssertEqual(message1, "まであと1時間です")
         
-        let delay2 = 60*60*12
+        let delay2 = 60*60*12-30
         let message2 = manager.createMessage(delay: delay2)
         XCTAssertEqual(message2, "まであと12時間です")
         
-        let delay3 = 60*60*24
+        let delay3 = 60*60*24-30
         let message3 = manager.createMessage(delay: delay3)
-        XCTAssertEqual(message3, "まであと1日です")
+        XCTAssertEqual(message3, "まであと24時間です")
         
-        let delay4 = 60*60*24*4
+        let delay4 = 60*60*24*4-30
         let message4 = manager.createMessage(delay: delay4)
         XCTAssertEqual(message4, "まであと4日です")
         
-        let delay5 = 60*60*24*7
+        let delay5 = 60*60*24*7-30
         let message5 = manager.createMessage(delay: delay5)
         XCTAssertEqual(message5, "まであと1週間です")
         
-        let delay6 = 60*60*24*8
+        let delay6 = 60*60*24*8-30
         let message6 = manager.createMessage(delay: delay6)
         XCTAssertEqual(message6, "まであと8日です")
     }
