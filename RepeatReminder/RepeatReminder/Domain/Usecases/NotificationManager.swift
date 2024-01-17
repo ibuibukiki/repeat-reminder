@@ -87,9 +87,14 @@ final class NotificationManager {
     func createMessage(delay: Int) -> String {
         var message: String = ""
         let remainingDays = Int(delay/(60*60*24))
-        if remainingDays <= 1 {
+        if remainingDays < 1 {
             let remainingHours = Int(delay/(60*60))
-            message = "まであと\(remainingHours)時間です"
+            if remainingHours == 0 {
+                // わずかに1時間を切ってしまった時
+                message = "まであと1時間です"
+            } else {
+                message = "まであと\(remainingHours)時間です"
+            }
         } else if remainingDays % 7 == 0 {
             let remainingWeeks = Int(remainingDays/7)
             message = "まであと\(remainingWeeks)週間です"

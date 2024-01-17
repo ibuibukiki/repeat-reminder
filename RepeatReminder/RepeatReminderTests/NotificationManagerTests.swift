@@ -51,8 +51,6 @@ final class NotificationManagerTests: XCTestCase {
     }
     
     func testCreateRepeatNotification() throws {
-        let calendar = Calendar(identifier: .gregorian)
-        
         let interval = Int(task2.deadline.timeIntervalSinceNow)
         let delay1 = interval - 14*60*60*24
         let delay2 = interval - 7*60*60*24
@@ -65,6 +63,36 @@ final class NotificationManagerTests: XCTestCase {
         XCTAssertFalse(result[1].isLimit, "Created notification is not deadline notification")
         XCTAssertEqual(result[2].delay, interval, "Created notification's datetime is correct one")
         XCTAssertTrue(result[2].isLimit, "Created notification is deadline notification")
+    }
+    
+    func testCreateMessage() throws {
+        let delay0 = 60*50
+        let message0 = manager.createMessage(delay: delay0)
+        XCTAssertEqual(message0, "まであと1時間です")
+        
+        let delay1 = 60*60
+        let message1 = manager.createMessage(delay: delay1)
+        XCTAssertEqual(message1, "まであと1時間です")
+        
+        let delay2 = 60*60*12
+        let message2 = manager.createMessage(delay: delay2)
+        XCTAssertEqual(message2, "まであと12時間です")
+        
+        let delay3 = 60*60*24
+        let message3 = manager.createMessage(delay: delay3)
+        XCTAssertEqual(message3, "まであと1日です")
+        
+        let delay4 = 60*60*24*4
+        let message4 = manager.createMessage(delay: delay4)
+        XCTAssertEqual(message4, "まであと4日です")
+        
+        let delay5 = 60*60*24*7
+        let message5 = manager.createMessage(delay: delay5)
+        XCTAssertEqual(message5, "まであと1週間です")
+        
+        let delay6 = 60*60*24*8
+        let message6 = manager.createMessage(delay: delay6)
+        XCTAssertEqual(message6, "まであと8日です")
     }
     
 //    func testUpdateNotificationNoChanged() throws {
