@@ -63,26 +63,26 @@ final class NotificationManager {
     ///   - task: 対象のタスク
     ///   - notifications: 変更前の通知が入った配列
     /// - Returns: isNeededDelete:  削除が必要か否か, mergedNotifications: マージ後の通知が入った配列 (変更の必要がなければ空の配列が返る)
-//    func mergeNotification(task: Task, notifications: [AppNotification]) -> (isNeededDelete: Bool, mergedNotifications: [AppNotification]) {
-//        var updatedNotifications = createNotification(task:task)
-//        var mergedNotifications: [AppNotification] = []
-//        if notifications.count == updatedNotifications.count {
-//            // 通知の数が同じ場合さらに詳細を比較し、必要があれば更新
-//            for i in 0 ..< notifications.count {
-//                if calendar.isDate(notifications[i].datetime, equalTo: updatedNotifications[i].datetime, toGranularity: .second) {
-//                    if notifications[i].isLimit == updatedNotifications[i].isLimit {
-//                        continue
-//                    }
-//                }
-//                updatedNotifications[i].notificationId = notifications[i].notificationId
-//                mergedNotifications.append(updatedNotifications[i])
-//            }
-//            return (false, mergedNotifications)
-//        } else {
-//            // 通知の数が違う場合、変更前の通知を削除して変更後の通知を追加
-//            return (true, updatedNotifications)
-//        }
-//    }
+    func mergeNotification(task: Task, notifications: [AppNotification]) -> (isNeededDelete: Bool, mergedNotifications: [AppNotification]) {
+        var updatedNotifications = createNotification(task:task)
+        var mergedNotifications: [AppNotification] = []
+        if notifications.count == updatedNotifications.count {
+            // 通知の数が同じ場合さらに詳細を比較し、必要があれば更新
+            for i in 0 ..< notifications.count {
+                if abs(notifications[i].delay - updatedNotifications[i].delay) < 60 {
+                    if notifications[i].isLimit == updatedNotifications[i].isLimit {
+                        continue
+                    }
+                }
+                updatedNotifications[i].notificationId = notifications[i].notificationId
+                mergedNotifications.append(updatedNotifications[i])
+            }
+            return (false, mergedNotifications)
+        } else {
+            // 通知の数が違う場合、変更前の通知を削除して変更後の通知を追加
+            return (true, updatedNotifications)
+        }
+    }
     
     func createMessage(delay: Int) -> String {
         var message: String = ""

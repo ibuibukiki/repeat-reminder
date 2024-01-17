@@ -95,68 +95,73 @@ final class NotificationManagerTests: XCTestCase {
         XCTAssertEqual(message6, "まであと8日です")
     }
     
-//    func testUpdateNotificationNoChanged() throws {
-//        // タスク1の通知を追加
-//        let result1 = manager.createNotification(task: task1)
-//        XCTAssertNoThrow(try db.insertNotification(notification: result1[0]), "Insert Notification should be successfull")
-//        
-//        var notifications: [AppNotification] = []
-//        
-//        // 通知に関係のない変更があった場合
-//        task1.name = "Updated Deadline Task"
-//        
-//        XCTAssertNoThrow(notifications = try! db.getNotifications(taskId: task1.taskId), "Get Notification should be successfull")
-//        let result2 = manager.mergeNotification(task:task1, notifications:notifications)
-//        XCTAssertFalse(result2.isNeededDelete, "Notification doesn't need to be deleted")
-//        XCTAssertEqual(result2.mergedNotifications.count, 0, "Notification doesn't needed to be updated")
-//    }
+    func testUpdateNotificationNoChanged() throws {
+        // タスク1の通知を追加
+        let result1 = manager.createNotification(task: task1)
+        XCTAssertNoThrow(try db.insertNotification(notification: result1[0]), "Insert Notification should be successfull")
+        
+        var notifications: [AppNotification] = []
+        
+        // 通知に関係のない変更があった場合
+        task1.name = "Updated Deadline Task"
+        
+        XCTAssertNoThrow(notifications = try! db.getNotifications(taskId: task1.taskId), "Get Notification should be successfull")
+        let result2 = manager.mergeNotification(task:task1, notifications:notifications)
+        XCTAssertFalse(result2.isNeededDelete, "Notification doesn't need to be deleted")
+        XCTAssertEqual(result2.mergedNotifications.count, 0, "Notification doesn't needed to be updated")
+    }
     
-//    func testUpdateNotificationChangedDeadline() throws {
-//        // タスク1の通知を追加
-//        let result1 = manager.createNotification(task: task1)
-//        XCTAssertNoThrow(try db.insertNotification(notification: result1[0]), "Insert Notification should be successfull")
-//        
-//        var notifications: [AppNotification] = []
-//        
-//        // 通知に関する変更があった場合(通知の個数は変化しない)
-//        let calendar = Calendar(identifier: .gregorian)
-//        task1.deadline = calendar.date(byAdding:.day, value:1, to: task1.deadline)!
-//        
-//        XCTAssertNoThrow(notifications = try! db.getNotifications(taskId: task1.taskId), "Get Notification should be successfull")
-//        let result2 = manager.mergeNotification(task:task1, notifications:notifications)
-//        XCTAssertFalse(result2.isNeededDelete, "Notification doesn't need to be deleted")
-//        XCTAssertEqual(result2.mergedNotifications.count, 1, "Notification need to be updated")
-//        XCTAssertEqual(result2.mergedNotifications[0].datetime, task1.deadline, "Created notification's datetime is correct one")
-//    }
+    func testUpdateNotificationChangedDeadline() throws {
+        // タスク1の通知を追加
+        let result1 = manager.createNotification(task: task1)
+        XCTAssertNoThrow(try db.insertNotification(notification: result1[0]), "Insert Notification should be successfull")
+        
+        var notifications: [AppNotification] = []
+        
+        // 通知に関する変更があった場合(通知の個数は変化しない)
+        let calendar = Calendar(identifier: .gregorian)
+        task1.deadline = calendar.date(byAdding:.day, value:1, to: task1.deadline)!
+        let interval = Int(task1.deadline.timeIntervalSinceNow)
+        
+        XCTAssertNoThrow(notifications = try! db.getNotifications(taskId: task1.taskId), "Get Notification should be successfull")
+        let result2 = manager.mergeNotification(task:task1, notifications:notifications)
+        XCTAssertFalse(result2.isNeededDelete, "Notification doesn't need to be deleted")
+        XCTAssertEqual(result2.mergedNotifications.count, 1, "Notification need to be updated")
+        XCTAssertEqual(result2.mergedNotifications[0].delay, interval, "Created notification's datetime is correct one")
+    }
     
-//    func testUpdateNotificationChangedRepeat() throws {
-//        // タスク1の通知を追加
-//        let result1 = manager.createNotification(task: task1)
-//        XCTAssertNoThrow(try db.insertNotification(notification: result1[0]), "Insert Notification should be successfull")
-//        
-//        var notifications: [AppNotification] = []
-//        
-//        // 通知に関する変更があった場合(通知の個数が変化する)
-//        task1.isPreNotified = true
-//        task1.firstNotifiedNum = 2
-//        task1.firstNotifiedRange = "時間"
-//        task1.intervalNotifiedNum = 1
-//        task1.intervalNotifiedRange = "時間"
-//        
-//        XCTAssertNoThrow(notifications = try! db.getNotifications(taskId: task1.taskId), "Get Notification should be successfull")
-//        let result2 = manager.mergeNotification(task:task1, notifications:notifications)
-//        XCTAssertTrue(result2.isNeededDelete, "Notification need to be deleted")
-//        XCTAssertEqual(result2.mergedNotifications.count, 3, "Notifications need to be updated")
-//        
-//        let calendar = Calendar(identifier: .gregorian)
-//        
-//        let datetime1 = calendar.date(byAdding:.hour, value:-2, to: task1.deadline)!
-//        let datetime2 = calendar.date(byAdding:.hour, value:-1, to: task1.deadline)!
-//        
-//        XCTAssertEqual(result2.mergedNotifications[0].datetime, datetime1, "Created notification's datetime is correct one")
-//        XCTAssertEqual(result2.mergedNotifications[1].datetime, datetime2, "Created notification's datetime is correct one")
-//        XCTAssertEqual(result2.mergedNotifications[2].datetime, task1.deadline, "Created notification's datetime is correct one")
-//    }
+    func testUpdateNotificationChangedRepeat() throws {
+        // タスク1の通知を追加
+        let result1 = manager.createNotification(task: task1)
+        XCTAssertNoThrow(try db.insertNotification(notification: result1[0]), "Insert Notification should be successfull")
+        
+        var notifications: [AppNotification] = []
+        
+        // 通知に関する変更があった場合(通知の個数が変化する)
+        task1.isPreNotified = true
+        task1.firstNotifiedNum = 2
+        task1.firstNotifiedRange = "時間"
+        task1.intervalNotifiedNum = 1
+        task1.intervalNotifiedRange = "時間"
+        
+        XCTAssertNoThrow(notifications = try! db.getNotifications(taskId: task1.taskId), "Get Notification should be successfull")
+        let result2 = manager.mergeNotification(task:task1, notifications:notifications)
+        XCTAssertTrue(result2.isNeededDelete, "Notification need to be deleted")
+        XCTAssertEqual(result2.mergedNotifications.count, 3, "Notifications need to be updated")
+        
+        let calendar = Calendar(identifier: .gregorian)
+        
+        let datetime1 = calendar.date(byAdding:.hour, value:-2, to: task1.deadline)!
+        let datetime2 = calendar.date(byAdding:.hour, value:-1, to: task1.deadline)!
+        
+        let interval1 = Int(datetime1.timeIntervalSinceNow)
+        let interval2 = Int(datetime2.timeIntervalSinceNow)
+        let interval3 = Int(task1.deadline.timeIntervalSinceNow)
+        
+        XCTAssertEqual(result2.mergedNotifications[0].delay, interval1, "Created notification's datetime is correct one")
+        XCTAssertEqual(result2.mergedNotifications[1].delay, interval2, "Created notification's datetime is correct one")
+        XCTAssertEqual(result2.mergedNotifications[2].delay, interval3, "Created notification's datetime is correct one")
+    }
     
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
