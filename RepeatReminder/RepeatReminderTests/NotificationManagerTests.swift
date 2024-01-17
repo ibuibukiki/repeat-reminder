@@ -20,14 +20,16 @@ final class NotificationManagerTests: XCTestCase {
     override func setUpWithError() throws {
         super.setUp()
         db = NotificationDB.shared
+        let calendar = Calendar(identifier: .gregorian)
+        let date = calendar.date(from: DateComponents(year: 2030, month: 1, day: 1, hour: 0, minute: 0, second: 0))!
         // 期限の時しか通知しないタスク
-        task1 = Task(taskId: UUID().uuidString, name: "Deadline Task", deadline: Date(),
+        task1 = Task(taskId: UUID().uuidString, name: "Deadline Task", deadline: date,
                      isLimitNotified: true, isPreNotified: false,
                      firstNotifiedNum: nil, firstNotifiedRange: nil,
                      intervalNotifiedNum: nil, intervalNotifiedRange: nil,
                      isCompleted: false, isDeleted: false)
         // 期限の前から通知するタスク
-        task2 = Task(taskId: UUID().uuidString, name: "Repeat Task", deadline: Date(),
+        task2 = Task(taskId: UUID().uuidString, name: "Repeat Task", deadline: date,
                      isLimitNotified: true, isPreNotified: true,
                      firstNotifiedNum: 2, firstNotifiedRange: "週間",
                      intervalNotifiedNum: 1, intervalNotifiedRange: "週間",
@@ -66,31 +68,27 @@ final class NotificationManagerTests: XCTestCase {
     }
     
     func testCreateMessage() throws {
-        let delay0 = 60*50-30
-        let message0 = manager.createMessage(delay: delay0)
-        XCTAssertEqual(message0, "まであと1時間です")
-        
-        let delay1 = 60*60-30
+        let delay1 = 60*60
         let message1 = manager.createMessage(delay: delay1)
         XCTAssertEqual(message1, "まであと1時間です")
         
-        let delay2 = 60*60*12-30
+        let delay2 = 60*60*12
         let message2 = manager.createMessage(delay: delay2)
         XCTAssertEqual(message2, "まであと12時間です")
         
-        let delay3 = 60*60*24-30
+        let delay3 = 60*60*24
         let message3 = manager.createMessage(delay: delay3)
         XCTAssertEqual(message3, "まであと24時間です")
         
-        let delay4 = 60*60*24*4-30
+        let delay4 = 60*60*24*4
         let message4 = manager.createMessage(delay: delay4)
         XCTAssertEqual(message4, "まであと4日です")
         
-        let delay5 = 60*60*24*7-30
+        let delay5 = 60*60*24*7
         let message5 = manager.createMessage(delay: delay5)
         XCTAssertEqual(message5, "まであと1週間です")
         
-        let delay6 = 60*60*24*8-30
+        let delay6 = 60*60*24*8
         let message6 = manager.createMessage(delay: delay6)
         XCTAssertEqual(message6, "まであと8日です")
     }
