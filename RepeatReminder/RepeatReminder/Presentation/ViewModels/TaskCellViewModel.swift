@@ -27,7 +27,7 @@ class TaskCellViewModel: ObservableObject {
             return ""
         }
         let formatter = DateFormatter()
-        formatter.dateFormat = "MM月dd日 HH:mm"
+        formatter.dateFormat = "M月dd日 HH:mm"
         let dateString = formatter.string(from: task!.deadline)
         return dateString
     }
