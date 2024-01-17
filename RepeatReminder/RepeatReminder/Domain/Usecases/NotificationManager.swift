@@ -100,7 +100,7 @@ final class NotificationManager {
     func sendNotifications(task: Task, notifications: [AppNotification]) {
         for notification in notifications {
             // 通知に載せるメッセージを作成
-            var message: String = "\(task.name)"
+            var message: String = "タスク \(task.name) "
             let deadline = Calendar.current.startOfDay(for: task.deadline)
             if notification.isLimit {
                 message = message + "の期限です"

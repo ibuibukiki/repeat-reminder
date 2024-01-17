@@ -210,7 +210,6 @@ final class NotificationDB{
             
             let notification = AppNotification(notificationId:notificationId,taskId:taskId,datetime:datetime,isLimit:isLimit)
             
-            print(notificationId)
             notifications.append(notification)
         }
         sqlite3_finalize(stmt)
