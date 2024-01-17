@@ -11,7 +11,6 @@ struct TaskAddEditView: View {
     let isEditing: Bool
     
     @Environment(\.presentationMode) var presentation
-    @FocusState private var focusedField: Bool?
     @ObservedObject var viewModel = TaskAddEditViewModel()
     @State private var isShowedAlert = false
     @State private var isShowedCheck = false
@@ -61,7 +60,6 @@ struct TaskAddEditView: View {
                                 .foregroundColor(Color("TextColor"))
                                 .frame(width:120,height:4)
                                 .padding()
-                                .focused($focusedField, equals:true)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 5)
                                         .stroke(Color("MainColor"), lineWidth: 1)
