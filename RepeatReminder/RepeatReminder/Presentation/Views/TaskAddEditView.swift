@@ -256,8 +256,6 @@ struct TaskAddEditView: View {
                         }
                     }
                 }
-            }.onTapGesture {
-                focusedField = nil
             }
         }
     }
