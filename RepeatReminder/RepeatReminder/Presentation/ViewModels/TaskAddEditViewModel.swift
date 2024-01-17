@@ -73,29 +73,29 @@ class TaskAddEditViewModel: ObservableObject,Identifiable {
         // タスクをデータベース上で更新
         try! taskDb.updateTask(task:task)
         // 通知関連で変更があるか調べる
-        let notifications = try! notificationDb.getNotifications(taskId: task.taskId)
-        let result = manager.mergeNotification(task:task, notifications:notifications)
-        if result.isNeededDelete {
-            // 以前登録した通知の削除が必要な場合、変更前の通知を削除して変更後の通知を追加
-            // 削除
-            try! notificationDb.deleteNotification(taskId: task.taskId)
-            var notificationIds: [String] = []
-            for notification in notifications {
-                notificationIds.append(notification.notificationId)
-            }
-            manager.removeNotification(id: notificationIds)
-            // 追加
-            for notification in result.mergedNotifications {
-                try! notificationDb.insertNotification(notification: notification)
-            }
-            manager.sendNotifications(task: task, notifications: result.mergedNotifications)
-        } else {
-            // 以前登録した通知の削除が不要な場合、通知を更新
-            for notification in result.mergedNotifications {
-                try! notificationDb.updateNotification(notification: notification)
-            }
-            manager.sendNotifications(task: task, notifications: result.mergedNotifications)
-        }
+//        let notifications = try! notificationDb.getNotifications(taskId: task.taskId)
+//        let result = manager.mergeNotification(task:task, notifications:notifications)
+//        if result.isNeededDelete {
+//            // 以前登録した通知の削除が必要な場合、変更前の通知を削除して変更後の通知を追加
+//            // 削除
+//            try! notificationDb.deleteNotification(taskId: task.taskId)
+//            var notificationIds: [String] = []
+//            for notification in notifications {
+//                notificationIds.append(notification.notificationId)
+//            }
+//            manager.removeNotification(id: notificationIds)
+//            // 追加
+//            for notification in result.mergedNotifications {
+//                try! notificationDb.insertNotification(notification: notification)
+//            }
+//            manager.sendNotifications(task: task, notifications: result.mergedNotifications)
+//        } else {
+//            // 以前登録した通知の削除が不要な場合、通知を更新
+//            for notification in result.mergedNotifications {
+//                try! notificationDb.updateNotification(notification: notification)
+//            }
+//            manager.sendNotifications(task: task, notifications: result.mergedNotifications)
+//        }
     }
     
     func deleteTask() {
