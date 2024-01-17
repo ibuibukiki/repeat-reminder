@@ -17,6 +17,9 @@ final class NotificationManager {
         // 期限までの秒数を取得
         let deadlineDelay = Int(task.deadline.timeIntervalSinceNow)
         
+        // 期限を過ぎている場合は通知を作成しない
+        guard deadlineDelay > 0 else { return [] }
+        
         if task.isPreNotified {
             // 最初に通知が来るまでの秒数を取得
             var firstDelay: Int = 0
@@ -36,7 +39,10 @@ final class NotificationManager {
             if task.intervalNotifiedNum != nil {
                 while intervalDelay < deadlineDelay {
                     let notification = AppNotification(notificationId:UUID().uuidString,taskId:task.taskId,delay:intervalDelay,isLimit:false)
-                    notifications.append(notification)
+                    // 通知時刻を過ぎていない場合のみ通知を作成
+                    if intervalDelay > 0 {
+                        notifications.append(notification)
+                    }
                     if task.intervalNotifiedRange=="時間" {
                         intervalDelay = intervalDelay + task.intervalNotifiedNum!*60*60
                     }
