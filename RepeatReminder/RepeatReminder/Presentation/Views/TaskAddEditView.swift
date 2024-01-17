@@ -11,9 +11,9 @@ struct TaskAddEditView: View {
     let isEditing: Bool
     
     @Environment(\.presentationMode) var presentation
-    @FocusState private var focusedField: Bool?
     @ObservedObject var viewModel = TaskAddEditViewModel()
     @State private var isShowedAlert = false
+    @State private var isShowedCheck = false
     
     let nums = [1,2,3,4,5,6,7,8,9,10]
     let ranges = ["時間","日","週間"]
@@ -60,7 +60,6 @@ struct TaskAddEditView: View {
                                 .foregroundColor(Color("TextColor"))
                                 .frame(width:120,height:4)
                                 .padding()
-                                .focused($focusedField, equals:true)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 5)
                                         .stroke(Color("MainColor"), lineWidth: 1)
@@ -199,12 +198,16 @@ struct TaskAddEditView: View {
                                 .shadow(color:.gray,radius:5,x:0,y:8)
                         }
                         Button(action:{
-                            self.presentation.wrappedValue.dismiss()
                             print("tap add or edit button")
-                            if isEditing {
-                                viewModel.updateTask()
+                            if viewModel.task.deadline < Date() {
+                                isShowedCheck = true
                             } else {
-                                viewModel.addTask()
+                                self.presentation.wrappedValue.dismiss()
+                                if isEditing {
+                                    viewModel.updateTask()
+                                } else {
+                                    viewModel.addTask()
+                                }
                             }
                         }){
                             if isEditing {
@@ -229,6 +232,21 @@ struct TaskAddEditView: View {
                                     .shadow(color:.gray,radius:5,x:0,y:8)
                             }
                         }
+                    }.alert("期限を過ぎています\nこのまま保存しますか？", isPresented: $isShowedCheck) {
+                        Button("保存") {
+                            isShowedCheck = false
+                            self.presentation.wrappedValue.dismiss()
+                            if isEditing {
+                                viewModel.updateTask()
+                            } else {
+                                viewModel.addTask()
+                            }
+                        }
+                        Button("キャンセル",role:.cancel) {
+                            isShowedCheck = false
+                        }
+                    } message: {
+                        Text("タスク一覧には表示されます")
                     }
                     Spacer()
                     if isEditing {
@@ -256,8 +274,6 @@ struct TaskAddEditView: View {
                         }
                     }
                 }
-            }.onTapGesture {
-                focusedField = nil
             }
         }
     }

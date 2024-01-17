@@ -54,7 +54,7 @@ class TaskCellViewModel: ObservableObject {
     
     var remainingNumText: Text {
         var remaining = ""
-        if remainingDays < 365 {
+        if ( remainingDays < 365 && remainingDays > -365 ) {
             remaining = String(abs(remainingDays))
         } else {
             remaining = String(abs(remainingYears))
@@ -68,7 +68,7 @@ class TaskCellViewModel: ObservableObject {
     
     var remainingText: String {
         var remaining = ""
-        if remainingDays < 365 {
+        if ( remainingDays < 365 && remainingDays > -365 ) {
             remaining = "日"
         } else {
             remaining = "年"

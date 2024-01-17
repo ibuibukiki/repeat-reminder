@@ -40,7 +40,10 @@ struct TaskList {
             let deadline = calendar.dateComponents([.year, .month, .day], from: task.deadline)
             
             if today == deadline {
-                nameList.append(task.name)
+                // タスク名が空の時はスキップ
+                if task.name != "" {
+                    nameList.append(task.name)
+                }
             }
         }
         

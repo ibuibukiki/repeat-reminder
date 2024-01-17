@@ -10,13 +10,13 @@ import Foundation
 struct AppNotification {
     var notificationId: String
     var taskId: String
-    var datetime: Date
+    var delay: Int
     var isLimit: Bool
     
-    init(notificationId: String, taskId: String, datetime: Date, isLimit: Bool) {
+    init(notificationId: String, taskId: String, delay: Int, isLimit: Bool) {
         self.notificationId = notificationId
         self.taskId = taskId
-        self.datetime = datetime
+        self.delay = delay
         self.isLimit = isLimit
     }
 }

@@ -43,6 +43,7 @@ class SettingListViewModel: ObservableObject {
         for notification in notifications {
             try! notificationDb.insertNotification(notification:notification)
         }
+        manager.sendNotifications(task: task, notifications: notifications)
         readTask()
     }
     
@@ -59,6 +60,7 @@ class SettingListViewModel: ObservableObject {
         for notification in notifications {
             try! notificationDb.insertNotification(notification:notification)
         }
+        manager.sendNotifications(task: task, notifications: notifications)
         readTask()
     }
     

@@ -43,26 +43,56 @@ final class NotificationManagerTests: XCTestCase {
     
     func testCreateDeadlineNotification() throws {
         let result = manager.createNotification(task: task1)
+        let interval = Int(task1.deadline.timeIntervalSinceNow)
         XCTAssertEqual(result.count, 1, "Notification should be one")
         XCTAssertEqual(result[0].taskId, task1.taskId, "Created notification's taskId is correct one")
-        XCTAssertEqual(result[0].datetime, task1.deadline, "Created notification's datetime is correct one")
+        XCTAssertEqual(result[0].delay, interval, "Created notification's datetime is correct one")
         XCTAssertTrue(result[0].isLimit, "Created notification is deadline notification")
     }
     
     func testCreateRepeatNotification() throws {
-        let calendar = Calendar(identifier: .gregorian)
-        
-        let datetime1 = calendar.date(byAdding:.day, value:-14, to: task2.deadline)!
-        let datetime2 = calendar.date(byAdding:.day, value:-7, to: task2.deadline)!
+        let interval = Int(task2.deadline.timeIntervalSinceNow)
+        let delay1 = interval - 14*60*60*24
+        let delay2 = interval - 7*60*60*24
         
         let result = manager.createNotification(task: task2)
         XCTAssertEqual(result.count, 3, "Notification should be three")
-        XCTAssertEqual(result[0].datetime, datetime1, "Created notification's datetime is correct one")
+        XCTAssertEqual(result[0].delay, delay1, "Created notification's datetime is correct one")
         XCTAssertFalse(result[0].isLimit, "Created notification is not deadline notification")
-        XCTAssertEqual(result[1].datetime, datetime2, "Created notification's datetime is correct one")
+        XCTAssertEqual(result[1].delay, delay2, "Created notification's datetime is correct one")
         XCTAssertFalse(result[1].isLimit, "Created notification is not deadline notification")
-        XCTAssertEqual(result[2].datetime, task2.deadline, "Created notification's datetime is correct one")
+        XCTAssertEqual(result[2].delay, interval, "Created notification's datetime is correct one")
         XCTAssertTrue(result[2].isLimit, "Created notification is deadline notification")
+    }
+    
+    func testCreateMessage() throws {
+        let delay0 = 60*50-30
+        let message0 = manager.createMessage(delay: delay0)
+        XCTAssertEqual(message0, "まであと1時間です")
+        
+        let delay1 = 60*60-30
+        let message1 = manager.createMessage(delay: delay1)
+        XCTAssertEqual(message1, "まであと1時間です")
+        
+        let delay2 = 60*60*12-30
+        let message2 = manager.createMessage(delay: delay2)
+        XCTAssertEqual(message2, "まであと12時間です")
+        
+        let delay3 = 60*60*24-30
+        let message3 = manager.createMessage(delay: delay3)
+        XCTAssertEqual(message3, "まであと24時間です")
+        
+        let delay4 = 60*60*24*4-30
+        let message4 = manager.createMessage(delay: delay4)
+        XCTAssertEqual(message4, "まであと4日です")
+        
+        let delay5 = 60*60*24*7-30
+        let message5 = manager.createMessage(delay: delay5)
+        XCTAssertEqual(message5, "まであと1週間です")
+        
+        let delay6 = 60*60*24*8-30
+        let message6 = manager.createMessage(delay: delay6)
+        XCTAssertEqual(message6, "まであと8日です")
     }
     
     func testUpdateNotificationNoChanged() throws {
@@ -91,12 +121,13 @@ final class NotificationManagerTests: XCTestCase {
         // 通知に関する変更があった場合(通知の個数は変化しない)
         let calendar = Calendar(identifier: .gregorian)
         task1.deadline = calendar.date(byAdding:.day, value:1, to: task1.deadline)!
+        let interval = Int(task1.deadline.timeIntervalSinceNow)
         
         XCTAssertNoThrow(notifications = try! db.getNotifications(taskId: task1.taskId), "Get Notification should be successfull")
         let result2 = manager.mergeNotification(task:task1, notifications:notifications)
         XCTAssertFalse(result2.isNeededDelete, "Notification doesn't need to be deleted")
         XCTAssertEqual(result2.mergedNotifications.count, 1, "Notification need to be updated")
-        XCTAssertEqual(result2.mergedNotifications[0].datetime, task1.deadline, "Created notification's datetime is correct one")
+        XCTAssertEqual(result2.mergedNotifications[0].delay, interval, "Created notification's datetime is correct one")
     }
     
     func testUpdateNotificationChangedRepeat() throws {
@@ -123,9 +154,13 @@ final class NotificationManagerTests: XCTestCase {
         let datetime1 = calendar.date(byAdding:.hour, value:-2, to: task1.deadline)!
         let datetime2 = calendar.date(byAdding:.hour, value:-1, to: task1.deadline)!
         
-        XCTAssertEqual(result2.mergedNotifications[0].datetime, datetime1, "Created notification's datetime is correct one")
-        XCTAssertEqual(result2.mergedNotifications[1].datetime, datetime2, "Created notification's datetime is correct one")
-        XCTAssertEqual(result2.mergedNotifications[2].datetime, task1.deadline, "Created notification's datetime is correct one")
+        let interval1 = Int(datetime1.timeIntervalSinceNow)
+        let interval2 = Int(datetime2.timeIntervalSinceNow)
+        let interval3 = Int(task1.deadline.timeIntervalSinceNow)
+        
+        XCTAssertEqual(result2.mergedNotifications[0].delay, interval1, "Created notification's datetime is correct one")
+        XCTAssertEqual(result2.mergedNotifications[1].delay, interval2, "Created notification's datetime is correct one")
+        XCTAssertEqual(result2.mergedNotifications[2].delay, interval3, "Created notification's datetime is correct one")
     }
     
     func testPerformanceExample() throws {

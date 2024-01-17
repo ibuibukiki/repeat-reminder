@@ -21,7 +21,7 @@ enum NotificationDatabaseError: Error {
 final class NotificationDB{
     static let shared = NotificationDB()
     
-    private let dbFile = "NotificationDBVer3.sqlite"
+    private let dbFile = "NotificationDBVer4.sqlite"
     private var db: OpaquePointer?
     
     private init?() {
@@ -58,7 +58,7 @@ final class NotificationDB{
         CREATE TABLE IF NOT EXISTS notifications (
             notification_id TEXT NOT NULL PRIMARY KEY,
             task_id TEXT NOT NULL,
-            datetime TEXT NOT NULL,
+            delay INTEGER NOT NULL,
             is_limit INTEGER NULL
         );
         """
@@ -90,7 +90,7 @@ final class NotificationDB{
     func insertNotification(notification: AppNotification) throws {
         let insertSql = """
                         INSERT INTO notifications (
-                                notification_id, task_id, datetime, is_limit
+                                notification_id, task_id, delay, is_limit
                             )
                             VALUES
                             (?, ?, ?, ?);
@@ -102,14 +102,9 @@ final class NotificationDB{
             throw TaskDatabaseError.insertTaskFailed(errorMessage)
         }
         
-        // Date型をString型に変換
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        let dateString = formatter.string(from: notification.datetime)
-        
         sqlite3_bind_text(insertStmt, 1, (notification.notificationId as NSString).utf8String, -1, nil)
         sqlite3_bind_text(insertStmt, 2, (notification.taskId as NSString).utf8String, -1, nil)
-        sqlite3_bind_text(insertStmt, 3, (dateString as NSString).utf8String, -1, nil)
+        sqlite3_bind_int(insertStmt, 3, Int32(notification.delay))
         sqlite3_bind_int(insertStmt, 4, Int32(notification.isLimit ? 1 : 0))
         
         if sqlite3_step(insertStmt) != SQLITE_DONE {
@@ -142,7 +137,7 @@ final class NotificationDB{
         let updateSql = """
         UPDATE  notifications
         SET     task_id = ?,
-                datetime = ?,
+                delay = ?,
                 is_limit = ?
         WHERE   notification_id = ?
         """
@@ -153,13 +148,8 @@ final class NotificationDB{
             throw NotificationDatabaseError.updateNotificationFailed(errorMessage)
         }
         
-        // Date型をString型に変換
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        let dateString = formatter.string(from: notification.datetime)
-        
         sqlite3_bind_text(updateStmt, 1, (notification.taskId as NSString).utf8String, -1, nil)
-        sqlite3_bind_text(updateStmt, 2, (dateString as NSString).utf8String, -1, nil)
+        sqlite3_bind_int(updateStmt, 2, Int32(notification.delay))
         sqlite3_bind_int(updateStmt, 3, Int32(notification.isLimit ? 1 : 0))
         
         sqlite3_bind_text(updateStmt, 4, (notification.notificationId as NSString).utf8String, -1, nil)
@@ -192,25 +182,14 @@ final class NotificationDB{
         
         sqlite3_bind_text(stmt, 1, (taskId as NSString).utf8String, -1, nil)
         
-        // String型をDate型に変換
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        formatter.locale = Locale(identifier: "ja_JP")
-        
         while sqlite3_step(stmt) == SQLITE_ROW {
             let notificationId = String(describing: String(cString: sqlite3_column_text(stmt, 0)))
             let taskId = String(describing: String(cString: sqlite3_column_text(stmt, 1)))
-            
-            guard let datetime = formatter.date(from: String(cString: sqlite3_column_text(stmt, 2))) else {
-                let errorMessage = "value error: deadline null"
-                throw NotificationDatabaseError.getNotificationsFailed(errorMessage)
-            }
-            
+            let delay = Int(sqlite3_column_int(stmt, 2))
             let isLimit = sqlite3_column_int(stmt, 3)==1 ? true : false
             
-            let notification = AppNotification(notificationId:notificationId,taskId:taskId,datetime:datetime,isLimit:isLimit)
+            let notification = AppNotification(notificationId:notificationId,taskId:taskId,delay:delay,isLimit:isLimit)
             
-            print(notificationId)
             notifications.append(notification)
         }
         sqlite3_finalize(stmt)

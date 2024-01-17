@@ -16,7 +16,7 @@ final class NotificationDBTests: XCTestCase {
     override func setUpWithError() throws {
         super.setUp()
         db = NotificationDB.shared
-        notification = AppNotification(notificationId:UUID().uuidString,taskId:UUID().uuidString,datetime:Date(),isLimit:true)
+        notification = AppNotification(notificationId:UUID().uuidString,taskId:UUID().uuidString,delay:60,isLimit:true)
     }
     
     override func tearDownWithError() throws {
@@ -49,7 +49,7 @@ final class NotificationDBTests: XCTestCase {
     func testUpdateNotification() {
         XCTAssertNoThrow(try db.insertNotification(notification: notification), "Insert notification should be successfull")
         
-        let notificationUpdated = AppNotification(notificationId:notification.notificationId,taskId:notification.taskId, datetime:Date(),isLimit:false)
+        let notificationUpdated = AppNotification(notificationId:notification.notificationId,taskId:notification.taskId,delay:60,isLimit:false)
         
         XCTAssertNoThrow(try db.updateNotification(notification: notificationUpdated), "Update notification should be successful")
     }
@@ -57,7 +57,7 @@ final class NotificationDBTests: XCTestCase {
     func testUpdateNotificationFailed() {
         XCTAssertNoThrow(try db.insertNotification(notification: notification), "Insert notification should be successfull")
         
-        let notificationUpdatedFailed = AppNotification(notificationId:UUID().uuidString,taskId:notification.taskId, datetime:Date(),isLimit:false)
+        let notificationUpdatedFailed = AppNotification(notificationId:UUID().uuidString,taskId:notification.taskId,delay:60,isLimit:false)
         
         XCTAssertThrowsError(try db.updateNotification(notification: notificationUpdatedFailed), "Update notification should be failed")
     }

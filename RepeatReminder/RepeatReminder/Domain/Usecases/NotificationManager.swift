@@ -14,41 +14,50 @@ final class NotificationManager {
     func createNotification(task: Task) -> [AppNotification] {
         var notifications: [AppNotification] = []
         
+        // 期限までの秒数を取得
+        let deadlineDelay = Int(task.deadline.timeIntervalSinceNow)
+        
+        // 期限を過ぎている場合は通知を作成しない
+        guard deadlineDelay > 0 else { return [] }
+        
         if task.isPreNotified {
-            // 最初に通知が来る日時を取得
-            var firstDatetime: Date = Date()
+            // 最初に通知が来るまでの秒数を取得
+            var firstDelay: Int = 0
             if task.firstNotifiedNum != nil {
                 if task.firstNotifiedRange=="時間" {
-                    firstDatetime = calendar.date(byAdding:.hour, value:-1*task.firstNotifiedNum!, to: task.deadline)!
+                    firstDelay = deadlineDelay - task.firstNotifiedNum!*60*60
                 }
                 if task.firstNotifiedRange=="日" {
-                    firstDatetime = calendar.date(byAdding:.day, value:-1*task.firstNotifiedNum!, to: task.deadline)!
+                    firstDelay = deadlineDelay - task.firstNotifiedNum!*60*60*24
                 }
                 if task.firstNotifiedRange=="週間" {
-                    firstDatetime = calendar.date(byAdding:.weekOfYear, value:-1*task.firstNotifiedNum!, to: task.deadline)!
+                    firstDelay = deadlineDelay - task.firstNotifiedNum!*60*60*24*7
                 }
             }
             // 繰り返し来る通知を作成
-            var intervalDatetime = firstDatetime
+            var intervalDelay = firstDelay
             if task.intervalNotifiedNum != nil {
-                while intervalDatetime < task.deadline {
-                    let notification = AppNotification(notificationId:UUID().uuidString,taskId:task.taskId,datetime:intervalDatetime,isLimit:false)
-                    notifications.append(notification)
+                while intervalDelay < deadlineDelay {
+                    let notification = AppNotification(notificationId:UUID().uuidString,taskId:task.taskId,delay:intervalDelay,isLimit:false)
+                    // 通知時刻を過ぎていない場合のみ通知を作成
+                    if intervalDelay > 0 {
+                        notifications.append(notification)
+                    }
                     if task.intervalNotifiedRange=="時間" {
-                        intervalDatetime = calendar.date(byAdding:.hour, value:task.intervalNotifiedNum!, to: intervalDatetime)!
+                        intervalDelay = intervalDelay + task.intervalNotifiedNum!*60*60
                     }
                     if task.intervalNotifiedRange=="日" {
-                        intervalDatetime = calendar.date(byAdding:.day, value:task.intervalNotifiedNum!, to: intervalDatetime)!
+                        intervalDelay = intervalDelay + task.intervalNotifiedNum!*60*60*24
                     }
                     if task.intervalNotifiedRange=="週間" {
-                        intervalDatetime = calendar.date(byAdding:.weekOfYear, value:task.intervalNotifiedNum!, to: intervalDatetime)!
+                        intervalDelay = intervalDelay + task.intervalNotifiedNum!*60*60*24*7
                     }
                 }
             }
         }
         // 締め切り時に来る通知を作成
         if task.isLimitNotified {
-            let notification = AppNotification(notificationId:UUID().uuidString,taskId:task.taskId,datetime:task.deadline,isLimit:true)
+            let notification = AppNotification(notificationId:UUID().uuidString,taskId:task.taskId,delay:deadlineDelay,isLimit:true)
             notifications.append(notification)
         }
         
@@ -66,7 +75,7 @@ final class NotificationManager {
         if notifications.count == updatedNotifications.count {
             // 通知の数が同じ場合さらに詳細を比較し、必要があれば更新
             for i in 0 ..< notifications.count {
-                if calendar.isDate(notifications[i].datetime, equalTo: updatedNotifications[i].datetime, toGranularity: .second) {
+                if abs(notifications[i].delay - updatedNotifications[i].delay) < 60 {
                     if notifications[i].isLimit == updatedNotifications[i].isLimit {
                         continue
                     }
@@ -81,12 +90,12 @@ final class NotificationManager {
         }
     }
     
-    func calcRemainingMessage(deadline: Date, date: Date) -> String {
+    func createMessage(delay: Int) -> String {
         var message: String = ""
-        let remainingDays = Calendar.current.dateComponents([.day], from: date, to: deadline).day!
+        let remainingDays = Int(delay/(60*60*24))+1
         if remainingDays <= 1 {
-            let remainingHours = Calendar.current.dateComponents([.hour], from: date, to: deadline).hour!
-            message = "まであと\(remainingHours)時間です"
+            let remainingHours = Int(delay/(60*60))
+            message = "まであと\(remainingHours+1)時間です"
         } else if remainingDays % 7 == 0 {
             let remainingWeeks = Int(remainingDays/7)
             message = "まであと\(remainingWeeks)週間です"
@@ -100,21 +109,20 @@ final class NotificationManager {
     func sendNotifications(task: Task, notifications: [AppNotification]) {
         for notification in notifications {
             // 通知に載せるメッセージを作成
-            var message: String = "\(task.name)"
-            let deadline = Calendar.current.startOfDay(for: task.deadline)
+            var message: String = "タスク \(task.name) "
             if notification.isLimit {
                 message = message + "の期限です"
             } else {
-                let date = Calendar.current.startOfDay(for: notification.datetime)
-                message = message + calcRemainingMessage(deadline: deadline, date: date)
+                let remaining = Int(task.deadline.timeIntervalSinceNow) - Int(notification.delay)
+                message = message + createMessage(delay: remaining)
             }
             // 通知を作成
             let content = UNMutableNotificationContent()
             content.body = message
             content.sound = UNNotificationSound.default
             // 通知を登録
-            let dateComponent = Calendar.current.dateComponents(in: TimeZone.current, from: notification.datetime)
-            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: false)
+            let interval = TimeInterval(notification.delay)
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
             let request = UNNotificationRequest(identifier: notification.notificationId, content: content, trigger: trigger)
             UNUserNotificationCenter.current().add(request) { (error: Error?) in
                 if error != nil {

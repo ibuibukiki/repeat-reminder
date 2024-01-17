@@ -23,7 +23,7 @@ class TaskAddEditViewModel: ObservableObject,Identifiable {
     @Published var selectedIntervalNum = 1
     @Published var selectedIntervalRange = "時間"
     
-    var manager = NotificationManager()
+    let manager = NotificationManager()
     let initialTask = Task(taskId:UUID().uuidString,name:"",deadline:Date(),
                            isLimitNotified:true,isPreNotified:true,
                            firstNotifiedNum:1,firstNotifiedRange:"時間",
